@@ -17,18 +17,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -101,34 +100,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getWeatherData(String cityName) {
-        String url = "https://api.weatherapi.com/v1/forecast.json?key=bb1ae4bd346c4643965140601233012&q="+cityName+"&days=1&aqi=no&alerts=no";
-        idTVcityName.setText(cityName);
-        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        String apiKey = "bb1ae4bd346c4643965140601233012";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.weatherapi.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String temperature = response.getJSONObject("current").getString("temp_c");
-                            idTVtemp.setText(temperature);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+        WeatherApiService apiService = retrofit.create(WeatherApiService.class);
+
+        Call<WeatherResponse> call = apiService.getWeatherData(apiKey, cityName, 1, "no", "no");
+
+        call.enqueue(new Callback<WeatherResponse>() {
+            @Override
+            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                if (response.isSuccessful()) {
+                    WeatherResponse weatherResponse = response.body();
+                    if (weatherResponse != null) {
+                        String temperature = weatherResponse.getCurrent().getTemperature();
+                        idTVtemp.setText(temperature + "°C");
+                        idTVcityName.setText(cityName);
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", "Error getting weather data: " + error.getMessage());
-                    }
+                } else {
+                    Log.e("TAG", "Error getting weather data: " + response.message());
                 }
-        );
+            }
 
-        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-        requestQueue.add(jsonObjectRequest);
+            @Override
+            public void onFailure(Call<WeatherResponse> call, Throwable t) {
+                Log.e("TAG", "Error getting weather data: " + t.getMessage());
+            }
+        });
     }
 }
