@@ -30,6 +30,7 @@
             android:layout_marginTop="50dp"
             android:id="@+id/idTVcityName"/>
 
+
         <TextView
             android:id="@+id/idTVtemp"
             android:layout_width="match_parent"
@@ -40,11 +41,53 @@
             android:padding="5dp"
             android:text="@string/temperature"
             android:textColor="@color/white"
-            android:textSize="50sp"/>
+            android:textSize="30sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/idLLEdt"
+            android:layout_below="@id/idTVtemp"
+            android:weightSum="5">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/idTILEdt"
+                android:layout_margin="10dp"
+                android:layout_weight="4.5"
+                android:background="#00000000"
+                android:hint="@string/enterCityName"
+                android:textColorHint="@color/white"
+                android:padding="5dp"
+                app:hintTextColor="@color/white"
+                android:textColor="@color/white">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/idTIEdt"
+                    android:background="@android:color/transparent"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="20sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+            
+            <ImageView
+                android:id="@+id/idIVSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="0.5"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_search"/>
+        </LinearLayout>
+
     </RelativeLayout>
-
-
-
-
 
 </RelativeLayout>

@@ -2,4 +2,5 @@
     <string name="app_name">WeatherAppSM</string>
     <string name="cityName">City</string>
     <string name="temperature">Temperature</string>
+    <string name="enterCityName">Enter City Name</string>
 </resources>

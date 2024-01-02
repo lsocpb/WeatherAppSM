@@ -30,8 +30,10 @@ android {
 
 dependencies {
 
+    implementation("androidx.room:room-runtime:2.4.3")
+    annotationProcessor("androidx.room:room-compiler:2.4.3")
+    testImplementation("androidx.room:room-testing:2.4.3")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.android.volley:volley:1.2.1")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.5.0")

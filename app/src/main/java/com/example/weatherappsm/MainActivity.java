@@ -13,9 +13,13 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
@@ -32,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private TextView idTVtemp, idTVcityName;
-    private ImageView idIVHomebg;
+    private ImageView idIVHomebg, idIVSearch;
 
     private RelativeLayout idRLhome;
 
@@ -40,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private int PERMISSION_CODE = 1;
 
     private String cityName;
+
+    private TextInputEditText idTIEdt;
+    private TextInputLayout idTILEdt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         idTVtemp = findViewById(R.id.idTVtemp);
         idIVHomebg = findViewById(R.id.idIVHomebg);
         idRLhome = findViewById(R.id.idRLHome);
+        idTIEdt = findViewById(R.id.idTIEdt);
+        idTILEdt = findViewById(R.id.idTILEdt);
+        idIVSearch = findViewById(R.id.idIVSearch);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -62,6 +72,23 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Log.e("TAG", "Location is null");
             }
+        }
+
+        idIVSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSearchClick(v);
+            }
+        });
+    }
+
+    public void onSearchClick(View view) {
+        String enteredCity = idTIEdt.getText().toString();
+        if (!enteredCity.isEmpty()) {
+            cityName = enteredCity;
+            getWeatherData(cityName);
+        } else {
+            idTILEdt.setError("Enter city name");
         }
     }
 
