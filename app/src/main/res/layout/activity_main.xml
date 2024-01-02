@@ -30,6 +30,7 @@
             android:layout_marginTop="50dp"
             android:id="@+id/idTVcityName"/>
 
+
         <TextView
             android:id="@+id/idTVtemp"
             android:layout_width="match_parent"
@@ -50,20 +51,33 @@
             android:layout_below="@id/idTVtemp"
             android:weightSum="5">
 
-            <AutoCompleteTextView
-                android:id="@+id/idACTVSearch"
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4.5"
+                android:id="@+id/idTILEdt"
                 android:layout_margin="10dp"
+                android:layout_weight="4.5"
                 android:background="#00000000"
                 android:hint="@string/enterCityName"
+                android:textColorHint="@color/white"
                 android:padding="5dp"
                 app:hintTextColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textColor="@color/white"
-                android:singleLine="true"
-                android:textSize="20sp"/>
+                android:textColor="@color/white">
+
+                <AutoCompleteTextView
+                    android:id="@+id/idACTVSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@android:color/transparent"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="20sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/idIVSearch"

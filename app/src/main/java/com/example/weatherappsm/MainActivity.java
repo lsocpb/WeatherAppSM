@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -50,11 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
     private String cityName;
 
-    private TextInputEditText idTIEdt;
     private TextInputLayout idTILEdt;
 
     private SearchHistoryViewModel searchHistoryViewModel;
-
     private AutoCompleteTextView idACTVSearch;
 
     @Override
@@ -65,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
         idTVtemp = findViewById(R.id.idTVtemp);
         idIVHomebg = findViewById(R.id.idIVHomebg);
         idRLhome = findViewById(R.id.idRLHome);
+        idTILEdt = findViewById(R.id.idTILEdt);
         idIVSearch = findViewById(R.id.idIVSearch);
         idACTVSearch = findViewById(R.id.idACTVSearch);
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
         } else {
             Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -89,11 +88,15 @@ public class MainActivity extends AppCompatActivity {
 
         idACTVSearch.setAdapter(adapter);
 
+
         searchHistoryViewModel.getAllSearchHistory().observe(this, searchHistoryEntries -> {
             if (searchHistoryEntries != null) {
                 List<String> cities = new ArrayList<>();
                 for (SearchHistoryEntry entry : searchHistoryEntries) {
-                    cities.add(entry.cityName);
+                    String cityName = entry.cityName;
+                    if (!cities.contains(cityName)) {
+                        cities.add(cityName);
+                    }
                 }
                 adapter.clear();
                 adapter.addAll(cities);
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             entry.date = String.valueOf(new Date());
             searchHistoryViewModel.insertSearchHistoryEntry(entry);
         } else {
-            idACTVSearch.setError("Please enter a city name");
+            idACTVSearch.setError("Enter city name");
         }
     }
 
