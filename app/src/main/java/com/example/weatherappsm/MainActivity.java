@@ -3,6 +3,7 @@ package com.example.weatherappsm;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -13,6 +14,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,6 +27,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText idTIEdt;
     private TextInputLayout idTILEdt;
 
+    private SearchHistoryViewModel searchHistoryViewModel;
+
+    private AutoCompleteTextView idACTVSearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +65,8 @@ public class MainActivity extends AppCompatActivity {
         idTVtemp = findViewById(R.id.idTVtemp);
         idIVHomebg = findViewById(R.id.idIVHomebg);
         idRLhome = findViewById(R.id.idRLHome);
-        idTIEdt = findViewById(R.id.idTIEdt);
-        idTILEdt = findViewById(R.id.idTILEdt);
         idIVSearch = findViewById(R.id.idIVSearch);
+        idACTVSearch = findViewById(R.id.idACTVSearch);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -74,6 +82,25 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        searchHistoryViewModel = new ViewModelProvider(this).get(SearchHistoryViewModel.class);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
+
+        idACTVSearch.setAdapter(adapter);
+
+        searchHistoryViewModel.getAllSearchHistory().observe(this, searchHistoryEntries -> {
+            if (searchHistoryEntries != null) {
+                List<String> cities = new ArrayList<>();
+                for (SearchHistoryEntry entry : searchHistoryEntries) {
+                    cities.add(entry.cityName);
+                }
+                adapter.clear();
+                adapter.addAll(cities);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         idIVSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,12 +110,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSearchClick(View view) {
-        String enteredCity = idTIEdt.getText().toString();
+        String enteredCity = idACTVSearch.getText().toString();
         if (!enteredCity.isEmpty()) {
             cityName = enteredCity;
             getWeatherData(cityName);
+            SearchHistoryEntry entry = new SearchHistoryEntry();
+            entry.cityName = cityName;
+            entry.date = String.valueOf(new Date());
+            searchHistoryViewModel.insertSearchHistoryEntry(entry);
         } else {
-            idTILEdt.setError("Enter city name");
+            idACTVSearch.setError("Please enter a city name");
         }
     }
 
