@@ -6,8 +6,10 @@ public class WeatherResponse {
     @SerializedName("current")
     private CurrentWeather current;
 
+
     public CurrentWeather getCurrent() {
         return current;
     }
+
 }
 

@@ -3,4 +3,9 @@
     <string name="cityName">City</string>
     <string name="temperature">Temperature</string>
     <string name="enterCityName">Enter City Name</string>
+    <string name="weather">Weather</string>
+    <string name="warningTitle">Do not let get you</string>
+    <string name="currentLocation">Current Location</string>
+    <string name="warningMessage">Enable notifications to be always aware of the weather and avoid
+    bad conditions!</string>
 </resources>

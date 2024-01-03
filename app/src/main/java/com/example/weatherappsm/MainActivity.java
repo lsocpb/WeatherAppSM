@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
+        //TU SPRAWDZAM CZY INTENT PRZESŁAŁ JAKIEŚ NOWE DANE, JEŻELI TAK TO AKTUALIZUJE WIDOK
         Intent intent = getIntent();
         if (intent.hasExtra("cityName")) {
             cityName = intent.getStringExtra("cityName");
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
+        //TU PRZEJŚCIE DO NOWEGO WIDOKU SEARCH ACTIVITY
         idIVtoolbar_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //TU SPRAWDZAM CZY UŻYTKOWNIK ZGADZA SIĘ NA UDOSTĘPNIENIE LOKALIZACJI
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -118,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String getCityName(double lat, double lon) {
+    //TU USTALAM NAZWĘ MIASTA NA PODSTAWIE DANYCH OTRZYMANYCH Z API
+    private String getCityName(double lat, double lon) {
         String cityName = "London";
         Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
         try {
@@ -139,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         return cityName;
     }
 
+    //TU POBIERAM DANE O POGODZIE Z API
     private void getWeatherData(String cityName) {
         weatherDataManager.getWeatherData(cityName, new WeatherDataManager.WeatherDataCallback() {
             @Override

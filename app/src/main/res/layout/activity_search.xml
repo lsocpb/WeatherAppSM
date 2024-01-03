@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Weather"
+        android:text="@string/weather"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:layout_marginTop="40dp"
@@ -40,7 +40,8 @@
             android:layout_marginBottom="5dp"
             android:textColor="@color/textColor"
             android:textColorHint="@color/textColor"
-            app:hintTextColor="@color/white">
+            app:hintTextColor="@color/white"
+            app:fontFamily="@font/sfprodisplayregular">
 
             <AutoCompleteTextView
                 android:id="@+id/idACTVSearch"
@@ -51,7 +52,8 @@
                 android:singleLine="true"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                tools:ignore="TouchTargetSizeCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,5 +71,130 @@
             android:src="@drawable/ic_search" />
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/idLLTask"
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/idLLEdt"
+        android:background="@drawable/ic_rounded"
+        android:orientation="vertical"
+        android:weightSum="5">
 
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/idTVWarningTitle"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/warningTitle"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:fontFamily="@font/sfprodisplaybold" />
+
+        <TextView
+            android:id="@+id/idTVWarningContent"
+            android:layout_width="289dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/warningMessage"
+            android:textColor="@color/textColor"
+            android:textSize="11sp"
+            app:fontFamily="@font/sfprodisplayregular" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/textColor" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enable now"
+                android:textColor="@color/textColor"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="11sp"
+                app:fontFamily="@font/sfprodisplayregular" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="230dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/textColor" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/idLLCurrentLocation"
+        android:layout_width="350dp"
+        android:layout_height="75dp"
+        android:layout_below="@id/idLLTask"
+        android:layout_marginTop="11dp"
+        android:orientation="vertical"
+        android:weightSum="5">
+
+        <ImageView
+            android:id="@+id/idIVBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_rounded_image"
+            android:scaleType="centerCrop" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/idTVcurrentLocationTemp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="270dp"
+        android:layout_marginTop="230dp"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        app:fontFamily="@font/sfprodisplaybold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="240dp"
+        android:text="@string/currentLocation"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:fontFamily="@font/sfprodisplaybold" />
+
+    <TextView
+        android:id="@+id/idTVcurrentLocation"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="255dp"
+        android:text="Kolno"
+        android:textColor="@color/white"
+        android:textSize="9sp"
+        app:fontFamily="@font/sfprodisplaybold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/idTVcurrentLocationWeatherText"
+        android:text="Clear"
+        android:textColor="@color/white"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="280dp"
+        android:textSize="11sp"
+        app:fontFamily="@font/sfprodisplaybold" />
 </RelativeLayout>
