@@ -10,4 +10,9 @@ public class SearchHistoryEntry {
     public int id;
     public String cityName;
     public String date;
+
+    public SearchHistoryEntry(String cityName, String date) {
+        this.cityName = cityName;
+        this.date = date;
+    }
 }

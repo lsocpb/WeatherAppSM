@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -49,12 +50,11 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private int PERMISSION_CODE = 1;
 
-    private String cityName;
+    public String cityName;
 
-    private TextInputLayout idTILEdt;
+    private WeatherDataManager weatherDataManager = new WeatherDataManager();
 
-    private SearchHistoryViewModel searchHistoryViewModel;
-    private AutoCompleteTextView idACTVSearch;
+
     private LinearLayout toolbar;
 
     @Override
@@ -65,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
         idTVtemp = findViewById(R.id.idTVtemp);
         idIVHomebg = findViewById(R.id.idIVHomebg);
         idRLhome = findViewById(R.id.idRLHome);
-        idTILEdt = findViewById(R.id.idTILEdt);
-        idIVSearch = findViewById(R.id.idIVSearch);
-        idACTVSearch = findViewById(R.id.idACTVSearch);
         toolbar = findViewById(R.id.toolbar);
         idIVtoolbar_1 = findViewById(R.id.toolbar_item1);
         idIVtoolbar_2 = findViewById(R.id.toolbar_item2);
@@ -86,48 +83,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        searchHistoryViewModel = new ViewModelProvider(this).get(SearchHistoryViewModel.class);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
-
-        idACTVSearch.setAdapter(adapter);
-
-        searchHistoryViewModel.getAllSearchHistory().observe(this, searchHistoryEntries -> {
-            if (searchHistoryEntries != null) {
-                List<String> cities = new ArrayList<>();
-                for (SearchHistoryEntry entry : searchHistoryEntries) {
-                    String cityName = entry.cityName;
-                    if (!cities.contains(cityName)) {
-                        cities.add(cityName);
-                    }
-                }
-                adapter.clear();
-                adapter.addAll(cities);
-                adapter.notifyDataSetChanged();
+        Intent intent = getIntent();
+        if (intent.hasExtra("cityName")) {
+            cityName = intent.getStringExtra("cityName");
+            getWeatherData(cityName);
+        } else {
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (location != null) {
+                cityName = getCityName(location.getLatitude(), location.getLongitude());
+                getWeatherData(cityName);
             }
-        });
+        }
 
-        idIVSearch.setOnClickListener(new View.OnClickListener() {
+
+        idIVtoolbar_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSearchClick(v);
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
             }
         });
-    }
-
-    public void onSearchClick(View view) {
-        String enteredCity = idACTVSearch.getText().toString();
-        if (!enteredCity.isEmpty()) {
-            cityName = enteredCity;
-            getWeatherData(cityName);
-            SearchHistoryEntry entry = new SearchHistoryEntry();
-            entry.cityName = cityName;
-            entry.date = String.valueOf(new Date());
-            searchHistoryViewModel.insertSearchHistoryEntry(entry);
-        } else {
-            idACTVSearch.setError("Enter city name");
-        }
     }
 
     @Override
@@ -143,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String getCityName(double lat, double lon) {
+    public String getCityName(double lat, double lon) {
         String cityName = "London";
         Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
         try {
@@ -165,40 +140,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getWeatherData(String cityName) {
-        String apiKey = "bb1ae4bd346c4643965140601233012";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.weatherapi.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        WeatherApiService apiService = retrofit.create(WeatherApiService.class);
-
-        Call<WeatherResponse> call = apiService.getWeatherData(apiKey, cityName, 1, "no", "no");
-
-        call.enqueue(new Callback<WeatherResponse>() {
+        weatherDataManager.getWeatherData(cityName, new WeatherDataManager.WeatherDataCallback() {
             @Override
-            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                if (response.isSuccessful()) {
-                    WeatherResponse weatherResponse = response.body();
-                    if (weatherResponse != null) {
-                        String temperature = weatherResponse.getCurrent().getTemperature();
-                        int isDay = weatherResponse.getCurrent().getIsDay();
-                        if (isDay == 0) {
-                            Picasso.get().load("https://cdn.dribbble.com/users/925716/screenshots/3333720/attachments/722375/night.png").into(idIVHomebg);
-                        } else {
-                            Picasso.get().load("https://cdn.dribbble.com/users/925716/screenshots/3333720/attachments/722376/after_noon.png").into(idIVHomebg);
-                        }
-                        idTVtemp.setText(temperature + "°C");
-                        idTVcityName.setText(cityName);
-                    }
+            public void onWeatherDataReceived(WeatherResponse weatherResponse) {
+                String temperature = weatherResponse.getCurrent().getTemperature();
+                int isDay = weatherResponse.getCurrent().getIsDay();
+                if (isDay == 0) {
+                    Picasso.get().load("https://cdn.dribbble.com/users/925716/screenshots/3333720/attachments/722375/night.png").into(idIVHomebg);
                 } else {
-                    Log.e("TAG", "Error getting weather data: " + response.message());
+                    Picasso.get().load("https://cdn.dribbble.com/users/925716/screenshots/3333720/attachments/722376/after_noon.png").into(idIVHomebg);
                 }
+                idTVtemp.setText(temperature + "°C");
+                idTVcityName.setText(cityName);
             }
 
             @Override
-            public void onFailure(Call<WeatherResponse> call, Throwable t) {
-                Log.e("TAG", "Error getting weather data: " + t.getMessage());
+            public void onWeatherDataError(String errorMessage) {
             }
         });
     }
