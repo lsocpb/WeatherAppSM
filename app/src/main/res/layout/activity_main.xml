@@ -28,7 +28,8 @@
             android:textAlignment="center"
             android:gravity="center"
             android:layout_marginTop="50dp"
-            android:id="@+id/idTVcityName"/>
+            android:id="@+id/idTVcityName"
+            app:fontFamily="@font/SFPRODISPLAYREGULAR"/>
 
 
         <TextView
@@ -41,7 +42,8 @@
             android:padding="5dp"
             android:text="@string/temperature"
             android:textColor="@color/white"
-            android:textSize="30sp"/>
+            android:textSize="30sp"
+            app:fontFamily="@font/SFPRODISPLAYREGULAR"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,5 +93,29 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@android:color/transparent">
+
+        <ImageButton
+            android:id="@+id/toolbar_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dehaze" />
+
+        <ImageButton
+            android:id="@+id/toolbar_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_map" />
+
+
+    </LinearLayout>
 
 </RelativeLayout>

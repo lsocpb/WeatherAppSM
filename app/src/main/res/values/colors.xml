@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="homebg">#2F3242</color>
+    <color name="textColor">#82868a</color>
 </resources>

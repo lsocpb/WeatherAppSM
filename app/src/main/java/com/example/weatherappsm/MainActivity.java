@@ -2,6 +2,7 @@ package com.example.weatherappsm;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -16,12 +17,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
@@ -42,7 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private TextView idTVtemp, idTVcityName;
-    private ImageView idIVHomebg, idIVSearch;
+    private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2;
 
     private RelativeLayout idRLhome;
 
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SearchHistoryViewModel searchHistoryViewModel;
     private AutoCompleteTextView idACTVSearch;
+    private LinearLayout toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +68,13 @@ public class MainActivity extends AppCompatActivity {
         idTILEdt = findViewById(R.id.idTILEdt);
         idIVSearch = findViewById(R.id.idIVSearch);
         idACTVSearch = findViewById(R.id.idACTVSearch);
+        toolbar = findViewById(R.id.toolbar);
+        idIVtoolbar_1 = findViewById(R.id.toolbar_item1);
+        idIVtoolbar_2 = findViewById(R.id.toolbar_item2);
 
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
         } else {
             Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -87,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
 
         idACTVSearch.setAdapter(adapter);
-
 
         searchHistoryViewModel.getAllSearchHistory().observe(this, searchHistoryEntries -> {
             if (searchHistoryEntries != null) {
@@ -179,11 +183,10 @@ public class MainActivity extends AppCompatActivity {
                     if (weatherResponse != null) {
                         String temperature = weatherResponse.getCurrent().getTemperature();
                         int isDay = weatherResponse.getCurrent().getIsDay();
-                        if(isDay == 0){
-                            Picasso.get().load("https://images.unsplash.com/photo-1615233262415-1a942703bc71?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D").into(idIVHomebg);
-                        }
-                        else{
-                            Picasso.get().load("https://images.unsplash.com/photo-1617150119111-09bbb85178b0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D").into(idIVHomebg);
+                        if (isDay == 0) {
+                            Picasso.get().load("https://cdn.dribbble.com/users/925716/screenshots/3333720/attachments/722375/night.png").into(idIVHomebg);
+                        } else {
+                            Picasso.get().load("https://cdn.dribbble.com/users/925716/screenshots/3333720/attachments/722376/after_noon.png").into(idIVHomebg);
                         }
                         idTVtemp.setText(temperature + "°C");
                         idTVcityName.setText(cityName);
