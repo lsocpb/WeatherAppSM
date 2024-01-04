@@ -54,20 +54,42 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:background="@android:color/transparent">
+        android:background="@android:color/darker_gray"
+        android:gravity="center_vertical">
 
         <ImageButton
             android:id="@+id/toolbar_item1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:src="@drawable/ic_dehaze" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_radio_button_checked_24"
+                app:tint="@android:color/white" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_radio_button_unchecked_24"
+                app:tint="@android:color/white" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/toolbar_item2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_map" />
-
+            android:layout_weight="1"
+            android:src="@drawable/baseline_map_24" />
 
     </LinearLayout>
 
