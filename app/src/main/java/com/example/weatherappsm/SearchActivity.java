@@ -40,7 +40,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private WeatherDataManager weatherDataManager = new WeatherDataManager();
 
-    private LinearLayout idLLCurrentLocation;
     private int PERMISSION_CODE = 1;
 
     private TextView idTVcurrentLocationTemp, idTVcurrentLocation, idTVcurrentLocationWeatherText;
@@ -51,7 +50,6 @@ public class SearchActivity extends AppCompatActivity {
         idACTVSearch = findViewById(R.id.idACTVSearch);
         idTILEdt = findViewById(R.id.idTILEdt);
         idIVSearch = findViewById(R.id.idIVSearch);
-        idLLCurrentLocation = findViewById(R.id.idLLCurrentLocation);
         idIVBackground = findViewById(R.id.idIVBackground);
         idTVcurrentLocationTemp = findViewById(R.id.idTVcurrentLocationTemp);
         idTVcurrentLocation = findViewById(R.id.idTVcurrentLocation);
