@@ -43,6 +43,8 @@ public class SearchActivity extends AppCompatActivity {
     private int PERMISSION_CODE = 1;
 
     private TextView idTVcurrentLocationTemp, idTVcurrentLocation, idTVcurrentLocationWeatherText;
+
+    private List<String> cities = new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +81,6 @@ public class SearchActivity extends AppCompatActivity {
 
         searchHistoryViewModel.getAllSearchHistory().observe(this, searchHistoryEntries -> {
             if (searchHistoryEntries != null) {
-                List<String> cities = new ArrayList<>();
                 for (SearchHistoryEntry entry : searchHistoryEntries) {
                     String cityName = entry.cityName;
                     if (!cities.contains(cityName)) {
@@ -105,7 +106,9 @@ public class SearchActivity extends AppCompatActivity {
         String enteredCity = idACTVSearch.getText().toString();
         if (!enteredCity.isEmpty()) {
             cityName = enteredCity;
-            searchHistoryViewModel.insertSearchHistoryEntry(new SearchHistoryEntry(cityName, String.valueOf(new Date())));
+            if (!cities.contains(cityName)) {
+                searchHistoryViewModel.insertSearchHistoryEntry(new SearchHistoryEntry(cityName, String.valueOf(new Date())));
+            }
             Intent intent = new Intent(SearchActivity.this, MainActivity.class);
             intent.putExtra("cityName", cityName);
             startActivity(intent);
