@@ -1,5 +1,6 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.api;
 
+import com.example.weatherappsm.api.WeatherContidion;
 import com.google.gson.annotations.SerializedName;
 
 

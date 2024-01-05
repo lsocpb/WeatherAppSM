@@ -1,10 +1,13 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.viewmodel;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.weatherappsm.model.SearchHistoryEntry;
+import com.example.weatherappsm.repository.SearchHistoryRepository;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

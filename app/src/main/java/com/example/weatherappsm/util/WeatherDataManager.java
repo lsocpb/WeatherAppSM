@@ -1,8 +1,9 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.util;
 
 import android.util.Log;
 
-import com.squareup.picasso.Picasso;
+import com.example.weatherappsm.api.WeatherApiService;
+import com.example.weatherappsm.api.WeatherResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

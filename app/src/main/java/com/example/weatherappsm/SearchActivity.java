@@ -13,13 +13,17 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.weatherappsm.api.WeatherContidion;
+import com.example.weatherappsm.api.WeatherResponse;
+import com.example.weatherappsm.model.SearchHistoryEntry;
+import com.example.weatherappsm.util.WeatherDataManager;
+import com.example.weatherappsm.viewmodel.SearchHistoryViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 

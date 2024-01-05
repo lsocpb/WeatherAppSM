@@ -1,8 +1,11 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.repository;
 
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
+
+import com.example.weatherappsm.db.AppDatabase;
+import com.example.weatherappsm.dao.SearchHistoryDao;
+import com.example.weatherappsm.model.SearchHistoryEntry;
 
 import java.util.List;
 

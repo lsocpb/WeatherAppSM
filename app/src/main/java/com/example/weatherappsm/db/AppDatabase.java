@@ -1,4 +1,4 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.db;
 
 import android.content.Context;
 
@@ -6,7 +6,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import java.util.concurrent.Executor;
+import com.example.weatherappsm.dao.SearchHistoryDao;
+import com.example.weatherappsm.model.SearchHistoryEntry;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,7 +18,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;
 
-    static final ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor();
+    public static final ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor();
 
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {

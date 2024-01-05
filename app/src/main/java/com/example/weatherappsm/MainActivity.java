@@ -2,9 +2,7 @@ package com.example.weatherappsm;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.content.Intent;
@@ -16,29 +14,18 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.material.textfield.TextInputLayout;
+import com.example.weatherappsm.api.WeatherResponse;
+import com.example.weatherappsm.util.WeatherDataManager;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
