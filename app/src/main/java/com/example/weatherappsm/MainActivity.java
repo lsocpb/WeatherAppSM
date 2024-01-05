@@ -11,6 +11,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
         //TU SPRAWDZAM CZY INTENT PRZESŁAŁ JAKIEŚ NOWE DANE, JEŻELI TAK TO AKTUALIZUJE WIDOK
         Intent intent = getIntent();
         if (intent.hasExtra("cityName")) {
@@ -90,6 +92,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        idIVtoolbar_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + cityName);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                } else {
+                    Uri mapWebsiteUri = Uri.parse("https://www.google.com/maps?q=" + cityName);
+                    Intent mapWebsiteIntent = new Intent(Intent.ACTION_VIEW, mapWebsiteUri);
+                    startActivity(mapWebsiteIntent);
+                }
             }
         });
     }
