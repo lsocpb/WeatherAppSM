@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         idIVtoolbar_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -166,9 +166,9 @@ public class MainActivity extends AppCompatActivity {
                 String temperature = weatherResponse.getCurrent().getTemperature();
                 int isDay = weatherResponse.getCurrent().getIsDay();
                 if (isDay == 0) {
-                    Picasso.get().load("https://cdn.dribbble.com/users/925716/screenshots/3333720/attachments/722375/night.png").into(idIVHomebg);
+                    Picasso.get().load("https://i.pinimg.com/564x/65/aa/a7/65aaa7720b8ea21a6bda8db5d48aa5a4.jpg").into(idIVHomebg);
                 } else {
-                    Picasso.get().load("https://cdn.dribbble.com/users/925716/screenshots/3333720/attachments/722376/after_noon.png").into(idIVHomebg);
+                    Picasso.get().load("https://i.pinimg.com/564x/82/09/39/820939917d5be5f24e2e1c5de26457e6.jpg").into(idIVHomebg);
                 }
                 idTVtemp.setText(temperature + "°C");
                 idTVcityName.setText(cityName);

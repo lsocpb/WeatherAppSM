@@ -184,7 +184,7 @@
             android:id="@+id/idTVcurrentLocationTemp"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="280dp"
+            android:layout_marginStart="270dp"
             android:textColor="@color/white"
             android:textSize="35sp"
             app:fontFamily="@font/sfprodisplaybold" />
