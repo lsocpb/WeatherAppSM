@@ -62,6 +62,7 @@ public class SearchActivity extends AppCompatActivity {
         idTVcurrentLocationWeatherText = findViewById(R.id.idTVcurrentLocationWeatherText);
 
 
+
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);

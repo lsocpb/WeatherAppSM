@@ -31,7 +31,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private TextView idTVtemp, idTVcityName;
-    private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2;
+    private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton;
 
     private RelativeLayout idRLhome;
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         idIVtoolbar_1 = findViewById(R.id.toolbar_item1);
         idIVtoolbar_2 = findViewById(R.id.toolbar_item2);
-
+        idIVlocationButton = findViewById(R.id.locationButton);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -87,10 +87,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //TU PRZEJŚCIE DO NOWEGO WIDOKU SEARCH ACTIVITY
-        idIVtoolbar_1.setOnClickListener(new View.OnClickListener() {
+        idIVlocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // REDIRECT TO MENU ACTIVITY
+        idIVtoolbar_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                 startActivity(intent);
             }
         });
