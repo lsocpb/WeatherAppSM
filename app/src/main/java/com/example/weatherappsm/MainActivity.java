@@ -36,7 +36,8 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private TextView idTVtemp, idTVcityName, idTVweatherText;
-    private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton;
+    private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
+            idIVsettingsButton;
 
     private RelativeLayout idRLhome;
 
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         weatherRV = findViewById(R.id.idRVweather);
         weatherRV.setAdapter(weatherCVAdapter);
         idTVweatherText = findViewById(R.id.idTVtext);
+        idIVsettingsButton = findViewById(R.id.settingsButton);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -131,6 +133,16 @@ public class MainActivity extends AppCompatActivity {
                     Intent mapWebsiteIntent = new Intent(Intent.ACTION_VIEW, mapWebsiteUri);
                     startActivity(mapWebsiteIntent);
                 }
+            }
+        });
+
+        // REDIRECT TO SETTINGS ACTIVITY
+        idIVsettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                //intent.putExtra("cityName", cityName);
+                startActivity(intent);
             }
         });
     }
