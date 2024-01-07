@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">WeatherAppSM</string>
+    <string name="cityName">City</string>
+    <string name="temperature">Temperature</string>
+    <string name="enterCityName">Enter City Name</string>
+    <string name="weather">Weather</string>
+    <string name="warningTitle">Do not let weather surprise you</string>
+    <string name="currentLocation">Current Location</string>
+    <string name="warningMessage">Enable notifications to be always aware of the weather and avoid
+    bad conditions!</string>
+    <string name="measurements">Measurements</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="report_issue">Report Issue</string>
+    <string name="request_feature">Request Feature</string>
+    <string name="switch_to_night_mode">Switch to Night Mode</string>
+    <string name="back">Back</string>
 </resources>

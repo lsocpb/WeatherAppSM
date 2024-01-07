@@ -1,18 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/idRLHome"
+        android:visibility="visible">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/idIVHomebg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@color/homebg" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:id="@+id/idRLcityName">
+
+            <TextView
+                android:id="@+id/idTVcurrentLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/currentLocation"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:fontFamily="@font/sfprodisplaymedium" />
+
+            <TextView
+                android:id="@+id/idTVcityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/idTVcurrentLocation"
+                android:text="@string/cityName"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textAllCaps="true"
+                app:fontFamily="@font/sfprodisplaybold" />
+
+
+            <ImageButton
+                android:id="@+id/locationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/idTVcurrentLocation"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/baseline_add_location_alt_24"
+                android:backgroundTint="@android:color/transparent"
+                android:layout_marginLeft="10dp"
+                app:tint="@android:color/white"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/idTVtemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idRLcityName"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/temperature"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            app:fontFamily="@font/sfprodisplaythinitalic"/>
+
+        <TextView
+            android:id="@+id/idTVtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/idRVweather"
+            android:layout_marginBottom="5dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:fontFamily="@font/sfprodisplaymedium" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/idRVweather"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/idTVtemp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/black"
+        android:gravity="center_vertical"
+        android:backgroundTint="@android:color/transparent">
+
+        <ImageButton
+            android:id="@+id/toolbar_item1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_dehaze"
+            android:backgroundTint="@android:color/transparent"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_radio_button_checked_24"
+                app:tint="@android:color/white" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_radio_button_unchecked_24"
+                app:tint="@android:color/white" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/toolbar_item2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/baseline_map_24" />
+
+    </LinearLayout>
+
+</RelativeLayout>
