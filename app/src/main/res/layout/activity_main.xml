@@ -27,21 +27,35 @@
             android:id="@+id/idRLcityName">
 
             <TextView
-                android:id="@+id/idTVcityName"
+                android:id="@+id/idTVcurrentLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/cityName"
+                android:text="@string/currentLocation"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 app:fontFamily="@font/sfprodisplaymedium" />
 
+            <TextView
+                android:id="@+id/idTVcityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/idTVcurrentLocation"
+                android:text="@string/cityName"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textAllCaps="true"
+                app:fontFamily="@font/sfprodisplaybold" />
+
+
             <ImageButton
                 android:id="@+id/locationButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/idTVcityName"
+                android:layout_toRightOf="@id/idTVcurrentLocation"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/baseline_add_location_alt_24"
                 android:backgroundTint="@android:color/transparent"
@@ -55,14 +69,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/idRLcityName"
-            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center_horizontal"
-            android:padding="5dp"
+            android:padding="10dp"
             android:text="@string/temperature"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            app:fontFamily="@font/sfprodisplaymedium"/>
+            android:textSize="60sp"
+            app:fontFamily="@font/sfprodisplaythinitalic"/>
+
+        <TextView
+            android:id="@+id/idTVtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/idRVweather"
+            android:layout_marginBottom="5dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:fontFamily="@font/sfprodisplaymedium" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/idRVweather"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/idTVtemp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
     </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/toolbar"

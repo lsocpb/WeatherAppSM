@@ -1,6 +1,5 @@
 package com.example.weatherappsm.api;
 
-import com.example.weatherappsm.api.WeatherContidion;
 import com.google.gson.annotations.SerializedName;
 
 
@@ -12,7 +11,7 @@ public class CurrentWeather {
     private int isDay;
 
     @SerializedName("condition")
-    private WeatherContidion condition;
+    private WeatherCondition condition;
 
     public String getTemperature() {
         return temperature;
@@ -21,7 +20,7 @@ public class CurrentWeather {
         return isDay;
     }
 
-    public WeatherContidion getCondition() {
+    public WeatherCondition getCondition() {
         return condition;
     }
 }

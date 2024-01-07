@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.weatherappsm.api.WeatherContidion;
+import com.example.weatherappsm.api.WeatherCondition;
 import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.model.SearchHistoryEntry;
 import com.example.weatherappsm.util.WeatherDataManager;
@@ -151,7 +151,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
                 int isDay = weatherResponse.getCurrent().getIsDay();
-                WeatherContidion weatherContidion = weatherResponse.getCurrent().getCondition();
+                WeatherCondition weatherContidion = weatherResponse.getCurrent().getCondition();
                 String text = weatherContidion.getText();
                 String temperature = weatherResponse.getCurrent().getTemperature();
                 int roundedTemperature = (int) Math.round(Double.parseDouble(temperature));

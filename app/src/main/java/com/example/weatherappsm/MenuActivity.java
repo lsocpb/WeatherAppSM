@@ -2,15 +2,12 @@ package com.example.weatherappsm;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MenuActivity extends AppCompatActivity {
-    private Button idBtnMeasurements, idBtnChooseLanguage, idBtnReportIssue,
+    private Button idBtnBack, idBtnMeasurements, idBtnChooseLanguage, idBtnReportIssue,
             idBtnRequestFeature, idBtnNightMode;
-
-    private ImageView idBtnBack;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,6 +20,7 @@ public class MenuActivity extends AppCompatActivity {
         idBtnRequestFeature = findViewById(R.id.requestFeatureButton);
         idBtnNightMode = findViewById(R.id.switchToNightModeButton);
 
+        // back - on click redirect to main activity
         idBtnBack.setOnClickListener(v -> {
             finish();
         });

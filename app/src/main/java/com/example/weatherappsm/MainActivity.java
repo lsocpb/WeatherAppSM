@@ -3,6 +3,7 @@ package com.example.weatherappsm;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Intent;
@@ -20,17 +21,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.weatherappsm.api.ForecastHour;
 import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView idTVtemp, idTVcityName;
+    private TextView idTVtemp, idTVcityName, idTVweatherText;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton;
 
     private RelativeLayout idRLhome;
@@ -44,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private LinearLayout toolbar;
+    private ArrayList<WeatherCV> weatherCVArrayList;
+    private WeatherCVAdapter weatherCVAdapter;
+    private RecyclerView weatherRV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
         idIVtoolbar_1 = findViewById(R.id.toolbar_item1);
         idIVtoolbar_2 = findViewById(R.id.toolbar_item2);
         idIVlocationButton = findViewById(R.id.locationButton);
+        weatherCVArrayList = new ArrayList<>();
+        weatherCVAdapter = new WeatherCVAdapter(this, weatherCVArrayList);
+        weatherRV = findViewById(R.id.idRVweather);
+        weatherRV.setAdapter(weatherCVAdapter);
+        idTVweatherText = findViewById(R.id.idTVtext);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -163,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         weatherDataManager.getWeatherData(cityName, new WeatherDataManager.WeatherDataCallback() {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
+                weatherCVArrayList.clear();
                 String temperature = weatherResponse.getCurrent().getTemperature();
                 int isDay = weatherResponse.getCurrent().getIsDay();
                 if (isDay == 0) {
@@ -172,8 +186,17 @@ public class MainActivity extends AppCompatActivity {
                 }
                 idTVtemp.setText(temperature + "°C");
                 idTVcityName.setText(cityName);
+                idTVweatherText.setText(weatherResponse.getCurrent().getCondition().getText());
+                List<ForecastHour> hourList = weatherResponse.getForecastWeather().getForecastday().get(0).getHour();
+                for (ForecastHour hour : hourList) {
+                    String time = hour.getTime();
+                    String temp = String.valueOf(hour.getTempC());
+                    String icon = hour.getCondition().getIcon();
+                    String wind = String.valueOf(hour.getWindKph());
+                    weatherCVArrayList.add(new WeatherCV(time, temp, icon, wind));
+                }
+                weatherCVAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onWeatherDataError(String errorMessage) {
             }

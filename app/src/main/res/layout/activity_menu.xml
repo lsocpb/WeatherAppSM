@@ -25,7 +25,11 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/backButton"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#FF303234"/>
+        android:backgroundTint="#FF303234"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:padding="12dp"
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/chooseLanguageButton"
@@ -35,7 +39,11 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/measurementsButton"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#FF303234"/>
+        android:backgroundTint="#FF303234"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:padding="12dp"
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/reportIssueButton"
@@ -45,7 +53,11 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/chooseLanguageButton"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#FF303234"/>
+        android:backgroundTint="#FF303234"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:padding="12dp"
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/requestFeatureButton"
@@ -55,7 +67,11 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/reportIssueButton"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#FF303234"/>
+        android:backgroundTint="#FF303234"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:padding="12dp"
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/switchToNightModeButton"
@@ -65,6 +81,10 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/requestFeatureButton"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#FF303234"/>
+        android:backgroundTint="#FF303234"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:padding="12dp"
+        android:gravity="center"/>
 
 </RelativeLayout>
