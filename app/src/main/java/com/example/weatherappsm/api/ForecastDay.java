@@ -25,4 +25,5 @@ public class ForecastDay {
     public Day getDay() {
         return day;
     }
+
 }

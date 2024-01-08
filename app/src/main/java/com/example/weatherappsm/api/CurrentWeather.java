@@ -13,6 +13,9 @@ public class CurrentWeather {
     @SerializedName("condition")
     private WeatherCondition condition;
 
+    @SerializedName("uv")
+    private double uv;
+
     public String getTemperature() {
         return temperature;
     }
@@ -22,5 +25,9 @@ public class CurrentWeather {
 
     public WeatherCondition getCondition() {
         return condition;
+    }
+
+    public double getUv() {
+        return uv;
     }
 }

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,7 +36,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange;
+    private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex, idTVindexText;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
             idIVsettingsButton;
 
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<WeatherCV> weatherCVArrayList;
     private WeatherCVAdapter weatherCVAdapter;
     private RecyclerView weatherRV;
+
+    private ProgressBar idProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
         idTVweatherText = findViewById(R.id.idTVtext);
         idIVsettingsButton = findViewById(R.id.settingsButton);
         idTVtempRange = findViewById(R.id.idTVtempRange);
+        idTVindex = findViewById(R.id.idTVindex);
+        idTVindexText = findViewById(R.id.idTVindexText);
+        idProgressBar = findViewById(R.id.idProgressBar);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -184,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
         return cityName;
     }
 
-    //TU POBIERAM DANE O POGODZIE Z API
+    //TU POBIERAM DANE O POGODZIE Z API I UMIESZCZAM W WIDOKACH
     private void getWeatherData(String cityName) {
         weatherDataManager.getWeatherData(cityName, new WeatherDataManager.WeatherDataCallback() {
             @Override
@@ -202,6 +208,23 @@ public class MainActivity extends AppCompatActivity {
                 idTVweatherText.setText(weatherResponse.getCurrent().getCondition().getText());
                 idTVtempRange.setText(weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMintemp_c() + "°C / "
                         + weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMaxtemp_c() + "°C");
+
+
+                double valueofUV = weatherResponse.getCurrent().getUv();
+                idProgressBar.setProgress((int) Math.round(valueofUV));
+                idTVindex.setText(String.valueOf((valueofUV)));
+                if (weatherResponse.getCurrent().getUv() < 3) {
+                    idTVindexText.setText(getString(R.string.low));
+                } else if (weatherResponse.getCurrent().getUv() < 6) {
+                    idTVindexText.setText(getString(R.string.moderate));
+                } else if (weatherResponse.getCurrent().getUv() < 8) {
+                    idTVindexText.setText(getString(R.string.high));
+                } else if (weatherResponse.getCurrent().getUv() < 11) {
+                    idTVindexText.setText(getString(R.string.very_high));
+                } else {
+                    idTVindexText.setText(getString(R.string.extreme));
+                }
+
                 List<ForecastHour> hourList = weatherResponse.getForecastWeather().getForecastday().get(0).getHour();
                 for (ForecastHour hour : hourList) {
                     String time = hour.getTime();
