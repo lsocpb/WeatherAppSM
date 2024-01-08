@@ -35,7 +35,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView idTVtemp, idTVcityName, idTVweatherText;
+    private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
             idIVsettingsButton;
 
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         weatherRV.setAdapter(weatherCVAdapter);
         idTVweatherText = findViewById(R.id.idTVtext);
         idIVsettingsButton = findViewById(R.id.settingsButton);
+        idTVtempRange = findViewById(R.id.idTVtempRange);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -199,6 +200,8 @@ public class MainActivity extends AppCompatActivity {
                 idTVtemp.setText(temperature + "°C");
                 idTVcityName.setText(cityName);
                 idTVweatherText.setText(weatherResponse.getCurrent().getCondition().getText());
+                idTVtempRange.setText(weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMintemp_c() + "°C / "
+                        + weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMaxtemp_c() + "°C");
                 List<ForecastHour> hourList = weatherResponse.getForecastWeather().getForecastday().get(0).getHour();
                 for (ForecastHour hour : hourList) {
                     String time = hour.getTime();
