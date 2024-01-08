@@ -1,6 +1,8 @@
 package com.example.weatherappsm;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -20,11 +22,13 @@ public class SettingsActivity extends AppCompatActivity {
         idBtnRequestFeature = findViewById(R.id.idLLRequestFeature);
         idBtnNightMode = findViewById(R.id.idLLNightMode);
 
-        //add some listeners with debug messages to logcat
+
 
         idBtnMeasurements.setOnClickListener(v -> {
-            System.out.println("Measurements button clicked");
+            Intent intent = new Intent(SettingsActivity.this, SettingsMeasurementsActivity.class);
+            startActivity(intent);
         });
+
         idBtnChooseLanguage.setOnClickListener(v -> {
             System.out.println("Language button clicked");
         });
