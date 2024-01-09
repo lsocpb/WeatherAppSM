@@ -66,20 +66,20 @@ public class MainActivity extends AppCompatActivity {
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
 
-        location = LocationService.getInstance().getCurrentLocation(this);
-        getWeatherDataByLocation();
-
         User user = UserManager.getInstance().getCurrentUser();
         List<String> searchHistory = user.getSearchHistory();
         List<CustomLocation> favoriteLocations = user.getFavoriteLocations();
 
         //TU SPRAWDZAM CZY INTENT PRZESŁAŁ JAKIEŚ NOWE DANE, JEŻELI TAK TO AKTUALIZUJE WIDOK
         Intent intent = getIntent();
-        //TODO
-        /*if (intent.hasExtra("cityName")) {
-            cityName = intent.getStringExtra("cityName");
-            getWeatherData(cityName);
-        }*/
+        if (intent.hasExtra("cityName")) {
+            String cityName = intent.getStringExtra("cityName");
+            //location from SearchActivity
+            location = LocationService.getInstance().getLocationByCityName(cityName);
+        } else {
+            location = LocationService.getInstance().fetchCurrentLocation(this);
+        }
+        updateWeatherData(location);
 
         //TU PRZEJŚCIE DO NOWEGO WIDOKU SEARCH ACTIVITY
         idIVlocationButton.setOnClickListener(v -> {
@@ -137,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //TU POBIERAM DANE O POGODZIE Z API
-    private void getWeatherDataByLocation() {
-        if (location == null) {
+    private void updateWeatherData(CustomLocation location) {
+        if (location == null || location.isEmpty()) {
             Log.e("TAG", "Location is null");
             return;
         }

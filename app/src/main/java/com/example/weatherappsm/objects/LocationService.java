@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.example.weatherappsm.util.PermissionsUtil;
@@ -22,10 +24,12 @@ public class LocationService {
     private static LocationService instance;
     private final LocationManager locationManager;
     private final Geocoder geocoder;
+    private CustomLocation cachedLocation;
 
     private LocationService(Context context) {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         geocoder = new Geocoder(context, Locale.getDefault());
+        cachedLocation = new CustomLocation();
     }
 
     public static LocationService getInstance() {
@@ -37,7 +41,8 @@ public class LocationService {
 
     public static void startLocationService(Context context) {
         if (instance != null) {
-            throw new RuntimeException("LocationServiceManager is already initialized");
+            return;
+//            throw new RuntimeException("LocationServiceManager is already initialized");
         }
         instance = new LocationService(context);
 
@@ -49,21 +54,13 @@ public class LocationService {
         }
     }
 
-    private android.location.Location getLastKnownLocation(Context context) {
+
+    private Location getLastKnownLocation(Context context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "No location permission", Toast.LENGTH_SHORT).show();
             return null;
         }
         return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-    }
-
-    @NonNull
-    public CustomLocation getCurrentLocation(Context context) {
-        android.location.Location lastKnownLocation = getLastKnownLocation(context);
-        if (lastKnownLocation == null) {
-            return new CustomLocation();
-        }
-        return new CustomLocation(lastKnownLocation, getCityName(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
     }
 
     private String getCityName(double lat, double lon) {
@@ -88,5 +85,39 @@ public class LocationService {
             e.printStackTrace();
         }
         return cityName;
+    }
+
+    public CustomLocation getLocationByCityName(String cityName) {
+        try {
+            List<Address> fromLocationName = geocoder.getFromLocationName(cityName, 10);
+            if (fromLocationName == null || fromLocationName.isEmpty()) {
+                return new CustomLocation();
+            }
+
+            Address address = fromLocationName.get(0);
+            return new CustomLocation(address.getLocality(), address.getLatitude(), address.getLongitude());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new CustomLocation();
+        }
+    }
+
+    @NonNull
+    public CustomLocation fetchCurrentLocation(Context context) {
+        Location lastKnownLocation = getLastKnownLocation(context);
+        if (lastKnownLocation == null) {
+            return new CustomLocation();
+        }
+        CustomLocation customLocation = new CustomLocation(lastKnownLocation, getCityName(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
+
+        //cache the location
+        cachedLocation = customLocation;
+
+        return customLocation;
+    }
+
+    @NonNull
+    public CustomLocation getCachedLocation() {
+        return cachedLocation;
     }
 }

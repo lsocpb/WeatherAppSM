@@ -34,4 +34,11 @@ public class CustomLocation {
     public double getLongitude() {
         return longitude;
     }
+
+    /*
+    * Returns true if any of the fields is empty
+     */
+    public boolean isEmpty() {
+        return cityName == null || cityName.isEmpty() || latitude == 0 || longitude == 0;
+    }
 }
