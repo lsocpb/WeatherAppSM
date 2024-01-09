@@ -1,14 +1,19 @@
 package com.example.weatherappsm.objects;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Settings {
     public enum TemperatureUnit {
-        CELSIUS("C"),
-        FAHRENHEIT("F");
+        CELSIUS("°C", "°"),
+        FAHRENHEIT("°F", "°");
 
         private String unit;
+        private String shortUnit;
 
-        TemperatureUnit(String c) {
+        TemperatureUnit(String c, String sc) {
             this.unit = c;
+            this.shortUnit = sc;
         }
 
         public String getUnit() {
@@ -27,6 +32,24 @@ public class Settings {
             }
             return null;
         }
+
+        //example: 24.1°C
+        public String format(String temperature) {
+            Double formatted = new BigDecimal(temperature).setScale(1, RoundingMode.HALF_UP).doubleValue();
+            return formatted + this.unit;
+        }
+
+        //example: 24.1°C
+        public String format(double temperature) {
+            Double formatted = new BigDecimal(temperature).setScale(1, RoundingMode.HALF_UP).doubleValue();
+            return formatted + this.unit;
+        }
+
+        //example: 24°
+        public String formatShort(String temperature) {
+            Integer formatted = new BigDecimal(temperature).setScale(0, RoundingMode.HALF_UP).intValue();
+            return formatted + this.shortUnit;
+        }
     }
 
     public enum WindSpeedUnit {
@@ -42,7 +65,6 @@ public class Settings {
         public String getUnit() {
             return unit;
         }
-
     }
 
     private TemperatureUnit temperatureUnit;

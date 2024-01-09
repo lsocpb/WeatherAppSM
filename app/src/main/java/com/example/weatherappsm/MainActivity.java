@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -16,11 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weatherappsm.api.ForecastHour;
 import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.objects.LocationService;
 import com.example.weatherappsm.objects.CustomLocation;
+import com.example.weatherappsm.objects.Settings;
 import com.example.weatherappsm.objects.User;
 import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
@@ -117,13 +118,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // REDIRECT TO SETTINGS ACTIVITY
-        idIVsettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                //intent.putExtra("cityName", cityName);
-                startActivity(intent);
-            }
+        idIVsettingsButton.setOnClickListener(v -> {
+            Intent intent13 = new Intent(MainActivity.this, SettingsActivity.class);
+            //intent.putExtra("cityName", cityName);
+            startActivity(intent13);
         });
     }
 
@@ -162,28 +160,35 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        String query = location.getLatitude() + "," + location.getLongitude();
-        weatherDataManager.getWeatherData(query, new WeatherDataManager.WeatherDataCallback() {
+        weatherDataManager.getWeatherData(location.getLatLong(), new WeatherDataManager.WeatherDataCallback() {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
                 weatherCVArrayList.clear();
-                String temperature = weatherResponse.getCurrent().getTemperature();
-                int isDay = weatherResponse.getCurrent().getIsDay();
-                if (isDay == 0) {
-                    Picasso.get().load("https://i.pinimg.com/564x/65/aa/a7/65aaa7720b8ea21a6bda8db5d48aa5a4.jpg").into(idIVHomebg);
-                } else {
-                    Picasso.get().load("https://i.pinimg.com/564x/82/09/39/820939917d5be5f24e2e1c5de26457e6.jpg").into(idIVHomebg);
-                }
-                idTVtemp.setText(temperature + "°C");
+
+                User user = UserManager.getInstance().getCurrentUser();
+                Settings userSettings = user.getSettings();
+                Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
+
+                WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
+                WeatherResponse.ForecastWeather forecastWeather = weatherResponse.getForecastWeather();
+                WeatherResponse.ForecastWeather.ForecastDay todayForecast = forecastWeather.getForecastday().get(0);
+                WeatherResponse.ForecastWeather.ForecastDay.Day todayForecastDaily = todayForecast.getDay();
+                List<WeatherResponse.ForecastWeather.ForecastDay.ForecastHour> todayForecastHourly = todayForecast.getHour();
+
+                Picasso.get().load(currentWeather.isDay() ? getString(R.string.main_day_background_url) : getString(R.string.main_night_background_url)).into(idIVHomebg);
+
+                String currentTempFormatted = currentWeather.getTemperatureFormatted(userTempUnit, false);
+                Pair<String, String> minMaxFormatted = todayForecastDaily.getMinMaxFormatted(userTempUnit);
+
+                idTVtemp.setText(currentTempFormatted);
                 idTVcityName.setText(MainActivity.this.location.getCityName());
                 idTVweatherText.setText(weatherResponse.getCurrent().getCondition().getText());
-                idTVtempRange.setText(weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMintemp_c() + "°C / "
-                        + weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMaxtemp_c() + "°C");
-
+                idTVtempRange.setText(String.format("%s / %s", minMaxFormatted.first, minMaxFormatted.second));
 
                 double valueofUV = weatherResponse.getCurrent().getUv();
                 idProgressBar.setProgress((int) Math.round(valueofUV));
                 idTVindex.setText(String.valueOf((valueofUV)));
+                //<editor-fold desc="set uv index">
                 if (weatherResponse.getCurrent().getUv() < 3) {
                     idTVindexText.setText(getString(R.string.low));
                 } else if (weatherResponse.getCurrent().getUv() < 6) {
@@ -195,15 +200,16 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     idTVindexText.setText(getString(R.string.extreme));
                 }
+                //</editor-fold>
 
-                List<ForecastHour> hourList = weatherResponse.getForecastWeather().getForecastday().get(0).getHour();
-                for (ForecastHour hour : hourList) {
+                for (WeatherResponse.ForecastWeather.ForecastDay.ForecastHour hour : todayForecastHourly) {
                     String time = hour.getTime();
                     String temp = String.valueOf(hour.getTempC());
                     String icon = hour.getCondition().getIcon();
                     String wind = String.valueOf(hour.getWindKph());
                     weatherCVArrayList.add(new WeatherCV(time, temp, icon, wind));
                 }
+
                 weatherCVAdapter.notifyDataSetChanged();
             }
 

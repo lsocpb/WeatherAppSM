@@ -12,11 +12,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.weatherappsm.api.WeatherCondition;
 import com.example.weatherappsm.api.WeatherResponse;
+import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.model.SearchHistoryEntry;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.objects.LocationService;
+import com.example.weatherappsm.objects.Settings;
+import com.example.weatherappsm.objects.User;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.example.weatherappsm.viewmodel.SearchHistoryViewModel;
 import com.google.android.material.textfield.TextInputLayout;
@@ -106,26 +108,21 @@ public class SearchActivity extends AppCompatActivity {
             return;
         }
 
-        String query = location.getLatitude() + "," + location.getLongitude();
-
-        weatherDataManager.getWeatherData(query, new WeatherDataManager.WeatherDataCallback() {
+        weatherDataManager.getWeatherData(location.getLatLong(), new WeatherDataManager.WeatherDataCallback() {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
-                int isDay = weatherResponse.getCurrent().getIsDay();
-                WeatherCondition weatherContidion = weatherResponse.getCurrent().getCondition();
-                String text = weatherContidion.getText();
-                String temperature = weatherResponse.getCurrent().getTemperature();
-                int roundedTemperature = (int) Math.round(Double.parseDouble(temperature));
-                idTVcurrentLocationTemp.setText(roundedTemperature + "°");
+                User user = UserManager.getInstance().getCurrentUser();
+                Settings userSettings = user.getSettings();
+                Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
+
+                WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
+                WeatherResponse.WeatherCondition weatherCondition = currentWeather.getCondition();
+
+                Picasso.get().load(currentWeather.isDay() ? getString(R.string.search_day_background_url) : getString(R.string.search_night_background_url)).into(idIVBackground);
+
+                idTVcurrentLocationTemp.setText(currentWeather.getTemperatureFormatted(userTempUnit, true));
                 idTVcurrentLocation.setText(cityName);
-                idTVcurrentLocationWeatherText.setText(text);
-
-                if (isDay == 0) {
-                    Picasso.get().load("https://cdn.dribbble.com/userupload/11744357/file/original-602e2442005d88c4f84f72828f6334f0.jpg?resize=1024x586").into(idIVBackground);
-
-                } else {
-                    Picasso.get().load("https://cdn.dribbble.com/users/3091124/screenshots/6632880/sunny-watercolor-texture-background_1083-167_1x.jpg?resize=400x300&vertical=center").into(idIVBackground);
-                }
+                idTVcurrentLocationWeatherText.setText(weatherCondition.getText());
             }
 
             @Override

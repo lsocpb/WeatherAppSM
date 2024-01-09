@@ -35,6 +35,10 @@ public class CustomLocation {
         return longitude;
     }
 
+    public String getLatLong() {
+        return latitude + "," + longitude;
+    }
+
     /*
     * Returns true if any of the fields is empty
      */
