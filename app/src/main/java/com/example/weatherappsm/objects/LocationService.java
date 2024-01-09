@@ -7,6 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,6 +59,7 @@ public class LocationService {
     private Location getLastKnownLocation(Context context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "No location permission", Toast.LENGTH_SHORT).show();
+            Log.e("TAG", "getLastKnownLocation: no location permission");
             return null;
         }
         return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -106,6 +108,7 @@ public class LocationService {
     public CustomLocation fetchCurrentLocation(Context context) {
         Location lastKnownLocation = getLastKnownLocation(context);
         if (lastKnownLocation == null) {
+            Log.e("TAG", "fetchCurrentLocation: lastKnownLocation is null");
             return new CustomLocation();
         }
         CustomLocation customLocation = new CustomLocation(lastKnownLocation, getCityName(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
