@@ -2,9 +2,14 @@ package com.example.weatherappsm.util;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.weatherappsm.api.WeatherApiService;
 import com.example.weatherappsm.api.WeatherResponse;
 
+import org.json.JSONObject;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,22 +32,33 @@ public class WeatherDataManager {
 
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
-            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+            public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
                 if (response.isSuccessful()) {
                     WeatherResponse weatherResponse = response.body();
                     if (weatherResponse != null) {
                         callback.onWeatherDataReceived(weatherResponse);
                     }
                 } else {
-                    Log.e("TAG", "Error getting weather data: " + response.message());
+                    ResponseBody responseBody = response.errorBody();
+                    if (responseBody != null) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(responseBody.string());
+                            String errorMessage = jsonObject.getString("error");
+                            callback.onWeatherDataError(errorMessage);
+                        } catch (Exception e) {
+                            Log.e("TAG", "Error getting weather data due API error: \n" + e.getMessage(), e);
+                            callback.onWeatherDataError(e.getMessage());
+                        }
+                    }
+                    Log.e("TAG", "Error getting weather data due API error: \n" + response.message());
                     callback.onWeatherDataError(response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<WeatherResponse> call, Throwable t) {
-                Log.e("TAG", "Error getting weather data: " + t.getMessage());
-                callback.onWeatherDataError(t.getMessage());
+            public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable throwable) {
+                Log.e("TAG", "Error getting weather data: " + throwable.getMessage(), throwable);
+                callback.onWeatherDataError(throwable.getMessage());
             }
         });
     }

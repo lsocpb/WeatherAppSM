@@ -1,38 +1,33 @@
 package com.example.weatherappsm;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.weatherappsm.api.ForecastHour;
 import com.example.weatherappsm.api.WeatherResponse;
+import com.example.weatherappsm.manager.UserManager;
+import com.example.weatherappsm.objects.LocationService;
+import com.example.weatherappsm.objects.CustomLocation;
+import com.example.weatherappsm.objects.User;
+import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,10 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RelativeLayout idRLhome;
 
-    private LocationManager locationManager;
-    private int PERMISSION_CODE = 1;
-
-    public String cityName;
+    public CustomLocation location;
 
     private WeatherDataManager weatherDataManager = new WeatherDataManager();
 
@@ -80,66 +72,47 @@ public class MainActivity extends AppCompatActivity {
         idTVindexText = findViewById(R.id.idTVindexText);
         idProgressBar = findViewById(R.id.idProgressBar);
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
-        } else {
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (location != null) {
-                cityName = getCityName(location.getLatitude(), location.getLongitude());
-                getWeatherData(cityName);
-            } else {
-                Log.e("TAG", "Location is null");
-            }
-        }
+        //start location service (init LocationManager and Geocoder)
+        LocationService.startLocationService(this);
 
-
+        User user = UserManager.getInstance().getCurrentUser();
+        List<String> searchHistory = user.getSearchHistory();
+        List<CustomLocation> favoriteLocations = user.getFavoriteLocations();
 
         //TU SPRAWDZAM CZY INTENT PRZESŁAŁ JAKIEŚ NOWE DANE, JEŻELI TAK TO AKTUALIZUJE WIDOK
         Intent intent = getIntent();
         if (intent.hasExtra("cityName")) {
-            cityName = intent.getStringExtra("cityName");
-            getWeatherData(cityName);
+            String cityName = intent.getStringExtra("cityName");
+            //location from SearchActivity
+            location = LocationService.getInstance().getLocationByCityName(cityName);
         } else {
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (location != null) {
-                cityName = getCityName(location.getLatitude(), location.getLongitude());
-                getWeatherData(cityName);
-            }
+            location = LocationService.getInstance().fetchCurrentLocation(this);
         }
+        updateWeatherData(location);
 
         //TU PRZEJŚCIE DO NOWEGO WIDOKU SEARCH ACTIVITY
-        idIVlocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
-            }
+        idIVlocationButton.setOnClickListener(v -> {
+            Intent intent1 = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(intent1);
         });
 
         // REDIRECT TO MENU ACTIVITY
-        idIVtoolbar_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
-            }
+        idIVtoolbar_1.setOnClickListener(v -> {
+            Intent intent12 = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(intent12);
         });
 
-        idIVtoolbar_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + cityName);
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
+        idIVtoolbar_2.setOnClickListener(v -> {
+            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + location.getCityName());
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
 
-                if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(mapIntent);
-                } else {
-                    Uri mapWebsiteUri = Uri.parse("https://www.google.com/maps?q=" + cityName);
-                    Intent mapWebsiteIntent = new Intent(Intent.ACTION_VIEW, mapWebsiteUri);
-                    startActivity(mapWebsiteIntent);
-                }
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(mapIntent);
+            } else {
+                Uri mapWebsiteUri = Uri.parse("https://www.google.com/maps?q=" + location.getCityName());
+                Intent mapWebsiteIntent = new Intent(Intent.ACTION_VIEW, mapWebsiteUri);
+                startActivity(mapWebsiteIntent);
             }
         });
 
@@ -158,41 +131,39 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d("TAG", "PERMISSION GRANTED");
-            } else {
-                Log.d("TAG", "PERMISSION DENIED");
-                finish();
-            }
-        }
-    }
+        if (requestCode == PermissionsUtil.LOCATION_PERMISSION_REQUEST_CODE) {
 
-    //TU USTALAM NAZWĘ MIASTA NA PODSTAWIE DANYCH OTRZYMANYCH Z API
-    private String getCityName(double lat, double lon) {
-        String cityName = "London";
-        Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
-        try {
-            List<Address> addresses = gcd.getFromLocation(lat, lon, 10);
-            for (Address adr : addresses) {
-                if (adr.getLocality() != null) {
-                    String city = adr.getLocality();
-                    if (city != null && !city.equals("")) {
-                        cityName = city;
-                    } else {
-                        cityName = "Not Found";
-                    }
+            boolean isPermissionGranted = false;
+            for (int grantResult : grantResults) {
+                if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                    isPermissionGranted = true;
+                    break;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            if (!isPermissionGranted) {
+                Log.d("TAG", "PERMISSION DENIED");
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Aplikacja wymaga dostępu do lokalizacji, udziel pozwolenia w ustawieniach aplikacji")
+                        .setPositiveButton("OK", (dialog, id) -> {
+                            finish();
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
         }
-        return cityName;
     }
 
-    //TU POBIERAM DANE O POGODZIE Z API I UMIESZCZAM W WIDOKACH
-    private void getWeatherData(String cityName) {
-        weatherDataManager.getWeatherData(cityName, new WeatherDataManager.WeatherDataCallback() {
+    //TU POBIERAM DANE O POGODZIE Z API
+    private void updateWeatherData(CustomLocation location) {
+        if (location == null || location.isEmpty()) {
+            Log.e("TAG", "Location is null");
+            return;
+        }
+
+        String query = location.getLatitude() + "," + location.getLongitude();
+        weatherDataManager.getWeatherData(query, new WeatherDataManager.WeatherDataCallback() {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
                 weatherCVArrayList.clear();
@@ -204,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     Picasso.get().load("https://i.pinimg.com/564x/82/09/39/820939917d5be5f24e2e1c5de26457e6.jpg").into(idIVHomebg);
                 }
                 idTVtemp.setText(temperature + "°C");
-                idTVcityName.setText(cityName);
+                idTVcityName.setText(MainActivity.this.location.getCityName());
                 idTVweatherText.setText(weatherResponse.getCurrent().getCondition().getText());
                 idTVtempRange.setText(weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMintemp_c() + "°C / "
                         + weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMaxtemp_c() + "°C");
@@ -235,8 +206,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 weatherCVAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onWeatherDataError(String errorMessage) {
+
             }
         });
     }
