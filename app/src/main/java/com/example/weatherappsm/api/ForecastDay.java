@@ -11,6 +11,9 @@ public class ForecastDay {
     @SerializedName("hour")
     private List<ForecastHour> hour;
 
+    @SerializedName("day")
+    private Day day;
+
     public String getDate() {
         return date;
     }
@@ -18,4 +21,9 @@ public class ForecastDay {
     public List<ForecastHour> getHour() {
         return hour;
     }
+
+    public Day getDay() {
+        return day;
+    }
+
 }

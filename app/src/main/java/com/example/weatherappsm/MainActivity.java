@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,8 +31,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView idTVtemp, idTVcityName, idTVweatherText;
-    private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton;
+    private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex, idTVindexText;
+    private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
+            idIVsettingsButton;
 
     private RelativeLayout idRLhome;
 
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<WeatherCV> weatherCVArrayList;
     private WeatherCVAdapter weatherCVAdapter;
     private RecyclerView weatherRV;
+
+    private ProgressBar idProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
         weatherRV = findViewById(R.id.idRVweather);
         weatherRV.setAdapter(weatherCVAdapter);
         idTVweatherText = findViewById(R.id.idTVtext);
+        idIVsettingsButton = findViewById(R.id.settingsButton);
+        idTVtempRange = findViewById(R.id.idTVtempRange);
+        idTVindex = findViewById(R.id.idTVindex);
+        idTVindexText = findViewById(R.id.idTVindexText);
+        idProgressBar = findViewById(R.id.idProgressBar);
 
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
@@ -104,6 +113,16 @@ public class MainActivity extends AppCompatActivity {
                 Uri mapWebsiteUri = Uri.parse("https://www.google.com/maps?q=" + location.getCityName());
                 Intent mapWebsiteIntent = new Intent(Intent.ACTION_VIEW, mapWebsiteUri);
                 startActivity(mapWebsiteIntent);
+            }
+        });
+
+        // REDIRECT TO SETTINGS ACTIVITY
+        idIVsettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                //intent.putExtra("cityName", cityName);
+                startActivity(intent);
             }
         });
     }
@@ -158,6 +177,25 @@ public class MainActivity extends AppCompatActivity {
                 idTVtemp.setText(temperature + "°C");
                 idTVcityName.setText(MainActivity.this.location.getCityName());
                 idTVweatherText.setText(weatherResponse.getCurrent().getCondition().getText());
+                idTVtempRange.setText(weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMintemp_c() + "°C / "
+                        + weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMaxtemp_c() + "°C");
+
+
+                double valueofUV = weatherResponse.getCurrent().getUv();
+                idProgressBar.setProgress((int) Math.round(valueofUV));
+                idTVindex.setText(String.valueOf((valueofUV)));
+                if (weatherResponse.getCurrent().getUv() < 3) {
+                    idTVindexText.setText(getString(R.string.low));
+                } else if (weatherResponse.getCurrent().getUv() < 6) {
+                    idTVindexText.setText(getString(R.string.moderate));
+                } else if (weatherResponse.getCurrent().getUv() < 8) {
+                    idTVindexText.setText(getString(R.string.high));
+                } else if (weatherResponse.getCurrent().getUv() < 11) {
+                    idTVindexText.setText(getString(R.string.very_high));
+                } else {
+                    idTVindexText.setText(getString(R.string.extreme));
+                }
+
                 List<ForecastHour> hourList = weatherResponse.getForecastWeather().getForecastday().get(0).getHour();
                 for (ForecastHour hour : hourList) {
                     String time = hour.getTime();

@@ -14,4 +14,9 @@
     <string name="request_feature">Request Feature</string>
     <string name="switch_to_night_mode">Switch to Night Mode</string>
     <string name="back">Back</string>
+    <string name="low">Low</string>
+    <string name="high">High</string>
+    <string name="moderate">Moderate</string>
+    <string name="very_high">Very High</string>
+    <string name="extreme">Extreme</string>
 </resources>
