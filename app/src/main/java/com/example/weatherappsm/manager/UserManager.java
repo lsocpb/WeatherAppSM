@@ -1,8 +1,8 @@
 package com.example.weatherappsm.manager;
 
 import com.example.weatherappsm.objects.CustomLocation;
-import com.example.weatherappsm.objects.Settings;
-import com.example.weatherappsm.objects.User;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.model.User;
 
 import java.util.ArrayList;
 import java.util.List;

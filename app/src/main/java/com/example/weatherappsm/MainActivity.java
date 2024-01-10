@@ -1,5 +1,7 @@
 package com.example.weatherappsm;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,14 +17,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.objects.LocationService;
 import com.example.weatherappsm.objects.CustomLocation;
-import com.example.weatherappsm.objects.Settings;
-import com.example.weatherappsm.objects.User;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.model.User;
 import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.squareup.picasso.Picasso;
@@ -80,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
 
+        checkPermissions();
+
         User user = UserManager.getInstance().getCurrentUser();
         List<String> searchHistory = user.getSearchHistory();
         List<CustomLocation> favoriteLocations = user.getFavoriteLocations();
@@ -90,10 +95,8 @@ public class MainActivity extends AppCompatActivity {
             String cityName = intent.getStringExtra("cityName");
             //location from SearchActivity
             location = LocationService.getInstance().getLocationByCityName(cityName);
-        } else {
-            location = LocationService.getInstance().fetchCurrentLocation(this);
+            updateWeatherData(location);
         }
-        updateWeatherData(location);
 
         //TU PRZEJŚCIE DO NOWEGO WIDOKU SEARCH ACTIVITY
         idIVlocationButton.setOnClickListener(v -> {
@@ -129,6 +132,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //after we're sure that user granted location permission
+    public void load() {
+        location = LocationService.getInstance().fetchCurrentLocation(this);
+        updateWeatherData(location);
+    }
+
+    public void checkPermissions() {
+        if (PermissionsUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ||
+                PermissionsUtil.hasPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            load();
+        }
+        //display dialog box to ask for permission
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PermissionsUtil.LOCATION_PERMISSION_REQUEST_CODE);
+    }
+
     //TU SPRAWDZAM CZY UŻYTKOWNIK ZGADZA SIĘ NA UDOSTĘPNIENIE LOKALIZACJI
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -148,12 +166,21 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Aplikacja wymaga dostępu do lokalizacji, udziel pozwolenia w ustawieniach aplikacji")
                         .setPositiveButton("OK", (dialog, id) -> {
+                            Intent intent = new Intent();
+                            intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getPackageName(), null);
+                            intent.setData(uri);
+                            startActivity(intent);
+
                             finish();
                         });
 
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }
+
+            //user granted permission, we can load data
+            load();
         }
     }
 

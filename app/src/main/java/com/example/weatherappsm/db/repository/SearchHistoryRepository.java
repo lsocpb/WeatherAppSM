@@ -1,11 +1,11 @@
-package com.example.weatherappsm.repository;
+package com.example.weatherappsm.db.repository;
 
 import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.example.weatherappsm.db.AppDatabase;
-import com.example.weatherappsm.dao.SearchHistoryDao;
-import com.example.weatherappsm.model.SearchHistoryEntry;
+import com.example.weatherappsm.db.dao.SearchHistoryDao;
+import com.example.weatherappsm.db.model.SearchHistory;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ public class SearchHistoryRepository {
         searchHistoryDao = appDatabase.searchHistoryDao();
     }
 
-    public void insertSearchHistoryEntry(SearchHistoryEntry entry) {
+    public void insertSearchHistoryEntry(SearchHistory entry) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             searchHistoryDao.insert(entry);
         });
     }
 
-    public LiveData<List<SearchHistoryEntry>> getAllSearchHistory() {
+    public LiveData<List<SearchHistory>> getAllSearchHistory() {
         return searchHistoryDao.getAllSearchHistory();
     }
 }

@@ -1,4 +1,6 @@
-package com.example.weatherappsm.objects;
+package com.example.weatherappsm.db.model;
+
+import com.example.weatherappsm.objects.CustomLocation;
 
 import java.util.ArrayList;
 import java.util.List;

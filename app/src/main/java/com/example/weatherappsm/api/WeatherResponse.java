@@ -2,13 +2,11 @@ package com.example.weatherappsm.api;
 
 import android.util.Pair;
 
-import com.example.weatherappsm.objects.Settings;
+import com.example.weatherappsm.db.model.Settings;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-import java.util.Set;
 
-/* loaded from: classes7.dex */
 public class WeatherResponse {
     @SerializedName("current")
     private CurrentWeather current;
@@ -23,7 +21,6 @@ public class WeatherResponse {
         return this.forecast;
     }
 
-    /* loaded from: classes7.dex */
     public static class ForecastWeather {
         @SerializedName("forecastday")
         private List<ForecastDay> forecastday;

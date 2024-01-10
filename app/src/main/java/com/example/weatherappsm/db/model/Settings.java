@@ -1,4 +1,4 @@
-package com.example.weatherappsm.objects;
+package com.example.weatherappsm.db.model;
 
 import android.annotation.SuppressLint;
 import android.util.Log;

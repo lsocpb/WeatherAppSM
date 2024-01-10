@@ -1,4 +1,4 @@
-package com.example.weatherappsm.viewmodel;
+package com.example.weatherappsm.db.viewmodel;
 
 import android.app.Application;
 
@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.weatherappsm.model.SearchHistoryEntry;
-import com.example.weatherappsm.repository.SearchHistoryRepository;
+import com.example.weatherappsm.db.model.SearchHistory;
+import com.example.weatherappsm.db.repository.SearchHistoryRepository;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ public class SearchHistoryViewModel extends AndroidViewModel {
         searchHistoryRepository = new SearchHistoryRepository(application);
     }
 
-    public void insertSearchHistoryEntry(SearchHistoryEntry entry) {
+    public void insertSearchHistoryEntry(SearchHistory entry) {
         searchHistoryRepository.insertSearchHistoryEntry(entry);
     }
 
-    public LiveData<List<SearchHistoryEntry>> getAllSearchHistory() {
+    public LiveData<List<SearchHistory>> getAllSearchHistory() {
         return searchHistoryRepository.getAllSearchHistory();
     }
 }

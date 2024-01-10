@@ -1,6 +1,7 @@
 package com.example.weatherappsm.objects;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -48,17 +49,11 @@ public class LocationService {
         instance = new LocationService(context);
 
         //we should also handle the case when user granted only one of the permissions
-        if (!PermissionsUtil.hasPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) &&
-                !PermissionsUtil.hasPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            //display dialog box to ask for permission
-            PermissionsUtil.requestPermission(context, PermissionsUtil.LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
     }
 
 
     private Location getLastKnownLocation(Context context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "No location permission", Toast.LENGTH_SHORT).show();
             Log.e("TAG", "getLastKnownLocation: no location permission");
             return null;
         }

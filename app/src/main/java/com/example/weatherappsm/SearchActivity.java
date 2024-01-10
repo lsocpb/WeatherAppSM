@@ -13,14 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.weatherappsm.api.WeatherResponse;
+import com.example.weatherappsm.db.model.SearchHistory;
 import com.example.weatherappsm.manager.UserManager;
-import com.example.weatherappsm.model.SearchHistoryEntry;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.objects.LocationService;
-import com.example.weatherappsm.objects.Settings;
-import com.example.weatherappsm.objects.User;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.model.User;
 import com.example.weatherappsm.util.WeatherDataManager;
-import com.example.weatherappsm.viewmodel.SearchHistoryViewModel;
+import com.example.weatherappsm.db.viewmodel.SearchHistoryViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
@@ -68,7 +68,7 @@ public class SearchActivity extends AppCompatActivity {
 
         searchHistoryViewModel.getAllSearchHistory().observe(this, searchHistoryEntries -> {
             if (searchHistoryEntries != null) {
-                for (SearchHistoryEntry entry : searchHistoryEntries) {
+                for (SearchHistory entry : searchHistoryEntries) {
                     String cityName = entry.cityName;
                     if (!cities.contains(cityName)) {
                         cities.add(cityName);
@@ -89,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
         if (!enteredCity.isEmpty()) {
             cityName = enteredCity;
             if (!cities.contains(cityName)) {
-                searchHistoryViewModel.insertSearchHistoryEntry(new SearchHistoryEntry(cityName, String.valueOf(new Date())));
+                searchHistoryViewModel.insertSearchHistoryEntry(new SearchHistory(cityName, String.valueOf(new Date())));
             }
             Intent intent = new Intent(SearchActivity.this, MainActivity.class);
             intent.putExtra("cityName", cityName);
