@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
     implementation("androidx.room:room-runtime:2.4.3")
     annotationProcessor("androidx.room:room-compiler:2.4.3")
     testImplementation("androidx.room:room-testing:2.4.3")
