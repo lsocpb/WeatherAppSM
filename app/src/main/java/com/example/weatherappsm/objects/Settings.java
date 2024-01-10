@@ -53,7 +53,7 @@ public class Settings {
     }
 
     public enum WindSpeedUnit {
-        KILLOMETERS_PER_HOUR("kph"),
+        KILLOMETERS_PER_HOUR("km/h"),
         MILES_PER_HOUR("mph");
 
         private final String unit;

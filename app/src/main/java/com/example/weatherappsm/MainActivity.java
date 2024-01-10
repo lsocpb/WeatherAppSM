@@ -32,7 +32,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex, idTVindexText;
+    private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
+            idTVindexText, idTVwindSpd;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
             idIVsettingsButton;
 
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView weatherRV;
 
     private ProgressBar idProgressBar;
+
+    private Settings settings = UserManager.getInstance().getCurrentUser().getSettings();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         idTVindex = findViewById(R.id.idTVindex);
         idTVindexText = findViewById(R.id.idTVindexText);
         idProgressBar = findViewById(R.id.idProgressBar);
+        idTVwindSpd = findViewById(R.id.idTVWindSpd);
 
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
@@ -180,10 +184,20 @@ public class MainActivity extends AppCompatActivity {
                 String currentTempFormatted = currentWeather.getTemperatureFormatted(userTempUnit, false);
                 Pair<String, String> minMaxFormatted = todayForecastDaily.getMinMaxFormatted(userTempUnit);
 
+                WeatherResponse.ForecastWeather.ForecastDay.ForecastHour forecastHour = weatherResponse.getForecastWeather()
+                        .getForecastday().get(0)
+                        .getHour().get(0);
+
+                double windKph = forecastHour.getWindKph();
+
                 idTVtemp.setText(currentTempFormatted);
                 idTVcityName.setText(MainActivity.this.location.getCityName());
                 idTVweatherText.setText(weatherResponse.getCurrent().getCondition().getText());
                 idTVtempRange.setText(String.format("%s / %s", minMaxFormatted.first, minMaxFormatted.second));
+
+                // SET WIND SPEED AND UNIT BASED ON USER SETTINGS
+                String windSpeedUnit = settings.getWindSpeedUnit().getUnit();
+                idTVwindSpd.setText(windKph + " " + windSpeedUnit);
 
                 double valueofUV = weatherResponse.getCurrent().getUv();
                 idProgressBar.setProgress((int) Math.round(valueofUV));
