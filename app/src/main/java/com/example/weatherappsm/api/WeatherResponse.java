@@ -6,6 +6,7 @@ import com.example.weatherappsm.objects.Settings;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Set;
 
 /* loaded from: classes7.dex */
 public class WeatherResponse {
@@ -56,21 +57,33 @@ public class WeatherResponse {
                 private WeatherCondition condition;
                 @SerializedName("temp_c")
                 private double tempC;
+                @SerializedName("temp_f")
+                private double tempF;
                 @SerializedName("time")
                 private String time;
                 @SerializedName("wind_kph")
                 private double windKph;
+                @SerializedName("wind_mph")
+                private double windMph;
 
-                public String getTime() {
-                    return this.time;
+                public String getWindSpeedFormatted(Settings.WindSpeedUnit unit) {
+                    if (unit == Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR) {
+                        return unit.format(this.windKph);
+                    } else {
+                        return unit.format(this.windMph);
+                    }
                 }
 
-                public double getTempC() {
-                    return this.tempC;
+                public String getTemperatureFormatted(Settings.TemperatureUnit unit) {
+                    if (unit == Settings.TemperatureUnit.CELSIUS) {
+                        return unit.format(this.tempC);
+                    } else {
+                        return unit.format(this.tempF);
+                    }
                 }
 
-                public double getWindKph() {
-                    return this.windKph;
+                public String getTime(Settings.HourFormat hourFormat) {
+                    return hourFormat.format(this.time);
                 }
 
                 public WeatherCondition getCondition() {
@@ -87,14 +100,6 @@ public class WeatherResponse {
                 private double mintemp_f;
                 @SerializedName("maxtemp_f")
                 private double maxtemp_f;
-
-                public double getMaxtemp_c() {
-                    return this.maxtemp_c;
-                }
-
-                public double getMintemp_c() {
-                    return this.mintemp_c;
-                }
 
                 public Pair<String, String> getMinMaxFormatted(Settings.TemperatureUnit unit) {
                     if (unit == Settings.TemperatureUnit.CELSIUS) {
@@ -118,6 +123,10 @@ public class WeatherResponse {
         private String temperatureF;
         @SerializedName("uv")
         private double uv;
+        @SerializedName("wind_mph")
+        private double windMph;
+        @SerializedName("wind_kph")
+        private double windKph;
 
         public String getTemperature(Settings.TemperatureUnit unit) {
             if (unit == Settings.TemperatureUnit.CELSIUS) {
@@ -132,6 +141,14 @@ public class WeatherResponse {
                 return isShort ? unit.formatShort(this.temperatureC) : unit.format(this.temperatureC);
             } else {
                 return isShort ? unit.formatShort(this.temperatureF) : unit.format(this.temperatureF);
+            }
+        }
+
+        public String getWindSpeedFormatted(Settings.WindSpeedUnit unit) {
+            if (unit == Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR) {
+                return unit.format(this.windKph);
+            } else {
+                return unit.format(this.windMph);
             }
         }
 

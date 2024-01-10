@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar idProgressBar;
 
-    private Settings settings = UserManager.getInstance().getCurrentUser().getSettings();
+    private final Settings settings = UserManager.getInstance().getCurrentUser().getSettings();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 User user = UserManager.getInstance().getCurrentUser();
                 Settings userSettings = user.getSettings();
                 Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
+                Settings.HourFormat hourFormat = userSettings.getHourFormat();
 
                 WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
                 WeatherResponse.ForecastWeather forecastWeather = weatherResponse.getForecastWeather();
@@ -181,28 +182,23 @@ public class MainActivity extends AppCompatActivity {
 
                 Picasso.get().load(currentWeather.isDay() ? getString(R.string.main_day_background_url) : getString(R.string.main_night_background_url)).into(idIVHomebg);
 
-                String currentTempFormatted = currentWeather.getTemperatureFormatted(userTempUnit, false);
-                Pair<String, String> minMaxFormatted = todayForecastDaily.getMinMaxFormatted(userTempUnit);
-
-                WeatherResponse.ForecastWeather.ForecastDay.ForecastHour forecastHour = weatherResponse.getForecastWeather()
-                        .getForecastday().get(0)
-                        .getHour().get(0);
-
-                double windKph = forecastHour.getWindKph();
-
-                idTVtemp.setText(currentTempFormatted);
-                idTVcityName.setText(MainActivity.this.location.getCityName());
-                idTVweatherText.setText(weatherResponse.getCurrent().getCondition().getText());
-                idTVtempRange.setText(String.format("%s / %s", minMaxFormatted.first, minMaxFormatted.second));
+                idTVcityName.setText(location.getCityName());
+                idTVweatherText.setText(currentWeather.getCondition().getText());
 
                 // SET WIND SPEED AND UNIT BASED ON USER SETTINGS
-                String windSpeedUnit = settings.getWindSpeedUnit().getUnit();
-                idTVwindSpd.setText(windKph + " " + windSpeedUnit);
+                String currentTempFormatted = currentWeather.getTemperatureFormatted(userTempUnit, false);
+                String currentWindSpeedFormatted = currentWeather.getWindSpeedFormatted(userSettings.getWindSpeedUnit());
+                Pair<String, String> minMaxFormatted = todayForecastDaily.getMinMaxFormatted(userTempUnit);
 
+                idTVtemp.setText(currentTempFormatted);
+                idTVwindSpd.setText(currentWindSpeedFormatted);
+                idTVtempRange.setText(String.format("%s / %s", minMaxFormatted.first, minMaxFormatted.second));
+
+                //<editor-fold desc="set uv index">
                 double valueofUV = weatherResponse.getCurrent().getUv();
                 idProgressBar.setProgress((int) Math.round(valueofUV));
                 idTVindex.setText(String.valueOf((valueofUV)));
-                //<editor-fold desc="set uv index">
+
                 if (weatherResponse.getCurrent().getUv() < 3) {
                     idTVindexText.setText(getString(R.string.low));
                 } else if (weatherResponse.getCurrent().getUv() < 6) {
@@ -216,11 +212,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //</editor-fold>
 
-                for (WeatherResponse.ForecastWeather.ForecastDay.ForecastHour hour : todayForecastHourly) {
-                    String time = hour.getTime();
-                    String temp = String.valueOf(hour.getTempC());
-                    String icon = hour.getCondition().getIcon();
-                    String wind = String.valueOf(hour.getWindKph());
+                for (WeatherResponse.ForecastWeather.ForecastDay.ForecastHour hourlyForecast : todayForecastHourly) {
+                    String time = hourlyForecast.getTime(hourFormat);
+                    String temp = hourlyForecast.getTemperatureFormatted(userTempUnit);
+                    String icon = hourlyForecast.getCondition().getIcon();
+                    String wind = hourlyForecast.getWindSpeedFormatted(userSettings.getWindSpeedUnit());
                     weatherCVArrayList.add(new WeatherCV(time, temp, icon, wind));
                 }
 

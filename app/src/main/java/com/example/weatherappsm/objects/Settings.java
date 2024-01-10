@@ -1,15 +1,21 @@
 package com.example.weatherappsm.objects;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Settings {
     public enum TemperatureUnit {
         CELSIUS("°C", "°"),
         FAHRENHEIT("°F", "°");
 
-        private String unit;
-        private String shortUnit;
+        private final String unit;
+        private final String shortUnit;
 
         TemperatureUnit(String c, String sc) {
             this.unit = c;
@@ -18,10 +24,6 @@ public class Settings {
 
         public String getUnit() {
             return unit;
-        }
-
-        public void setUnit(String unit) {
-            this.unit = unit;
         }
 
         public static TemperatureUnit fromString(String text) {
@@ -65,10 +67,66 @@ public class Settings {
         public String getUnit() {
             return unit;
         }
+
+        //example: 24.1 km/h
+        public String format(double windSpeed) {
+            Double formatted = new BigDecimal(windSpeed).setScale(1, RoundingMode.HALF_UP).doubleValue();
+            return String.format("%s %s", formatted, this.unit);
+        }
+
+        public String format(String windSpeed) {
+            Double formatted = new BigDecimal(windSpeed).setScale(1, RoundingMode.HALF_UP).doubleValue();
+            return String.format("%s %s", formatted, this.unit);
+        }
+
+    }
+
+    public enum HourFormat {
+        TWELVE("hh:mm aa"),
+        TWENTY_FOUR("HH:mm");
+
+        @SuppressLint("ConstantLocale")
+        private static final SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+
+        private final SimpleDateFormat outputFormat;
+        private final String format;
+
+        HourFormat(String format) {
+            this.format = format;
+            this.outputFormat = new SimpleDateFormat(format, Locale.getDefault());
+        }
+
+        public String getFormat() {
+            return format;
+        }
+
+        //example: 12:00 AM
+        //example: 00:00
+        public String format(String input) {
+            if (input == null) {
+                Log.e("HourFormat", "format: input is null");
+                return "";
+            }
+
+            try {
+                Date parsedDate = inputFormat.parse(input);
+                if (parsedDate == null) {
+                    Log.e("HourFormat", "format: parsedDate is null");
+                    return "";
+                }
+
+                return outputFormat.format(parsedDate);
+            } catch (Exception e) {
+                Log.e("HourFormat", "format: ", e);
+                e.printStackTrace();
+                return input;
+            }
+        }
     }
 
     private TemperatureUnit temperatureUnit;
     private WindSpeedUnit windSpeedUnit;
+    private HourFormat hourFormat;
 
     public TemperatureUnit getTemperatureUnit() {
         return temperatureUnit;
@@ -84,5 +142,13 @@ public class Settings {
 
     public void setWindSpeedUnit(WindSpeedUnit windSpeedUnit) {
         this.windSpeedUnit = windSpeedUnit;
+    }
+
+    public HourFormat getHourFormat() {
+        return hourFormat;
+    }
+
+    public void setHourFormat(HourFormat hourFormat) {
+        this.hourFormat = hourFormat;
     }
 }
