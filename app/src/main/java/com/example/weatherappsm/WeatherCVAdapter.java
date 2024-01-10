@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weatherappsm.manager.UserManager;
+import com.example.weatherappsm.objects.Settings;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -19,6 +21,8 @@ import java.util.Date;
 public class WeatherCVAdapter extends RecyclerView.Adapter<WeatherCVAdapter.ViewHolder>{
     private Context context;
     private ArrayList<WeatherCV> weatherCV;
+
+    private Settings settings = UserManager.getInstance().getCurrentUser().getSettings();
 
     public WeatherCVAdapter(Context context, ArrayList<WeatherCV> weatherCV) {
         this.context = context;
@@ -35,8 +39,11 @@ public class WeatherCVAdapter extends RecyclerView.Adapter<WeatherCVAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WeatherCV weatherCV = this.weatherCV.get(position);
-        holder.temp.setText(weatherCV.getTemp()+"°C");
-        holder.windSpeed.setText(weatherCV.getWindSpeed()+" km/h");
+        String tempUnit = settings.getTemperatureUnit().getUnit();
+        String windUnit = settings.getWindSpeedUnit().getUnit();
+
+        holder.temp.setText(weatherCV.getTemp()+tempUnit);
+        holder.windSpeed.setText(weatherCV.getWindSpeed()+windUnit);
         Picasso.get().load("https:".concat(weatherCV.getIcon())).into(holder.icon);
         SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         SimpleDateFormat output = new SimpleDateFormat("HH:mm aa");
