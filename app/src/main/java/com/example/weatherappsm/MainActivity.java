@@ -134,8 +134,11 @@ public class MainActivity extends AppCompatActivity {
 
     //after we're sure that user granted location permission
     public void load() {
-        location = LocationService.getInstance().fetchCurrentLocation(this);
-        updateWeatherData(location);
+        //set only if location is null (during first launch)
+        if (location == null) {
+            location = LocationService.getInstance().fetchCurrentLocation(this);
+            updateWeatherData(location);
+        }
     }
 
     public void checkPermissions() {

@@ -24,6 +24,7 @@ import java.util.Locale;
 //LocationManager is reserved class name
 public class LocationService {
     private static LocationService instance;
+    private static final String TAG = LocationService.class.getName();
     private final LocationManager locationManager;
     private final Geocoder geocoder;
     private CustomLocation cachedLocation;
@@ -54,7 +55,7 @@ public class LocationService {
 
     private Location getLastKnownLocation(Context context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e("TAG", "getLastKnownLocation: no location permission");
+            Log.e(TAG, "getLastKnownLocation: no location permission");
             return null;
         }
         return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -103,7 +104,7 @@ public class LocationService {
     public CustomLocation fetchCurrentLocation(Context context) {
         Location lastKnownLocation = getLastKnownLocation(context);
         if (lastKnownLocation == null) {
-            Log.e("TAG", "fetchCurrentLocation: lastKnownLocation is null");
+            Log.e(TAG, "fetchCurrentLocation: lastKnownLocation is null");
             return new CustomLocation();
         }
         CustomLocation customLocation = new CustomLocation(lastKnownLocation, getCityName(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
