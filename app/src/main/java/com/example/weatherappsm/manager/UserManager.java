@@ -45,6 +45,7 @@ public class UserManager {
         Settings settings = new Settings();
         settings.setTemperatureUnit(Settings.TemperatureUnit.CELSIUS);
         settings.setWindSpeedUnit(Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR);
+        settings.setHourFormat(Settings.HourFormat.TWENTY_FOUR);
 
         return new User("Default User", settings, favoriteLocations, searchHistory);
     }
