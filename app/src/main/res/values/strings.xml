@@ -19,8 +19,37 @@
     <string name="moderate">Moderate</string>
     <string name="very_high">Very High</string>
     <string name="extreme">Extreme</string>
+    <string name="tempRange">20° / 15°</string>
+    <string name="uvIndexHeader">UV Index</string>
     <string name="main_day_background_url">https://i.pinimg.com/564x/82/09/39/820939917d5be5f24e2e1c5de26457e6.jpg</string>
     <string name="main_night_background_url">https://i.pinimg.com/564x/65/aa/a7/65aaa7720b8ea21a6bda8db5d48aa5a4.jpg</string>
     <string name="search_night_background_url">https://cdn.dribbble.com/userupload/11744357/file/original-602e2442005d88c4f84f72828f6334f0.jpg?resize=1024x586</string>
     <string name="search_day_background_url"><![CDATA[https://cdn.dribbble.com/users/3091124/screenshots/6632880/sunny-watercolor-texture-background_1083-167_1x.jpg?resize=400x300&vertical=center]]></string>
+    <string name="uvIndexValue">Low</string>
+    <string name="windHeader">WIND</string>
+    <string name="settingsMenuTitle">Settings</string>
+    <string name="measurementButtonName">Measurements</string>
+    <string name="measurementButtonDescription">Change your measurement units</string>
+    <string name="languageButtonName">Choose Language</string>
+    <string name="languageButtonDescription">Change your language</string>
+    <string name="issueButtonName">Report issue</string>
+    <string name="issueButtonDescription">Report an issue with the app</string>
+    <string name="featureButtonName">Request feature</string>
+    <string name="featureButtonDescription">Request a feature for the app</string>
+    <string name="nightModeButtonName">Night mode</string>
+    <string name="nightModeButtonDescription">Enable night mode</string>
+    <string name="temperatureOptionName">Temperature</string>
+    <string name="celsiusOption">Celsius</string>
+    <string name="fahrenheitOption">Fahrenheit</string>
+    <string name="windSpeedOptionName">Wind Speed</string>
+    <string name="meterPerSecondOption">Meter/Second</string>
+    <string name="kilometerPerHourOption">Kilometer/Hour</string>
+    <string name="milesPerHourOption">Miles/Hour</string>
+    <string name="pressureOptionName">Pressure</string>
+    <string name="distanceOptionName">Distance</string>
+    <string name="hectopascalOption">HectoPascal</string>
+    <string name="millimeterOfMercuryOption">Millimeter of Mercury</string>
+    <string name="kilometerOption">Kilometer</string>
+    <string name="meterOption">Meter</string>
+    <string name="mileOption">Mile</string>
 </resources>
