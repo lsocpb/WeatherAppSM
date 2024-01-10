@@ -7,7 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsMeasurementsActivity extends AppCompatActivity {
 
-    private RadioButton idBtnC, idBtnF, idBtnMS, idBtnKMH, idBtnMPH, idBtnHPA, idBtnMMHG, idBtnKM, idBtnM, idBtnMI;
+    private RadioButton idBtnC, idBtnF, idBtnMS, idBtnKMH, idBtnMPH, idBtnHPA, idBtnMMHG, idBtnKM,
+            idBtnM, idBtnMI, idBtn12h, idBtn24h;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +24,8 @@ public class SettingsMeasurementsActivity extends AppCompatActivity {
         idBtnKM = findViewById(R.id.idRBKilometer);
         idBtnM = findViewById(R.id.idRBMeter);
         idBtnMI = findViewById(R.id.idRBMile);
+        idBtn12h = findViewById(R.id.idRB12h);
+        idBtn24h = findViewById(R.id.idRB24h);
 
         //add some listeners with debug messages to logcat
 
@@ -31,6 +34,12 @@ public class SettingsMeasurementsActivity extends AppCompatActivity {
         });
         idBtnF.setOnClickListener(v -> {
             System.out.println("Fahrenheit button clicked");
+        });
+        idBtn24h.setOnClickListener(v -> {
+            System.out.println("24h button clicked");
+        });
+        idBtn12h.setOnClickListener(v -> {
+            System.out.println("12h button clicked");
         });
         idBtnMS.setOnClickListener(v -> {
             System.out.println("Meters per second button clicked");

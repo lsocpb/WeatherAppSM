@@ -161,6 +161,66 @@
                             android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:textStyle="bold"
+                            android:text="@string/hourFormatOptionName"
+                            android:layout_marginBottom="10dp"
+                            android:textColor="@color/white"/>
+
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/idRB24h"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hour24Option"
+                                android:textColor="@color/white"
+                                android:checked="true"/>
+
+                            <RadioButton
+                                android:id="@+id/idRB12h"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hour12Option"
+                                android:textColor="@color/white"/>
+
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="6"
+                    android:background="@drawable/button_gradient">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
                             android:text="@string/windSpeedOptionName"
                             android:layout_marginBottom="10dp"
                             android:textColor="@color/white"/>

@@ -30,7 +30,8 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         idBtnChooseLanguage.setOnClickListener(v -> {
-            System.out.println("Language button clicked");
+            Intent intent = new Intent(SettingsActivity.this, SettingsLanguageActivity.class);
+            startActivity(intent);
         });
         idBtnReportIssue.setOnClickListener(v -> {
             System.out.println("Report Issue button clicked");

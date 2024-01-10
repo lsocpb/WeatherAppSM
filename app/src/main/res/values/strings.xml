@@ -52,4 +52,20 @@
     <string name="kilometerOption">Kilometer</string>
     <string name="meterOption">Meter</string>
     <string name="mileOption">Mile</string>
+    <string name="hourFormatOptionName">Hour Format</string>
+    <string name="hour12Option">12 Hours</string>
+    <string name="hour24Option">24 Hours</string>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Italian</item>
+        <item>Portuguese</item>
+        <item>Chinese</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Hindi</item>
+    </string-array>
 </resources>
