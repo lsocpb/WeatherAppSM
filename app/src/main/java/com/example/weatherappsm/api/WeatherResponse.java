@@ -37,6 +37,9 @@ public class WeatherResponse {
             @SerializedName("hour")
             private List<ForecastHour> hour;
 
+            @SerializedName("astro")
+            private Astro astro;
+
             public String getDate() {
                 return this.date;
             }
@@ -48,6 +51,11 @@ public class WeatherResponse {
             public Day getDay() {
                 return this.day;
             }
+
+            public Astro  getAstro(){
+                return this.astro;
+            }
+
 
             public static class ForecastHour {
                 @SerializedName("condition")
@@ -85,6 +93,20 @@ public class WeatherResponse {
 
                 public WeatherCondition getCondition() {
                     return this.condition;
+                }
+            }
+
+            public static class Astro{
+                @SerializedName("sunrise")
+                private String sunrise;
+                @SerializedName("sunset")
+                private String sunset;
+
+                public String getSunrise(Settings.HourFormat hourFormat){
+                    return hourFormat.format(this.sunrise);
+                }
+                public String getSunset(Settings.HourFormat hourFormat){
+                    return hourFormat.format(this.sunset);
                 }
             }
 

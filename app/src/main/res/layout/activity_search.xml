@@ -19,18 +19,20 @@
         android:layout_marginLeft="2dp"
         app:fontFamily="@font/sfprodisplaybold"/>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/idLLEdt"
         android:layout_width="350dp"
         android:layout_height="30dp"
         android:layout_marginTop="80dp"
-        android:background="@drawable/ic_rounded"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#FF303234"
         android:orientation="horizontal"
         android:weightSum="5">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/idTILEdt"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_weight="4.5"
             android:background="#00000000"
@@ -59,18 +61,19 @@
 
         <ImageView
             android:id="@+id/idIVSearch"
-            android:layout_width="0dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="150dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="0.5"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_search" />
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
     <LinearLayout
         android:id="@+id/idLLTask"
         android:layout_width="350dp"

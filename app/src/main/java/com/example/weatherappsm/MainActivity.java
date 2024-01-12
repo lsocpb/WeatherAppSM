@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         idTVindex = findViewById(R.id.idTVindex);
         idTVindexText = findViewById(R.id.idTVindexText);
         idProgressBar = findViewById(R.id.idProgressBar);
-        idTVwindSpd = findViewById(R.id.idTVWindSpd);
+        idTVwindSpd = findViewById(R.id.idTVWindSpeed);
 
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
