@@ -36,7 +36,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
-            idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime;
+            idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime,
+            idTVCloudValue, idTVRainValue;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
             idIVsettingsButton, idIVSunIcon;
 
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         idTVSunsetTime = findViewById(R.id.idTVSunsetTime);
         idIVSunIcon = findViewById(R.id.idIVSunIcon);
         idTVWindDirection = findViewById(R.id.idTVWindDirection);
+        idTVCloudValue = findViewById(R.id.idTVCloudValue);
+        idTVRainValue = findViewById(R.id.idTVRainValue);
 
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
@@ -223,6 +226,8 @@ public class MainActivity extends AppCompatActivity {
                 idTVcityName.setText(location.getCityName());
                 idTVweatherText.setText(currentWeather.getCondition().getText());
                 idTVWindDirection.setText(currentWeather.getWindDir());
+                idTVCloudValue.setText(String.format("%s%%", currentWeather.getCloud()));
+                idTVRainValue.setText(String.format("%smm", currentWeather.getPercip()));
 
                 // SET WIND SPEED AND UNIT BASED ON USER SETTINGS
                 String currentTempFormatted = currentWeather.getTemperatureFormatted(userTempUnit, false);

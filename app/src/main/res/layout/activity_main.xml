@@ -376,20 +376,20 @@
                                 android:layout_centerHorizontal="true"
                                 android:text="0"
                                 android:textColor="@color/white"
-                                android:textSize="50sp"
+                                android:textSize="30sp"
                                 android:layout_marginLeft="10dp"
-                                app:fontFamily="@font/sfprodisplayregular" />
-
-                            <TextView
-                                android:id="@+id/idTVRainValueText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/idTVRainValue"
-                                android:layout_centerHorizontal="true"
-                                android:text="Low"
-                                android:textColor="@color/white"
-                                android:textSize="20sp"
+                                android:layout_marginTop="10dp"
                                 app:fontFamily="@font/sfprodisplaymedium" />
+
+                            <pl.droidsonroids.gif.GifImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_below="@id/idTVRainValue"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginStart="30dp"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/rain" />
+
 
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
@@ -429,8 +429,9 @@
                                 android:layout_centerHorizontal="true"
                                 android:text="0"
                                 android:textColor="@color/white"
-                                android:textSize="50sp"
+                                android:textSize="30sp"
                                 android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
                                 app:fontFamily="@font/sfprodisplaymedium" />
 
                             <pl.droidsonroids.gif.GifImageView

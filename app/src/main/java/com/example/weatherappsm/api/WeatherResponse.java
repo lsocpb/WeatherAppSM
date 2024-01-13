@@ -150,6 +150,12 @@ public class WeatherResponse {
         @SerializedName("wind_dir")
         private String windDir;
 
+        @SerializedName("cloud")
+        private int cloud;
+
+        @SerializedName("percip_mm")
+        private int percip_mm;
+
         public String getTemperature(Settings.TemperatureUnit unit) {
             if (unit == Settings.TemperatureUnit.CELSIUS) {
                 return this.temperatureC;
@@ -188,6 +194,14 @@ public class WeatherResponse {
 
         public String getWindDir(){
             return this.windDir;
+        }
+
+        public int getCloud(){
+            return this.cloud;
+        }
+
+        public int getPercip(){
+            return this.percip_mm;
         }
     }
 
