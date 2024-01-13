@@ -9,9 +9,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,13 +37,15 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback{
 
     private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
             idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime,
             idTVCloudValue, idTVRainValue;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
             idIVsettingsButton, idIVSunIcon;
+
+    private RadioButton checkedRadioButton, uncheckedRadioButton;
 
     private RelativeLayout idRLhome;
 
@@ -56,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar idProgressBar;
 
     private final Settings settings = UserManager.getInstance().getCurrentUser().getSettings();
+
+
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +95,10 @@ public class MainActivity extends AppCompatActivity {
         idTVWindDirection = findViewById(R.id.idTVWindDirection);
         idTVCloudValue = findViewById(R.id.idTVCloudValue);
         idTVRainValue = findViewById(R.id.idTVRainValue);
+        checkedRadioButton = findViewById(R.id.checked_radiobutton);
+        uncheckedRadioButton = findViewById(R.id.unchecked_radiobutton);
+        gestureDetector = new GestureDetector(this, new SwipeGestureListener(this));
+
 
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
@@ -273,4 +286,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void changeToNextView() {
+        checkedRadioButton.setChecked(false);
+        uncheckedRadioButton.setChecked(true);
+        Intent intent = new Intent(this, FavoriteLocationActivity.class);
+        intent.putExtra("isChecked", checkedRadioButton.isChecked());
+        intent.putExtra("isUnchecked", uncheckedRadioButton.isChecked());
+        startActivity(intent);
+        finish();
+    }
+
+    public void changeToPreviousView() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onSwipeLeft() {
+        changeToNextView();
+    }
+
+    @Override
+    public void onSwipeRight() {
+        changeToPreviousView();
+    }
 }
+
+

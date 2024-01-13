@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/currentLocation"
+                android:text="@string/FavoriteLocation"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="30sp"
@@ -102,23 +102,11 @@
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/sfprodisplayregular"/>
 
-       <include layout="@layout/scrollview_info"/>
+        <include layout="@layout/scrollview_info"/>
 
 
     </RelativeLayout>
 
     <include layout="@layout/toolbar" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/baseline_settings_24"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:id="@+id/settingsButton"
-        app:tint="@android:color/white"
-        android:backgroundTint="@android:color/transparent"/>
 
 </RelativeLayout>
