@@ -147,6 +147,9 @@ public class WeatherResponse {
         @SerializedName("wind_kph")
         private double windKph;
 
+        @SerializedName("wind_dir")
+        private String windDir;
+
         public String getTemperature(Settings.TemperatureUnit unit) {
             if (unit == Settings.TemperatureUnit.CELSIUS) {
                 return this.temperatureC;
@@ -181,6 +184,10 @@ public class WeatherResponse {
 
         public double getUv() {
             return this.uv;
+        }
+
+        public String getWindDir(){
+            return this.windDir;
         }
     }
 

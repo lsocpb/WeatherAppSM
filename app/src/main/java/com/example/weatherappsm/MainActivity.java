@@ -36,9 +36,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
-            idTVindexText, idTVwindSpd;
+            idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
-            idIVsettingsButton;
+            idIVsettingsButton, idIVSunIcon;
 
     private RelativeLayout idRLhome;
 
@@ -79,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
         idTVindexText = findViewById(R.id.idTVindexText);
         idProgressBar = findViewById(R.id.idProgressBar);
         idTVwindSpd = findViewById(R.id.idTVWindSpeed);
+        idTVSunriseTime = findViewById(R.id.idTVSunriseTime);
+        idTVSunsetTime = findViewById(R.id.idTVSunsetTime);
+        idIVSunIcon = findViewById(R.id.idIVSunIcon);
+        idTVWindDirection = findViewById(R.id.idTVWindDirection);
 
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
@@ -209,11 +213,16 @@ public class MainActivity extends AppCompatActivity {
                 WeatherResponse.ForecastWeather.ForecastDay todayForecast = forecastWeather.getForecastday().get(0);
                 WeatherResponse.ForecastWeather.ForecastDay.Day todayForecastDaily = todayForecast.getDay();
                 List<WeatherResponse.ForecastWeather.ForecastDay.ForecastHour> todayForecastHourly = todayForecast.getHour();
+                WeatherResponse.ForecastWeather.ForecastDay.Astro astro = todayForecast.getAstro();
+
+                idTVSunriseTime.setText(astro.getSunrise(hourFormat));
+                idTVSunsetTime.setText(astro.getSunset(hourFormat));
 
                 Picasso.get().load(currentWeather.isDay() ? getString(R.string.main_day_background_url) : getString(R.string.main_night_background_url)).into(idIVHomebg);
 
                 idTVcityName.setText(location.getCityName());
                 idTVweatherText.setText(currentWeather.getCondition().getText());
+                idTVWindDirection.setText(currentWeather.getWindDir());
 
                 // SET WIND SPEED AND UNIT BASED ON USER SETTINGS
                 String currentTempFormatted = currentWeather.getTemperatureFormatted(userTempUnit, false);
