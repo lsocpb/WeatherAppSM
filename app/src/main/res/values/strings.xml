@@ -56,6 +56,10 @@
     <string name="hour12Option">12 Hours</string>
     <string name="hour24Option">24 Hours</string>
     <string name="FavoriteLocation">Favorite Location</string>
+    <string name="issue_report_hint">Enter your issue report here</string>
+    <string name="reset_button">Reset</string>
+    <string name="submit_button">Submit</string>
+    <string name="feature_request_hint">Enter your suggested feature here</string>
 
     <string-array name="languages">
         <item>English</item>
