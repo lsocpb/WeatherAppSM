@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -296,6 +297,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         intent.putExtra("isChecked", checkedRadioButton.isChecked());
         intent.putExtra("isUnchecked", uncheckedRadioButton.isChecked());
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
@@ -317,7 +319,9 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
     @Override
     public void onSwipeRight() {
+        if (getClass().equals(FavoriteLocationActivity.class)) {
         changeToPreviousView();
+        }
     }
 }
 

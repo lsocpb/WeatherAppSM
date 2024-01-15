@@ -21,7 +21,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/idLLEdt"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginTop="80dp"
         app:cardCornerRadius="10dp"
@@ -76,7 +76,7 @@
 
     <LinearLayout
         android:id="@+id/idLLTask"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:layout_below="@id/idLLEdt"

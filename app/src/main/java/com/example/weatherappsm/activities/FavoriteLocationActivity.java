@@ -198,16 +198,22 @@ public class FavoriteLocationActivity extends AppCompatActivity implements Swipe
     public void changeToPreviousView() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
 
     @Override
     public void onSwipeLeft() {
-        changeToNextView();
+        if (getClass().equals(MainActivity.class)) {
+            changeToNextView();
+        }
     }
 
     @Override
     public void onSwipeRight() {
-        changeToPreviousView();
+        if(this instanceof FavoriteLocationActivity){
+            changeToPreviousView();
+        }
     }
+
 }

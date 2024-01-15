@@ -32,7 +32,8 @@
             android:checked="true"
             app:buttonTint="@android:color/white"
             android:src="@drawable/baseline_radio_button_checked_24"
-            app:tint="@android:color/white" />
+            app:tint="@android:color/white"
+            android:clickable="false"/>
 
         <RadioButton
             android:id="@+id/unchecked_radiobutton"
@@ -41,7 +42,8 @@
             app:buttonTint="@android:color/white"
             android:checked="false"
             android:src="@drawable/baseline_radio_button_unchecked_24"
-            app:tint="@android:color/white" />
+            app:tint="@android:color/white"
+            android:clickable="false"/>
     </LinearLayout>
 
     <ImageButton

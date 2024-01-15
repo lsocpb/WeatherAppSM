@@ -1,14 +1,23 @@
 package com.example.weatherappsm;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
+import com.example.weatherappsm.activities.FavoriteLocationActivity;
 
 public class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-    private static final int SWIPE_THRESHOLD = 100;
-    private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+    private static final int SWIPE_THRESHOLD = 50;
+    private static final int SWIPE_VELOCITY_THRESHOLD = 50;
 
     private final SwipeCallback swipeCallback;
+
+
 
     public SwipeGestureListener(SwipeCallback swipeCallback) {
         this.swipeCallback = swipeCallback;
@@ -21,6 +30,7 @@ public class SwipeGestureListener extends GestureDetector.SimpleOnGestureListene
             if (deltaX > 0) {
                 swipeCallback.onSwipeRight();
             } else {
+
                 swipeCallback.onSwipeLeft();
             }
             return true;
