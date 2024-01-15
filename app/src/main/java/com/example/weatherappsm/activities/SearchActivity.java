@@ -1,4 +1,4 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.weatherappsm.MainActivity;
+import com.example.weatherappsm.R;
 import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.db.model.SearchHistory;
 import com.example.weatherappsm.manager.UserManager;

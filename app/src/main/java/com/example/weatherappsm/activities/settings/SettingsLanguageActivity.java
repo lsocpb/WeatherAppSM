@@ -1,10 +1,12 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.activities.settings;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.weatherappsm.R;
 
 public class SettingsLanguageActivity extends AppCompatActivity {
     String[] languageNames;

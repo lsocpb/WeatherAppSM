@@ -1,4 +1,4 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.activities.settings;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.weatherappsm.R;
 import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsFeatureRequestActivity extends AppCompatActivity {

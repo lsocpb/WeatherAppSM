@@ -1,12 +1,16 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.weatherappsm.R;
+import com.example.weatherappsm.activities.settings.SettingsFeatureRequestActivity;
+import com.example.weatherappsm.activities.settings.SettingsIssueReportActivity;
+import com.example.weatherappsm.activities.settings.SettingsLanguageActivity;
+import com.example.weatherappsm.activities.settings.SettingsMeasurementsActivity;
 
 public class SettingsActivity extends AppCompatActivity {
     private LinearLayout idBtnMeasurements, idBtnChooseLanguage, idBtnReportIssue, idBtnRequestFeature, idBtnNightMode;
@@ -21,7 +25,6 @@ public class SettingsActivity extends AppCompatActivity {
         idBtnReportIssue = findViewById(R.id.idLLReportIssue);
         idBtnRequestFeature = findViewById(R.id.idLLRequestFeature);
         idBtnNightMode = findViewById(R.id.idLLNightMode);
-
 
 
         idBtnMeasurements.setOnClickListener(v -> {
@@ -44,7 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
         idBtnNightMode.setOnClickListener(v -> {
             System.out.println("Night Mode button clicked");
         });
-
 
 
     }

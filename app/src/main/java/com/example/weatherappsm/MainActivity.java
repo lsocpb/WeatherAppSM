@@ -1,7 +1,6 @@
 package com.example.weatherappsm;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -24,6 +22,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weatherappsm.activities.FavoriteLocationActivity;
+import com.example.weatherappsm.activities.SearchActivity;
+import com.example.weatherappsm.activities.SettingsActivity;
 import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.objects.LocationService;
@@ -37,7 +38,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback{
+public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback {
 
     private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
             idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime,

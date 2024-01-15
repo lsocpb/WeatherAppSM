@@ -1,9 +1,11 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.activities.settings;
 
 import android.os.Bundle;
 import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.weatherappsm.R;
 
 public class SettingsMeasurementsActivity extends AppCompatActivity {
 

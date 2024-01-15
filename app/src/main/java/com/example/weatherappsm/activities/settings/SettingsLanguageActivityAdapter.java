@@ -1,4 +1,4 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.activities.settings;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.weatherappsm.R;
 
 public class SettingsLanguageActivityAdapter extends RecyclerView.Adapter<SettingsLanguageActivityAdapter.MyViewHolder> {
 
