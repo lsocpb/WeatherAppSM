@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
     private GestureDetector gestureDetector;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
         User user = UserManager.getInstance().getCurrentUser();
         List<String> searchHistory = user.getSearchHistory();
-        List<CustomLocation> favoriteLocations = user.getFavoriteLocations();
 
         //TU SPRAWDZAM CZY INTENT PRZESŁAŁ JAKIEŚ NOWE DANE, JEŻELI TAK TO AKTUALIZUJE WIDOK
         Intent intent = getIntent();

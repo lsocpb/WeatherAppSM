@@ -8,21 +8,21 @@ import java.util.List;
 public class User {
     private final String name;
     private final Settings settings;
-    private final List<CustomLocation> favoriteLocations;
+    private final CustomLocation favoriteLocation;
     private final List<String> searchHistory;
     private String googleId; //reserved for future use
 
     public User(String name) {
         this.name = name;
         this.settings = new Settings();
-        this.favoriteLocations = new ArrayList<>();
+        this.favoriteLocation = new CustomLocation();
         this.searchHistory = new ArrayList<>();
     }
 
-    public User(String name, Settings settings, List<CustomLocation> favoriteLocations, List<String> searchHistory) {
+    public User(String name, Settings settings, CustomLocation favoriteLocation, List<String> searchHistory) {
         this.name = name;
         this.settings = settings;
-        this.favoriteLocations = favoriteLocations;
+        this.favoriteLocation = favoriteLocation;
         this.searchHistory = searchHistory;
     }
 
@@ -34,8 +34,8 @@ public class User {
         return settings;
     }
 
-    public List<CustomLocation> getFavoriteLocations() {
-        return favoriteLocations;
+    public CustomLocation getFavoriteLocation() {
+        return favoriteLocation;
     }
 
     public List<String> getSearchHistory() {
