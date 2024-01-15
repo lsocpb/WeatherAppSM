@@ -34,10 +34,12 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
         idBtnReportIssue.setOnClickListener(v -> {
-            System.out.println("Report Issue button clicked");
+            Intent intent = new Intent(SettingsActivity.this, SettingsIssueReportActivity.class);
+            startActivity(intent);
         });
         idBtnRequestFeature.setOnClickListener(v -> {
-            System.out.println("Request Feature button clicked");
+            Intent intent = new Intent(SettingsActivity.this, SettingsFeatureRequestActivity.class);
+            startActivity(intent);
         });
         idBtnNightMode.setOnClickListener(v -> {
             System.out.println("Night Mode button clicked");
