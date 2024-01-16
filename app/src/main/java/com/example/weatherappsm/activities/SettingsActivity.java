@@ -11,9 +11,10 @@ import com.example.weatherappsm.activities.settings.SettingsFeatureRequestActivi
 import com.example.weatherappsm.activities.settings.SettingsIssueReportActivity;
 import com.example.weatherappsm.activities.settings.SettingsLanguageActivity;
 import com.example.weatherappsm.activities.settings.SettingsMeasurementsActivity;
+import com.example.weatherappsm.activities.settings.SettingsNotificationsActivity;
 
 public class SettingsActivity extends AppCompatActivity {
-    private LinearLayout idBtnMeasurements, idBtnChooseLanguage, idBtnReportIssue, idBtnRequestFeature, idBtnNightMode;
+    private LinearLayout idBtnMeasurements, idBtnChooseLanguage, idBtnReportIssue, idBtnRequestFeature, idBtnNotifications;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
         idBtnChooseLanguage = findViewById(R.id.idLLLanguage);
         idBtnReportIssue = findViewById(R.id.idLLReportIssue);
         idBtnRequestFeature = findViewById(R.id.idLLRequestFeature);
-        idBtnNightMode = findViewById(R.id.idLLNightMode);
+        idBtnNotifications = findViewById(R.id.idLLNotifications);
 
 
         idBtnMeasurements.setOnClickListener(v -> {
@@ -44,8 +45,9 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(SettingsActivity.this, SettingsFeatureRequestActivity.class);
             startActivity(intent);
         });
-        idBtnNightMode.setOnClickListener(v -> {
-            System.out.println("Night Mode button clicked");
+        idBtnNotifications.setOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, SettingsNotificationsActivity.class);
+            startActivity(intent);
         });
 
 
