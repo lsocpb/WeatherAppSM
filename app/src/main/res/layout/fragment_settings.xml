@@ -30,6 +30,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:transitionName="button_measurement"
                 android:id="@+id/idLLUnits"
                 android:orientation="horizontal"
                 android:padding="10dp"
