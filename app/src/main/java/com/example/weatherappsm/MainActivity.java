@@ -124,12 +124,14 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         idIVlocationButton.setOnClickListener(v -> {
             Intent intent1 = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent1);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         // REDIRECT TO MENU ACTIVITY
         idIVtoolbar_1.setOnClickListener(v -> {
             Intent intent12 = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent12);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         idIVtoolbar_2.setOnClickListener(v -> {
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             Intent intent13 = new Intent(MainActivity.this, SettingsActivity.class);
             //intent.putExtra("cityName", cityName);
             startActivity(intent13);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
 

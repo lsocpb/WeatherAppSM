@@ -2,6 +2,7 @@ package com.example.weatherappsm.activities.settings;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -12,6 +13,8 @@ import com.example.weatherappsm.R;
 public class SettingsNotificationsActivity extends AppCompatActivity {
     private RadioButton idBtnEnableNotifications, idBtnDisableNotifications,
     idBtn1h, idBtn2h, idBtn3h, idBtn6h, idBtnOnceADay;
+
+    //private LinearLayout idBtnStartTime, idBtnEndTime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,18 +55,20 @@ public class SettingsNotificationsActivity extends AppCompatActivity {
         });
 
 
-        TextView startTime = findViewById(R.id.startTime);
-        TextView endTime = findViewById(R.id.endTime);
+        LinearLayout startTime = findViewById(R.id.idLLStartTime);
+        LinearLayout endTime = findViewById(R.id.idLLEndTime);
+        TextView startTimeText = findViewById(R.id.idTVStartTime);
+        TextView endTimeText = findViewById(R.id.idTVEndTime);
 
         startTime.setOnClickListener(v -> {
             TimePickerDialog timePickerDialog = new TimePickerDialog(SettingsNotificationsActivity.this,
-                    (view, hourOfDay, minute) -> startTime.setText("Start time: " + (hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? minute + "0" : minute)), 0, 0, true);
+                    (view, hourOfDay, minute) -> startTimeText.setText((hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? minute + "0" : minute)), 0, 0, true);
             timePickerDialog.show();
         });
 
         endTime.setOnClickListener(v -> {
             TimePickerDialog timePickerDialog = new TimePickerDialog(SettingsNotificationsActivity.this,
-                    (view, hourOfDay, minute) -> endTime.setText("End time: " + (hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? minute + "0" : minute)), 0, 0, true);
+                    (view, hourOfDay, minute) -> endTimeText.setText((hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? minute + "0" : minute)), 0, 0, true);
             timePickerDialog.show();
         });
 

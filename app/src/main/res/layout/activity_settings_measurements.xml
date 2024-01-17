@@ -231,19 +231,12 @@
                             android:orientation="vertical">
 
                             <RadioButton
-                                android:id="@+id/idRBMeterPerSecond"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/meterPerSecondOption"
-                                android:textColor="@color/white"
-                                android:checked="true"/>
-
-                            <RadioButton
                                 android:id="@+id/idRBKilometerPerHour"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/kilometerPerHourOption"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white"
+                                android:checked="true"/>
 
                             <RadioButton
                                 android:id="@+id/idRBMilesPerHour"
@@ -318,74 +311,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp"
-                app:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:weightSum="6"
-                    android:background="@drawable/button_gradient">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="5"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:text="@string/distanceOptionName"
-                            android:layout_marginBottom="10dp"
-                            android:textColor="@color/white"/>
-
-                        <RadioGroup
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <RadioButton
-                                android:id="@+id/idRBKilometer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/kilometerOption"
-                                android:textColor="@color/white"
-                                android:checked="true"/>
-
-                            <RadioButton
-                                android:id="@+id/idRBMeter"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/meterOption"
-                                android:textColor="@color/white"/>
-
-                            <RadioButton
-                                android:id="@+id/idRBMile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/mileOption"
-                                android:textColor="@color/white"/>
-
-
-                        </RadioGroup>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
         </LinearLayout>
 
     </LinearLayout>

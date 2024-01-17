@@ -31,23 +31,28 @@ public class SettingsActivity extends AppCompatActivity {
         idBtnMeasurements.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, SettingsMeasurementsActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         idBtnChooseLanguage.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, SettingsLanguageActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
         idBtnReportIssue.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, SettingsIssueReportActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
         idBtnRequestFeature.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, SettingsFeatureRequestActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
         idBtnNotifications.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, SettingsNotificationsActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
 
