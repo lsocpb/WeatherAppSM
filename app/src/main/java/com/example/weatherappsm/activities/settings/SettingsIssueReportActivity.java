@@ -35,26 +35,12 @@ public class SettingsIssueReportActivity extends AppCompatActivity {
             issueReport = idETIssueReport.getText().toString();
             if (issueReport.isEmpty()) {
 
-                showSnackbar("Please enter an issue report");
+                showSnackbar(getString(R.string.issue_report_empty));
             } else {
                 System.out.println("Issue report submitted: " + issueReport);
 
             }
         });
-
-        idETIssueReport.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    idETIssueReport.setHint("");
-                } else {
-                    if (idETIssueReport.getText().toString().isEmpty()) {
-                        idETIssueReport.setHint("Enter your issue report here");
-                    }
-                }
-            }
-        });
-
     }
 
     private void showSnackbar(String message) {

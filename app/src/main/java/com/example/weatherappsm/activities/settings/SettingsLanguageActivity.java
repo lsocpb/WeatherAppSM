@@ -14,8 +14,7 @@ public class SettingsLanguageActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     int[] languageFlags = {R.drawable.flag_uk, R.drawable.flag_spain, R.drawable.flag_france,
-            R.drawable.flag_germany, R.drawable.flag_italy, R.drawable.flag_portugal,
-            R.drawable.flag_china, R.drawable.flag_japan, R.drawable.flag_korea, R.drawable.flag_india};
+            R.drawable.flag_germany};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

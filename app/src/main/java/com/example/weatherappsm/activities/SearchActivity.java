@@ -98,7 +98,7 @@ public class SearchActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            idACTVSearch.setError("Enter city name");
+            idACTVSearch.setError(getString(R.string.search_error_message));
         }
     }
 

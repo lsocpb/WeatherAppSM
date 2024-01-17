@@ -32,7 +32,7 @@ public class SettingsFeatureRequestActivity extends AppCompatActivity {
             issueReport = idETRequestFeature.getText().toString();
             if (issueReport.isEmpty()) {
 
-                showSnackbar("Please enter a feature request");
+                showSnackbar(getString(R.string.feature_request_empty));
             } else {
                 System.out.println("Issue report submitted: " + issueReport);
 

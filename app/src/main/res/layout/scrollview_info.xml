@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:text="UV INDEX"
+                        android:text="@string/uv_index"
                         android:textColor="@color/textColor"
                         android:textSize="11sp"
                         app:fontFamily="@font/sfprodisplaymedium" />
@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/idTVindex"
                         android:layout_centerHorizontal="true"
-                        android:text="Low"
+                        android:text="@string/low"
                         android:textColor="@color/white"
                         android:textSize="20sp"
                         app:fontFamily="@font/sfprodisplaymedium" />
@@ -144,7 +144,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="SUNSET"
+                        android:text="@string/sunset"
                         android:layout_below="@+id/idIVSunIcon"
                         android:textColor="@color/textColor"
                         android:textSize="17sp"
@@ -184,7 +184,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="WIND"
+                    android:text="@string/wind"
                     android:id="@+id/idTVWindTopCorner"
                     android:textColor="@color/textColor"
                     android:textSize="13sp"
@@ -263,7 +263,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:text="RAIN"
+                        android:text="@string/rain"
                         android:textColor="@color/textColor"
                         android:textSize="11sp"
                         app:fontFamily="@font/sfprodisplaymedium" />
@@ -316,7 +316,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:text="CLOUDY"
+                        android:text="@string/cloudy"
                         android:textColor="@color/textColor"
                         android:textSize="11sp"
                         app:fontFamily="@font/sfprodisplaymedium" />

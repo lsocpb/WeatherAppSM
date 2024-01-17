@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             if (!isPermissionGranted) {
                 Log.d("TAG", "PERMISSION DENIED");
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Aplikacja wymaga dostępu do lokalizacji, udziel pozwolenia w ustawieniach aplikacji")
+                builder.setMessage(getString(R.string.locationPermissionDeniedMessage))
                         .setPositiveButton("OK", (dialog, id) -> {
                             Intent intent = new Intent();
                             intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);

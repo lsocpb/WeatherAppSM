@@ -268,7 +268,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="18dp"
                                 android:textStyle="bold"
-                                android:text="Start time:"
+                                android:text="@string/start_time"
                                 android:layout_marginBottom="10dp"
                                 android:textColor="@color/white"
                                 />
@@ -303,7 +303,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="18dp"
                                 android:textStyle="bold"
-                                android:text="End time:"
+                                android:text="@string/end_time"
                                 android:layout_marginBottom="10dp"
                                 android:textColor="@color/white"
                                 />
