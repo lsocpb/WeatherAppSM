@@ -15,6 +15,7 @@ import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,6 +39,7 @@ import com.example.weatherappsm.db.model.Settings;
 import com.example.weatherappsm.db.model.User;
 import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -51,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             idTVCloudValue, idTVRainValue, idTVPressure, idTVPressureMark;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
             idIVsettingsButton, idIVSunIcon;
+
+    private ImageButton idIBfavorite;
 
     private RadioButton checkedRadioButton, uncheckedRadioButton;
 
@@ -109,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         idTVPressureMark = findViewById(R.id.idTVPresureMark);
         checkedRadioButton = findViewById(R.id.checked_radiobutton);
         uncheckedRadioButton = findViewById(R.id.unchecked_radiobutton);
+        idIBfavorite = findViewById(R.id.idIBfav);
         gestureDetector = new GestureDetector(this, new SwipeGestureListener(this));
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         LocationService.startLocationService(this);
 
         checkPermissions();
+        //checkFavoriteLocationIcon(location.getCityName());
 
         User user = UserManager.getInstance().getCurrentUser();
         List<String> searchHistory = user.getSearchHistory();
@@ -174,6 +180,33 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             //intent.putExtra("cityName", cityName);
             startActivity(intent13);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        // Favorite location icon check
+
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        CustomLocation favoriteLocation = currentUser.getFavoriteLocation();
+
+        if(favoriteLocation.getCityName().equals(location.getCityName())){
+            idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
+        } else {
+            idIBfavorite.setImageResource(R.drawable.baseline_favorite_border_24);
+        }
+
+        // Favorite location button listener
+
+        idIBfavorite.setOnClickListener(v -> {
+
+            if (favoriteLocation.getCityName().equals(location.getCityName())) {
+                // mock
+                currentUser.setFavoriteLocation(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
+                idIBfavorite.setImageResource(R.drawable.baseline_favorite_border_24);
+            } else {
+                currentUser.setFavoriteLocation(location);
+                idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
+            }
+
+            showSnackbar(String.format("Favorite location changed to %s", currentUser.getFavoriteLocation().getCityName()));
         });
     }
 
@@ -368,6 +401,12 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             idTVPressureMark.setText("HIGH");
         }
         idTVPressure.setText(String.format(Locale.getDefault(), "%.0f hPa", pressureValue));
+    }
+
+    private void showSnackbar(String message) {
+        View view = findViewById(android.R.id.content);
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }
 

@@ -35,11 +35,19 @@ public class User {
     }
 
     public CustomLocation getFavoriteLocation() {
+        System.out.println("getFavoriteLocation: " + favoriteLocation.getCityName() + " " + favoriteLocation.getLatitude() + " " + favoriteLocation.getLongitude());
+
         return favoriteLocation;
     }
 
     public List<String> getSearchHistory() {
         return searchHistory;
+    }
+
+    public void setFavoriteLocation(CustomLocation favoriteLocation) {
+        this.favoriteLocation.setCityName(favoriteLocation.getCityName());
+        this.favoriteLocation.setLatitude(favoriteLocation.getLatitude());
+        this.favoriteLocation.setLongitude(favoriteLocation.getLongitude());
     }
 
     public void addSearchHistoryEntry(String searchHistory) {

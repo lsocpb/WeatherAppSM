@@ -63,6 +63,19 @@
                 android:layout_marginLeft="10dp"
                 app:tint="@android:color/white"/>
 
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/idTVcurrentLocation"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/idIBfav"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/idTVcityName"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/baseline_favorite_border_24"
+                app:tint="@android:color/white" />
+
+
         </RelativeLayout>
 
         <TextView
@@ -98,7 +111,7 @@
             android:layout_centerHorizontal="true"
             android:layout_above="@id/idNSVscroll"
             android:text="20° / 15°"
-            android:textColor="@color/textColor"
+            android:textColor="@color/white"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/sfprodisplaymedium"/>
 

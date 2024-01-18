@@ -5,4 +5,5 @@
     <color name="button_secondary">#BBDEFB</color>
     <color name="homebg">#2F3242</color>
     <color name="textColor">#82868a</color>
+    <color name="colorGrey">#80646464</color>
 </resources>

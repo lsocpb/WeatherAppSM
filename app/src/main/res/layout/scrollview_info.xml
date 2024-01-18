@@ -409,7 +409,7 @@
                     android:layout_marginTop="40dp"
                     android:layout_marginEnd="100dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/atmospheric" />
+                    android:src="@drawable/atmospheric"/>
 
 
             </androidx.cardview.widget.CardView>
