@@ -1,6 +1,9 @@
 package com.example.weatherappsm.activities;
 
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -31,12 +34,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class FavoriteLocationActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback {
 
     private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
             idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime,
-            idTVCloudValue, idTVRainValue;
+            idTVCloudValue, idTVRainValue, idTVPressure, idTVPressureMark;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
             idIVsettingsButton, idIVSunIcon;
 
@@ -91,6 +95,8 @@ public class FavoriteLocationActivity extends AppCompatActivity implements Swipe
         idTVWindDirection = findViewById(R.id.idTVWindDirection);
         idTVCloudValue = findViewById(R.id.idTVCloudValue);
         idTVRainValue = findViewById(R.id.idTVRainValue);
+        idTVPressure = findViewById(R.id.idTVPressure);
+        idTVPressureMark = findViewById(R.id.idTVPresureMark);
         checkedRadioButton = findViewById(R.id.checked_radiobutton);
         uncheckedRadioButton = findViewById(R.id.unchecked_radiobutton);
         gestureDetector = new GestureDetector(this, new SwipeGestureListener(this));
@@ -130,6 +136,8 @@ public class FavoriteLocationActivity extends AppCompatActivity implements Swipe
 
                 idTVSunriseTime.setText(astro.getSunrise(hourFormat));
                 idTVSunsetTime.setText(astro.getSunset(hourFormat));
+
+                idTVPressure.setText(String.valueOf(currentWeather.getPressure_mb()));
 
                 Picasso.get().load(currentWeather.isDay() ? getString(R.string.main_day_background_url) : getString(R.string.main_night_background_url)).into(idIVHomebg);
 
@@ -215,5 +223,4 @@ public class FavoriteLocationActivity extends AppCompatActivity implements Swipe
             changeToPreviousView();
         }
     }
-
 }

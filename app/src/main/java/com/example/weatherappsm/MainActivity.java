@@ -4,6 +4,10 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,12 +42,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback {
 
     private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
             idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime,
-            idTVCloudValue, idTVRainValue;
+            idTVCloudValue, idTVRainValue, idTVPressure, idTVPressureMark;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
             idIVsettingsButton, idIVSunIcon;
 
@@ -67,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
 
     private GestureDetector gestureDetector;
+    private SensorManager sensorManager;
+    private Sensor pressureSensor;
 
 
     @Override
@@ -98,9 +105,22 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         idTVWindDirection = findViewById(R.id.idTVWindDirection);
         idTVCloudValue = findViewById(R.id.idTVCloudValue);
         idTVRainValue = findViewById(R.id.idTVRainValue);
+        idTVPressure = findViewById(R.id.idTVPressure);
+        idTVPressureMark = findViewById(R.id.idTVPresureMark);
         checkedRadioButton = findViewById(R.id.checked_radiobutton);
         uncheckedRadioButton = findViewById(R.id.unchecked_radiobutton);
         gestureDetector = new GestureDetector(this, new SwipeGestureListener(this));
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+
+        if (pressureSensor == null) {
+            // fetch from api
+            Log.e("TAG", "Pressure sensor not available");
+        } else {
+            sensorManager.registerListener(pressureListener, pressureSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
 
 
         //start location service (init LocationManager and Geocoder)
@@ -325,6 +345,29 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         if (getClass().equals(FavoriteLocationActivity.class)) {
         changeToPreviousView();
         }
+    }
+    private final SensorEventListener pressureListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float pressureValue = event.values[0];
+            updatePressureTextView(pressureValue);
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
+    private void updatePressureTextView(float pressureValue) {
+        if(pressureValue < 1013){
+            idTVPressureMark.setText("LOW");
+        } else if(pressureValue > 1013 || pressureValue < 1017){
+            idTVPressureMark.setText("OPTIMAL");
+        } else{
+            idTVPressureMark.setText("HIGH");
+        }
+        idTVPressure.setText(String.format(Locale.getDefault(), "%.0f hPa", pressureValue));
     }
 }
 

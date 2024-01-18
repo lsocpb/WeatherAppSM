@@ -44,7 +44,7 @@
     <string name="meterPerSecondOption">Meter/Second</string>
     <string name="kilometerPerHourOption">Kilometer/Hour</string>
     <string name="milesPerHourOption">Miles/Hour</string>
-    <string name="pressureOptionName">Pressure</string>
+    <string name="pressureOptionName">PRESSURE</string>
     <string name="distanceOptionName">Distance</string>
     <string name="hectopascalOption">HectoPascal</string>
     <string name="millimeterOfMercuryOption">Millimeter of Mercury</string>

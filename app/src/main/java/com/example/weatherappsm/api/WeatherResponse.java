@@ -156,6 +156,9 @@ public class WeatherResponse {
         @SerializedName("percip_mm")
         private int percip_mm;
 
+        @SerializedName("pressure_mb")
+        private double pressure_mb;
+
         public String getTemperature(Settings.TemperatureUnit unit) {
             if (unit == Settings.TemperatureUnit.CELSIUS) {
                 return this.temperatureC;
@@ -202,6 +205,10 @@ public class WeatherResponse {
 
         public int getPercip(){
             return this.percip_mm;
+        }
+
+        public double getPressure_mb(){
+            return this.pressure_mb;
         }
     }
 
