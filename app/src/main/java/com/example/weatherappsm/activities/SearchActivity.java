@@ -35,15 +35,19 @@ public class SearchActivity extends AppCompatActivity {
     private AutoCompleteTextView idACTVSearch;
     private SearchHistoryViewModel searchHistoryViewModel;
     private TextInputLayout idTILEdt;
-    private ImageView idIVSearch, idIVBackground;
+    private ImageView idIVSearch, idIVBackground, idIVBackground2;
 
     private String cityName;
 
     private WeatherDataManager weatherDataManager = new WeatherDataManager();
 
-    private TextView idTVcurrentLocationTemp, idTVcurrentLocation, idTVcurrentLocationWeatherText;
+    private TextView idTVcurrentLocationTemp, idTVcurrentLocation, idTVcurrentLocationWeatherText,
+            idTVfavoriteLocationTemp, idTVfavoriteLocation, idTVfavoriteLocationWeatherText;
 
     private List<String> cities = new ArrayList<>();
+
+    private User user;
+    private CustomLocation favoriteLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,16 @@ public class SearchActivity extends AppCompatActivity {
         idTVcurrentLocationTemp = findViewById(R.id.idTVcurrentLocationTemp);
         idTVcurrentLocation = findViewById(R.id.idTVcurrentLocation);
         idTVcurrentLocationWeatherText = findViewById(R.id.idTVcurrentLocationWeatherText);
+        idTVfavoriteLocationTemp = findViewById(R.id.idTVfavoriteLocationTemp);
+        idTVfavoriteLocation = findViewById(R.id.idTVfavoriteLocation);
+        idTVfavoriteLocationWeatherText = findViewById(R.id.idTVfavoriteLocationWeatherText);
+        idIVBackground2 = findViewById(R.id.idIVBackground2);
+
+
+        user = UserManager.getInstance().getCurrentUser();
+        favoriteLocation = user.getFavoriteLocation();
+
+        updateFavoriteLocationWeatherData(favoriteLocation);
 
 
         CustomLocation currentLocation = LocationService.getInstance().getCachedLocation();
@@ -123,12 +137,43 @@ public class SearchActivity extends AppCompatActivity {
                 Picasso.get().load(currentWeather.isDay() ? getString(R.string.search_day_background_url) : getString(R.string.search_night_background_url)).into(idIVBackground);
 
                 idTVcurrentLocationTemp.setText(currentWeather.getTemperatureFormatted(userTempUnit, true));
-                idTVcurrentLocation.setText(cityName);
+                idTVcurrentLocation.setText(location.getCityName());
                 idTVcurrentLocationWeatherText.setText(weatherCondition.getText());
             }
 
             @Override
             public void onWeatherDataError(String errorMessage) {
+            }
+        });
+    }
+
+    private void updateFavoriteLocationWeatherData(CustomLocation location) {
+        if (location.isEmpty()) {
+            // TODO: Handle empty location
+            Log.e("SearchActivity", "favorite location is empty");
+            return;
+        }
+
+        weatherDataManager.getWeatherData(location.getLatLong(), new WeatherDataManager.WeatherDataCallback() {
+            @Override
+            public void onWeatherDataReceived(WeatherResponse weatherResponse) {
+                User user = UserManager.getInstance().getCurrentUser();
+                Settings userSettings = user.getSettings();
+                Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
+
+                WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
+                WeatherResponse.WeatherCondition weatherCondition = currentWeather.getCondition();
+
+                Picasso.get().load(currentWeather.isDay() ? getString(R.string.search_day_background_url) : getString(R.string.search_night_background_url)).into(idIVBackground2);
+
+                idTVfavoriteLocationTemp.setText(currentWeather.getTemperatureFormatted(userTempUnit, true));
+                idTVfavoriteLocation.setText(location.getCityName());
+                idTVfavoriteLocationWeatherText.setText(weatherCondition.getText());
+            }
+
+            @Override
+            public void onWeatherDataError(String errorMessage) {
+                // TODO: Handle weather data error for the favorite location
             }
         });
     }

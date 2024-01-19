@@ -61,7 +61,7 @@
 
         <ImageView
             android:id="@+id/idIVSearch"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginStart="150dp"
@@ -185,11 +185,67 @@
 
         <TextView
             android:id="@+id/idTVcurrentLocationTemp"
-            android:layout_width="70dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="280dp"
+            android:textSize="30sp"
             android:textColor="@color/white"
-            android:textSize="35sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="7dp"
+            app:fontFamily="@font/sfprodisplaybold" />
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_marginTop="325dp"
+        app:cardCornerRadius="8dp">
+        <ImageView
+            android:id="@+id/idIVBackground2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/FavoriteLocation"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            app:fontFamily="@font/sfprodisplaybold" />
+
+        <TextView
+            android:id="@+id/idTVfavoriteLocation"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Kolno"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:fontFamily="@font/sfprodisplaybold" />
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/idTVfavoriteLocationWeatherText"
+            android:text="Clear"
+            android:textColor="@color/white"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="60dp"
+            android:textSize="11sp"
+            app:fontFamily="@font/sfprodisplaybold" />
+
+        <TextView
+            android:id="@+id/idTVfavoriteLocationTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="280dp"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="7dp"
             app:fontFamily="@font/sfprodisplaybold" />
 
     </androidx.cardview.widget.CardView>

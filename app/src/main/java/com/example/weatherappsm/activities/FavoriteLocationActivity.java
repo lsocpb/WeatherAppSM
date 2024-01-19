@@ -137,7 +137,17 @@ public class FavoriteLocationActivity extends AppCompatActivity implements Swipe
                 idTVSunriseTime.setText(astro.getSunrise(hourFormat));
                 idTVSunsetTime.setText(astro.getSunset(hourFormat));
 
-                idTVPressure.setText(String.valueOf(currentWeather.getPressure_mb()));
+
+                if(weatherResponse.getCurrent().getPressure_mb() < 1013){
+                    idTVPressureMark.setText("LOW");
+                } else if(weatherResponse.getCurrent().getPressure_mb() > 1013 || weatherResponse.getCurrent().getPressure_mb() < 1017){
+                    idTVPressureMark.setText("OPTIMAL");
+                } else{
+                    idTVPressureMark.setText("HIGH");
+                }
+
+
+                idTVPressure.setText(String.format(Locale.getDefault(), "%.0f hPa", weatherResponse.getCurrent().getPressure_mb()));
 
                 Picasso.get().load(currentWeather.isDay() ? getString(R.string.main_day_background_url) : getString(R.string.main_night_background_url)).into(idIVHomebg);
 
