@@ -1,9 +1,9 @@
 package com.example.weatherappsm.objects;
 
 public class CustomLocation {
-    private final String cityName;
-    private final double latitude;
-    private final double longitude;
+    private String cityName;
+    private double latitude;
+    private double longitude;
 
     public CustomLocation(android.location.Location location, String cityName) {
         this.latitude = location.getLatitude();
@@ -35,10 +35,26 @@ public class CustomLocation {
         return longitude;
     }
 
+    public String getLatLong() {
+        return latitude + "," + longitude;
+    }
+
     /*
     * Returns true if any of the fields is empty
      */
     public boolean isEmpty() {
         return cityName == null || cityName.isEmpty() || latitude == 0 || longitude == 0;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

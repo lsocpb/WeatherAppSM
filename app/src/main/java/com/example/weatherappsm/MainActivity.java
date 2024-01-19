@@ -1,39 +1,62 @@
 package com.example.weatherappsm;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weatherappsm.api.ForecastHour;
+import com.example.weatherappsm.activities.FavoriteLocationActivity;
+import com.example.weatherappsm.activities.SearchActivity;
+import com.example.weatherappsm.activities.SettingsActivity;
 import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.objects.LocationService;
 import com.example.weatherappsm.objects.CustomLocation;
-import com.example.weatherappsm.objects.User;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.model.User;
 import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback {
 
-    private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex, idTVindexText;
+    private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
+            idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime,
+            idTVCloudValue, idTVRainValue, idTVPressure, idTVPressureMark;
     private ImageView idIVHomebg, idIVSearch, idIVtoolbar_1, idIVtoolbar_2, idIVlocationButton,
-            idIVsettingsButton;
+            idIVsettingsButton, idIVSunIcon;
+
+    private ImageButton idIBfavorite;
+
+    private RadioButton checkedRadioButton, uncheckedRadioButton;
 
     private RelativeLayout idRLhome;
 
@@ -48,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView weatherRV;
 
     private ProgressBar idProgressBar;
+
+    private final Settings settings = UserManager.getInstance().getCurrentUser().getSettings();
+
+
+    private GestureDetector gestureDetector;
+    private SensorManager sensorManager;
+    private Sensor pressureSensor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +102,40 @@ public class MainActivity extends AppCompatActivity {
         idTVindex = findViewById(R.id.idTVindex);
         idTVindexText = findViewById(R.id.idTVindexText);
         idProgressBar = findViewById(R.id.idProgressBar);
+        idTVwindSpd = findViewById(R.id.idTVWindSpeed);
+        idTVSunriseTime = findViewById(R.id.idTVSunriseTime);
+        idTVSunsetTime = findViewById(R.id.idTVSunsetTime);
+        idIVSunIcon = findViewById(R.id.idIVSunIcon);
+        idTVWindDirection = findViewById(R.id.idTVWindDirection);
+        idTVCloudValue = findViewById(R.id.idTVCloudValue);
+        idTVRainValue = findViewById(R.id.idTVRainValue);
+        idTVPressure = findViewById(R.id.idTVPressure);
+        idTVPressureMark = findViewById(R.id.idTVPresureMark);
+        checkedRadioButton = findViewById(R.id.checked_radiobutton);
+        uncheckedRadioButton = findViewById(R.id.unchecked_radiobutton);
+        idIBfavorite = findViewById(R.id.idIBfav);
+        gestureDetector = new GestureDetector(this, new SwipeGestureListener(this));
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+
+        if (pressureSensor == null) {
+            // fetch from api
+            Log.e("TAG", "Pressure sensor not available");
+        } else {
+            sensorManager.registerListener(pressureListener, pressureSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
+
 
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
 
+        checkPermissions();
+        //checkFavoriteLocationIcon(location.getCityName());
+
         User user = UserManager.getInstance().getCurrentUser();
         List<String> searchHistory = user.getSearchHistory();
-        List<CustomLocation> favoriteLocations = user.getFavoriteLocations();
 
         //TU SPRAWDZAM CZY INTENT PRZESŁAŁ JAKIEŚ NOWE DANE, JEŻELI TAK TO AKTUALIZUJE WIDOK
         Intent intent = getIntent();
@@ -85,21 +143,21 @@ public class MainActivity extends AppCompatActivity {
             String cityName = intent.getStringExtra("cityName");
             //location from SearchActivity
             location = LocationService.getInstance().getLocationByCityName(cityName);
-        } else {
-            location = LocationService.getInstance().fetchCurrentLocation(this);
+            updateWeatherData(location);
         }
-        updateWeatherData(location);
 
         //TU PRZEJŚCIE DO NOWEGO WIDOKU SEARCH ACTIVITY
         idIVlocationButton.setOnClickListener(v -> {
             Intent intent1 = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent1);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         // REDIRECT TO MENU ACTIVITY
         idIVtoolbar_1.setOnClickListener(v -> {
             Intent intent12 = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent12);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         idIVtoolbar_2.setOnClickListener(v -> {
@@ -117,14 +175,57 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // REDIRECT TO SETTINGS ACTIVITY
-        idIVsettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                //intent.putExtra("cityName", cityName);
-                startActivity(intent);
-            }
+        idIVsettingsButton.setOnClickListener(v -> {
+            Intent intent13 = new Intent(MainActivity.this, SettingsActivity.class);
+            //intent.putExtra("cityName", cityName);
+            startActivity(intent13);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+
+        // Favorite location icon check
+
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        CustomLocation favoriteLocation = currentUser.getFavoriteLocation();
+
+        if(favoriteLocation.getCityName().equals(location.getCityName())){
+            idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
+        } else {
+            idIBfavorite.setImageResource(R.drawable.baseline_favorite_border_24);
+        }
+
+        // Favorite location button listener
+
+        idIBfavorite.setOnClickListener(v -> {
+
+            if (favoriteLocation.getCityName().equals(location.getCityName())) {
+                // mock
+                currentUser.setFavoriteLocation(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
+                idIBfavorite.setImageResource(R.drawable.baseline_favorite_border_24);
+            } else {
+                currentUser.setFavoriteLocation(location);
+                idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
+            }
+
+            showSnackbar(String.format("Favorite location changed to %s", currentUser.getFavoriteLocation().getCityName()));
+        });
+    }
+
+    //after we're sure that user granted location permission
+    public void load() {
+        //set only if location is null (during first launch)
+        if (location == null) {
+            location = LocationService.getInstance().fetchCurrentLocation(this);
+            updateWeatherData(location);
+        }
+    }
+
+    public void checkPermissions() {
+        if (PermissionsUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ||
+                PermissionsUtil.hasPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            load();
+        }
+        //display dialog box to ask for permission
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PermissionsUtil.LOCATION_PERMISSION_REQUEST_CODE);
     }
 
     //TU SPRAWDZAM CZY UŻYTKOWNIK ZGADZA SIĘ NA UDOSTĘPNIENIE LOKALIZACJI
@@ -144,14 +245,23 @@ public class MainActivity extends AppCompatActivity {
             if (!isPermissionGranted) {
                 Log.d("TAG", "PERMISSION DENIED");
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Aplikacja wymaga dostępu do lokalizacji, udziel pozwolenia w ustawieniach aplikacji")
+                builder.setMessage(getString(R.string.locationPermissionDeniedMessage))
                         .setPositiveButton("OK", (dialog, id) -> {
+                            Intent intent = new Intent();
+                            intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getPackageName(), null);
+                            intent.setData(uri);
+                            startActivity(intent);
+
                             finish();
                         });
 
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }
+
+            //user granted permission, we can load data
+            load();
         }
     }
 
@@ -162,28 +272,48 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        String query = location.getLatitude() + "," + location.getLongitude();
-        weatherDataManager.getWeatherData(query, new WeatherDataManager.WeatherDataCallback() {
+        weatherDataManager.getWeatherData(location.getLatLong(), new WeatherDataManager.WeatherDataCallback() {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
                 weatherCVArrayList.clear();
-                String temperature = weatherResponse.getCurrent().getTemperature();
-                int isDay = weatherResponse.getCurrent().getIsDay();
-                if (isDay == 0) {
-                    Picasso.get().load("https://i.pinimg.com/564x/65/aa/a7/65aaa7720b8ea21a6bda8db5d48aa5a4.jpg").into(idIVHomebg);
-                } else {
-                    Picasso.get().load("https://i.pinimg.com/564x/82/09/39/820939917d5be5f24e2e1c5de26457e6.jpg").into(idIVHomebg);
-                }
-                idTVtemp.setText(temperature + "°C");
-                idTVcityName.setText(MainActivity.this.location.getCityName());
-                idTVweatherText.setText(weatherResponse.getCurrent().getCondition().getText());
-                idTVtempRange.setText(weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMintemp_c() + "°C / "
-                        + weatherResponse.getForecastWeather().getForecastday().get(0).getDay().getMaxtemp_c() + "°C");
 
+                User user = UserManager.getInstance().getCurrentUser();
+                Settings userSettings = user.getSettings();
+                Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
+                Settings.HourFormat hourFormat = userSettings.getHourFormat();
 
+                WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
+                WeatherResponse.ForecastWeather forecastWeather = weatherResponse.getForecastWeather();
+                WeatherResponse.ForecastWeather.ForecastDay todayForecast = forecastWeather.getForecastday().get(0);
+                WeatherResponse.ForecastWeather.ForecastDay.Day todayForecastDaily = todayForecast.getDay();
+                List<WeatherResponse.ForecastWeather.ForecastDay.ForecastHour> todayForecastHourly = todayForecast.getHour();
+                WeatherResponse.ForecastWeather.ForecastDay.Astro astro = todayForecast.getAstro();
+
+                idTVSunriseTime.setText(astro.getSunrise(hourFormat));
+                idTVSunsetTime.setText(astro.getSunset(hourFormat));
+
+                Picasso.get().load(currentWeather.isDay() ? getString(R.string.main_day_background_url) : getString(R.string.main_night_background_url)).into(idIVHomebg);
+
+                idTVcityName.setText(location.getCityName());
+                idTVweatherText.setText(currentWeather.getCondition().getText());
+                idTVWindDirection.setText(currentWeather.getWindDir());
+                idTVCloudValue.setText(String.format("%s%%", currentWeather.getCloud()));
+                idTVRainValue.setText(String.format("%smm", currentWeather.getPercip()));
+
+                // SET WIND SPEED AND UNIT BASED ON USER SETTINGS
+                String currentTempFormatted = currentWeather.getTemperatureFormatted(userTempUnit, false);
+                String currentWindSpeedFormatted = currentWeather.getWindSpeedFormatted(userSettings.getWindSpeedUnit());
+                Pair<String, String> minMaxFormatted = todayForecastDaily.getMinMaxFormatted(userTempUnit);
+
+                idTVtemp.setText(currentTempFormatted);
+                idTVwindSpd.setText(currentWindSpeedFormatted);
+                idTVtempRange.setText(String.format("%s / %s", minMaxFormatted.first, minMaxFormatted.second));
+
+                //<editor-fold desc="set uv index">
                 double valueofUV = weatherResponse.getCurrent().getUv();
                 idProgressBar.setProgress((int) Math.round(valueofUV));
                 idTVindex.setText(String.valueOf((valueofUV)));
+
                 if (weatherResponse.getCurrent().getUv() < 3) {
                     idTVindexText.setText(getString(R.string.low));
                 } else if (weatherResponse.getCurrent().getUv() < 6) {
@@ -195,15 +325,16 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     idTVindexText.setText(getString(R.string.extreme));
                 }
+                //</editor-fold>
 
-                List<ForecastHour> hourList = weatherResponse.getForecastWeather().getForecastday().get(0).getHour();
-                for (ForecastHour hour : hourList) {
-                    String time = hour.getTime();
-                    String temp = String.valueOf(hour.getTempC());
-                    String icon = hour.getCondition().getIcon();
-                    String wind = String.valueOf(hour.getWindKph());
+                for (WeatherResponse.ForecastWeather.ForecastDay.ForecastHour hourlyForecast : todayForecastHourly) {
+                    String time = hourlyForecast.getTime(hourFormat);
+                    String temp = hourlyForecast.getTemperatureFormatted(userTempUnit);
+                    String icon = hourlyForecast.getCondition().getIcon();
+                    String wind = hourlyForecast.getWindSpeedFormatted(userSettings.getWindSpeedUnit());
                     weatherCVArrayList.add(new WeatherCV(time, temp, icon, wind));
                 }
+
                 weatherCVAdapter.notifyDataSetChanged();
             }
 
@@ -213,4 +344,70 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void changeToNextView() {
+        checkedRadioButton.setChecked(false);
+        uncheckedRadioButton.setChecked(true);
+        Intent intent = new Intent(this, FavoriteLocationActivity.class);
+        intent.putExtra("isChecked", checkedRadioButton.isChecked());
+        intent.putExtra("isUnchecked", uncheckedRadioButton.isChecked());
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        finish();
+    }
+
+    public void changeToPreviousView() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onSwipeLeft() {
+        changeToNextView();
+    }
+
+    @Override
+    public void onSwipeRight() {
+        if (getClass().equals(FavoriteLocationActivity.class)) {
+        changeToPreviousView();
+        }
+    }
+    private final SensorEventListener pressureListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float pressureValue = event.values[0];
+            updatePressureTextView(pressureValue);
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
+    private void updatePressureTextView(float pressureValue) {
+        if(pressureValue < 1013){
+            idTVPressureMark.setText("LOW");
+        } else if(pressureValue > 1013 || pressureValue < 1017){
+            idTVPressureMark.setText("OPTIMAL");
+        } else{
+            idTVPressureMark.setText("HIGH");
+        }
+        idTVPressure.setText(String.format(Locale.getDefault(), "%.0f hPa", pressureValue));
+    }
+
+    private void showSnackbar(String message) {
+        View view = findViewById(android.R.id.content);
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
 }
+
+

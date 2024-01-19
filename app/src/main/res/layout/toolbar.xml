@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@color/colorGrey"
+    android:gravity="center_vertical">
+
+    <ImageButton
+        android:id="@+id/toolbar_item1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ic_dehaze"
+        android:backgroundTint="@android:color/transparent"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/checked_radiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            app:buttonTint="@android:color/white"
+            android:src="@drawable/baseline_radio_button_checked_24"
+            app:tint="@android:color/white"
+            android:clickable="false"/>
+
+        <RadioButton
+            android:id="@+id/unchecked_radiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:buttonTint="@android:color/white"
+            android:checked="false"
+            android:src="@drawable/baseline_radio_button_unchecked_24"
+            app:tint="@android:color/white"
+            android:clickable="false"/>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/toolbar_item2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/baseline_map_24" />
+
+</LinearLayout>

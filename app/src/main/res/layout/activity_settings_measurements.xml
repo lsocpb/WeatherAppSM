@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:padding="16dp"
-        android:background="@color/black">
+        android:background="@drawable/background_dark">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,9 +19,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:textStyle="bold"
-                android:text="Settings"
+                android:text="@string/settingsMenuTitle"
                 android:textColor="@color/white"/>
 
             <androidx.cardview.widget.CardView
@@ -50,18 +50,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="20sp"
                             android:textStyle="bold"
-                            android:text="Measurements"
+                            android:text="@string/measurementButtonName"
                             android:textColor="@color/white"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="@color/button_secondary"
-                            android:text="Change your measurement units"/>
+                            android:text="@string/measurementButtonDescription"/>
 
                     </LinearLayout>
 
@@ -93,7 +93,7 @@
                     android:background="@drawable/button_gradient">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
                         android:orientation="vertical">
@@ -101,9 +101,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="20sp"
                             android:textStyle="bold"
-                            android:text="Temperature"
+                            android:text="@string/temperatureOptionName"
                             android:layout_marginBottom="10dp"
                             android:textColor="@color/white"/>
 
@@ -116,7 +116,7 @@
                                 android:id="@+id/idRBCelsius"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Celsius"
+                                android:text="@string/celsiusOption"
                                 android:textColor="@color/white"
                                 android:checked="true"/>
 
@@ -124,7 +124,7 @@
                                 android:id="@+id/idRBFahrenheit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Fahrenheit"
+                                android:text="@string/fahrenheitOption"
                                 android:textColor="@color/white"/>
 
                         </RadioGroup>
@@ -151,7 +151,7 @@
                     android:background="@drawable/button_gradient">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
                         android:orientation="vertical">
@@ -159,9 +159,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="20sp"
                             android:textStyle="bold"
-                            android:text="Wind Speed"
+                            android:text="@string/hourFormatOptionName"
                             android:layout_marginBottom="10dp"
                             android:textColor="@color/white"/>
 
@@ -171,25 +171,78 @@
                             android:orientation="vertical">
 
                             <RadioButton
-                                android:id="@+id/idRBMeterPerSecond"
+                                android:id="@+id/idRB24h"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Meter/Second"
+                                android:text="@string/hour24Option"
                                 android:textColor="@color/white"
                                 android:checked="true"/>
+
+                            <RadioButton
+                                android:id="@+id/idRB12h"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hour12Option"
+                                android:textColor="@color/white"/>
+
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="6"
+                    android:background="@drawable/button_gradient">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:text="@string/windSpeedOptionName"
+                            android:layout_marginBottom="10dp"
+                            android:textColor="@color/white"/>
+
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
                             <RadioButton
                                 android:id="@+id/idRBKilometerPerHour"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Kilometer/Hour"
-                                android:textColor="@color/white"/>
+                                android:text="@string/kilometerPerHourOption"
+                                android:textColor="@color/white"
+                                android:checked="true"/>
 
                             <RadioButton
                                 android:id="@+id/idRBMilesPerHour"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Miles/Hour"
+                                android:text="@string/milesPerHourOption"
                                 android:textColor="@color/white"/>
 
                         </RadioGroup>
@@ -216,7 +269,7 @@
                     android:background="@drawable/button_gradient">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
                         android:orientation="vertical">
@@ -224,9 +277,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="20sp"
                             android:textStyle="bold"
-                            android:text="Pressure"
+                            android:text="@string/pressureOptionName"
                             android:layout_marginBottom="10dp"
                             android:textColor="@color/white"/>
 
@@ -239,7 +292,7 @@
                                 android:id="@+id/idRBHectoPascal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="HectoPascal"
+                                android:text="@string/hectopascalOption"
                                 android:textColor="@color/white"
                                 android:checked="true"/>
 
@@ -247,7 +300,7 @@
                                 android:id="@+id/idRBMillimeterOfMercury"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Millimeter of Mercury"
+                                android:text="@string/millimeterOfMercuryOption"
                                 android:textColor="@color/white"/>
 
 
@@ -258,74 +311,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp"
-                app:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:weightSum="6"
-                    android:background="@drawable/button_gradient">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="5"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="20dp"
-                            android:textStyle="bold"
-                            android:text="Distance"
-                            android:layout_marginBottom="10dp"
-                            android:textColor="@color/white"/>
-
-                        <RadioGroup
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <RadioButton
-                                android:id="@+id/idRBKilometer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Kilometer"
-                                android:textColor="@color/white"
-                                android:checked="true"/>
-
-                            <RadioButton
-                                android:id="@+id/idRBMeter"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Meter"
-                                android:textColor="@color/white"/>
-
-                            <RadioButton
-                                android:id="@+id/idRBMile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Mile"
-                                android:textColor="@color/white"/>
-
-
-                        </RadioGroup>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
         </LinearLayout>
 
     </LinearLayout>

@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class WeatherCVAdapter extends RecyclerView.Adapter<WeatherCVAdapter.ViewHolder>{
-    private Context context;
-    private ArrayList<WeatherCV> weatherCV;
+public class WeatherCVAdapter extends RecyclerView.Adapter<WeatherCVAdapter.ViewHolder> {
+    private final Context context;
+    private final ArrayList<WeatherCV> weatherCV;
 
     public WeatherCVAdapter(Context context, ArrayList<WeatherCV> weatherCV) {
         this.context = context;
@@ -35,17 +33,12 @@ public class WeatherCVAdapter extends RecyclerView.Adapter<WeatherCVAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WeatherCV weatherCV = this.weatherCV.get(position);
-        holder.temp.setText(weatherCV.getTemp()+"°C");
-        holder.windSpeed.setText(weatherCV.getWindSpeed()+" km/h");
-        Picasso.get().load("https:".concat(weatherCV.getIcon())).into(holder.icon);
-        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        SimpleDateFormat output = new SimpleDateFormat("HH:mm aa");
-        try{
-            Date d = input.parse(weatherCV.getTime());
-            holder.time.setText(output.format(d));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+
+        holder.temp.setText(weatherCV.getTemp());
+        holder.windSpeed.setText(weatherCV.getWindSpeed());
+        holder.time.setText(weatherCV.getTime());
+
+        Picasso.get().load(String.format("https:%s", weatherCV.getIcon())).into(holder.icon);
     }
 
     @Override
@@ -53,9 +46,12 @@ public class WeatherCVAdapter extends RecyclerView.Adapter<WeatherCVAdapter.View
         return weatherCV.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView time, temp, windSpeed;
-        private ImageView icon;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView time;
+        private final TextView temp;
+        private final TextView windSpeed;
+        private final ImageView icon;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             time = itemView.findViewById(R.id.idTVtime);

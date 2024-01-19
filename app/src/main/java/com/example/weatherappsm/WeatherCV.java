@@ -2,10 +2,10 @@ package com.example.weatherappsm;
 
 public class WeatherCV {
 
-    private String time;
-    private String temp;
-    private String icon;
-    private String windSpeed;
+    private final String time;
+    private final String temp;
+    private final String icon;
+    private final String windSpeed;
 
     public WeatherCV(String time, String temp, String icon, String windSpeed) {
         this.time = time;
@@ -18,31 +18,15 @@ public class WeatherCV {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
     public String getTemp() {
         return temp;
-    }
-
-    public void setTemp(String temp) {
-        this.temp = temp;
     }
 
     public String getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public String getWindSpeed() {
         return windSpeed;
-    }
-
-    public void setWindSpeed(String windSpeed) {
-        this.windSpeed = windSpeed;
     }
 }

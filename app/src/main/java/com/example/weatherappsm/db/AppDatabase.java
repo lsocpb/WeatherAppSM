@@ -6,13 +6,13 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.weatherappsm.dao.SearchHistoryDao;
-import com.example.weatherappsm.model.SearchHistoryEntry;
+import com.example.weatherappsm.db.dao.SearchHistoryDao;
+import com.example.weatherappsm.db.model.SearchHistory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {SearchHistoryEntry.class}, version = 1, exportSchema = false)
+@Database(entities = {SearchHistory.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract SearchHistoryDao searchHistoryDao();
 
