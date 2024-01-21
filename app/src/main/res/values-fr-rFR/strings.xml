@@ -76,4 +76,7 @@
     <string name="cloudy">NUAGEUX</string>
     <string name="start_time">Heure de début:</string>
     <string name="end_time">Heure de fin:</string>
+    <string name="temperature_unit_changed">Modification de l\'unité de température en :</string>
+    <string name="hour_format_changed">Changement du format de l\'heure en :</string>
+    <string name="wind_speed_unit_changed">Modification de l\'unité de vitesse du vent en :</string>
 </resources>

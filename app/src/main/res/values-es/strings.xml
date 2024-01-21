@@ -76,4 +76,7 @@
     <string name="cloudy">NUBLADO</string>
     <string name="start_time">Hora de inicio:</string>
     <string name="end_time">Hora de finalización:</string>
+    <string name="temperature_unit_changed">Cambiada la unidad de temperatura a:</string>
+    <string name="hour_format_changed">Cambiado el formato de las horas a:</string>
+    <string name="wind_speed_unit_changed">Cambiada la unidad de velocidad del viento a:</string>
 </resources>

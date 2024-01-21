@@ -81,6 +81,10 @@
     <string name="cloudy">CLOUDY</string>
     <string name="start_time">Start time:</string>
     <string name="end_time">End time:</string>
+    <string name="temperature_unit_changed">Changed temperature unit to:</string>
+    <string name="hour_format_changed">Changed hour format to:</string>
+    <string name="wind_speed_unit_changed">Changed wind speed unit to:</string>
+
 
     <string-array name="languages">
         <item>English</item>

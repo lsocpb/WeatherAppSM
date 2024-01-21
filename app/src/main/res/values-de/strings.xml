@@ -76,4 +76,7 @@
     <string name="cloudy">WOLKIG</string>
     <string name="start_time">Startzeit:</string>
     <string name="end_time">Endzeit:</string>
+    <string name="temperature_unit_changed">Die Temperatureinheit wurde geändert in:</string>
+    <string name="hour_format_changed">Das Stundenformat wurde geändert in:</string>
+    <string name="wind_speed_unit_changed">Die Einheit der Windgeschwindigkeit wurde geändert in:</string>
 </resources>
