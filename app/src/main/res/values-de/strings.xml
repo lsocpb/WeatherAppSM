@@ -79,4 +79,14 @@
     <string name="temperature_unit_changed">Die Temperatureinheit wurde geändert in:</string>
     <string name="hour_format_changed">Das Stundenformat wurde geändert in:</string>
     <string name="wind_speed_unit_changed">Die Einheit der Windgeschwindigkeit wurde geändert in:</string>
+    <string name="change_language">Möchten Sie die Sprache in den Geräteeinstellungen ändern?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
+    <string-array name="languages">
+        <item>Englisch</item>
+        <item>Spanisch</item>
+        <item>Französisch</item>
+        <item>Deutsch</item>
+    </string-array>
 </resources>

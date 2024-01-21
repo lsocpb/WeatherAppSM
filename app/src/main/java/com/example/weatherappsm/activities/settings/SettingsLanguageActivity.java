@@ -1,6 +1,10 @@
 package com.example.weatherappsm.activities.settings;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,23 +29,27 @@ public class SettingsLanguageActivity extends AppCompatActivity {
 
         languageNames = getResources().getStringArray(R.array.languages);
 
-        //create adapter and pass data to it
-
         SettingsLanguageActivityAdapter settingsLanguageActivityAdapter = new SettingsLanguageActivityAdapter(languageNames, languageFlags);
 
-        //set adapter to recyclerview
-
         recyclerView.setAdapter(settingsLanguageActivityAdapter);
-
-        //set layout manager to recyclerview
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         settingsLanguageActivityAdapter.setOnItemClickListener(position -> {
-            System.out.println("Language " + languageNames[position] + " clicked");
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingsLanguageActivity.this);
+            builder.setMessage(getString(R.string.change_language))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
         });
     }
-
-
-
 }
