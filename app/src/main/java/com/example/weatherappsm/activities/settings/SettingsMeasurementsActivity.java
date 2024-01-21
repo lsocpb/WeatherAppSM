@@ -30,6 +30,23 @@ public class SettingsMeasurementsActivity extends AppCompatActivity {
         User user = UserManager.getInstance().getCurrentUser();
         Settings settings = user.getSettings();
 
+        if(settings.getTemperatureUnit() == Settings.TemperatureUnit.CELSIUS)
+            idBtnC.setChecked(true);
+        else
+            idBtnF.setChecked(true);
+
+        if(settings.getWindSpeedUnit() == Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR)
+            idBtnKMH.setChecked(true);
+        else
+            idBtnMPH.setChecked(true);
+
+        if(settings.getHourFormat() == Settings.HourFormat.TWELVE)
+            idBtn12h.setChecked(true);
+        else
+            idBtn24h.setChecked(true);
+
+
+
         idBtnC.setOnClickListener(v -> settings.setTemperatureUnit(Settings.TemperatureUnit.CELSIUS));
         idBtnF.setOnClickListener(v -> settings.setTemperatureUnit(Settings.TemperatureUnit.FAHRENHEIT));
 

@@ -9,7 +9,7 @@
     <string name="currentLocation">Lieu actuel</string>
     <string name="warningMessage">Activez les notifications pour être toujours au courant de la météo et éviter les les mauvaises conditions !</string>
     <string name="measurements">Mesures</string>
-    <string name="choose_language">Choisir la langue</string>
+    <string name="choose_language">Langues disponibles</string>
     <string name="report_issue">Numéro du rapport</string>
     <string name="request_feature">Demande de fonctionnalité</string>
     <string name="back">Retour</string>
@@ -24,8 +24,8 @@
     <string name="settingsMenuTitle">Paramètres</string>
     <string name="measurementButtonName">Mesures</string>
     <string name="measurementButtonDescription">Modifier les unités de mesure</string>
-    <string name="languageButtonName">Choisir la langue</string>
-    <string name="languageButtonDescription">Changer de langue</string>
+    <string name="languageButtonName">Langues disponibles</string>
+    <string name="languageButtonDescription">Liste des langues disponibles</string>
     <string name="issueButtonName">Question du rapport</string>
     <string name="issueButtonDescription">Signaler un problème avec l\'application</string>
     <string name="featureButtonName">Demande de fonctionnalité</string>

@@ -9,7 +9,7 @@
     <string name="warningMessage">Enable notifications to be always aware of the weather and avoid
     bad conditions!</string>
     <string name="measurements">Measurements</string>
-    <string name="choose_language">Choose Language</string>
+    <string name="choose_language">Available languages</string>
     <string name="report_issue">Report Issue</string>
     <string name="request_feature">Request Feature</string>
     <string name="back">Back</string>
@@ -29,8 +29,8 @@
     <string name="settingsMenuTitle">Settings</string>
     <string name="measurementButtonName">Measurements</string>
     <string name="measurementButtonDescription">Change your measurement units</string>
-    <string name="languageButtonName">Choose Language</string>
-    <string name="languageButtonDescription">Change your language</string>
+    <string name="languageButtonName">Available languages</string>
+    <string name="languageButtonDescription">List of available languages</string>
     <string name="issueButtonName">Report issue</string>
     <string name="issueButtonDescription">Report an issue with the app</string>
     <string name="featureButtonName">Request feature</string>

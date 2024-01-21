@@ -408,6 +408,13 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reload the weather data when the user returns to the app
+        updateWeatherData(location);
+    }
 }
 
 
