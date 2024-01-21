@@ -87,6 +87,8 @@
     <string name="change_language">Do you want to change the language in device settings?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="channel_name">weather_channel</string>
+    <string name="channel_description">Allow the application to deliver notifications</string>
 
 
     <string-array name="languages">
