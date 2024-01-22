@@ -89,4 +89,9 @@
         <item>Français</item>
         <item>Allemand</item>
     </string-array>
+    <string name="channel_description">Autoriser l\'application à envoyer des notifications</string>
+    <string name="notification_title">Aujourd\'hui %s (%s)</string>
+    <string name="notification_click_for_details">Cliquez pour voir plus de détails</string>
+    <string name="sunrise">LE SOLEIL</string>
+    <string name="enableNow">Activer maintenant</string>
 </resources>
