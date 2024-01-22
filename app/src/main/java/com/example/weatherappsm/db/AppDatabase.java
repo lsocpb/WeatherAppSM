@@ -6,15 +6,21 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.weatherappsm.db.dao.SearchHistoryDao;
-import com.example.weatherappsm.db.model.SearchHistory;
+import com.example.weatherappsm.db.new_.dao.SearchHistoryDao;
+import com.example.weatherappsm.db.new_.dao.SettingsDao;
+import com.example.weatherappsm.db.new_.dao.UserDao;
+import com.example.weatherappsm.db.new_.model.SearchHistory;
+import com.example.weatherappsm.db.new_.model.Settings;
+import com.example.weatherappsm.db.new_.model.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {SearchHistory.class}, version = 1, exportSchema = false)
+@Database(entities = {SearchHistory.class, User.class, Settings.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract SearchHistoryDao searchHistoryDao();
+    public abstract UserDao userDao();
+    public abstract SettingsDao settingsDao();
 
     private static volatile AppDatabase INSTANCE;
 
@@ -28,7 +34,10 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "app_database"
-                    ).build();
+
+                    )
+                            .fallbackToDestructiveMigration()
+                            .build();
                 }
             }
         }

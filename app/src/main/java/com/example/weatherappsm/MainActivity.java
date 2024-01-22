@@ -30,12 +30,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherappsm.activities.FavoriteLocationActivity;
 import com.example.weatherappsm.activities.SearchActivity;
 import com.example.weatherappsm.activities.SettingsActivity;
 import com.example.weatherappsm.api.WeatherResponse;
+import com.example.weatherappsm.db.new_.repository.UserRepository;
 import com.example.weatherappsm.manager.CustomNotificationManager;
 import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.objects.LocationService;
@@ -46,6 +48,7 @@ import com.example.weatherappsm.services.NotificationService;
 import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -53,6 +56,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback {
+    public static final String currentUser = "Default User";
+    public static final Gson gson = new Gson();
+
 
     private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
             idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime,
@@ -124,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        UserManager.init(getApplication());
         createNotificationChannel();
         startService(new Intent(this, NotificationService.class));
 //        testNotification();
@@ -143,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         //checkFavoriteLocationIcon(location.getCityName());
 
         User user = UserManager.getInstance().getCurrentUser();
-        List<String> searchHistory = user.getSearchHistory();
+        createDefaultUser();
 
         //TU SPRAWDZAM CZY INTENT PRZESŁAŁ JAKIEŚ NOWE DANE, JEŻELI TAK TO AKTUALIZUJE WIDOK
         Intent intent = getIntent();
@@ -271,6 +278,21 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             //user granted permission, we can load data
             load();
         }
+    }
+
+    private void createDefaultUser() {
+        UserRepository userRepository = new UserRepository(getApplication());
+        LiveData<com.example.weatherappsm.db.new_.model.User> userByName = userRepository.getUserByName(currentUser);
+        userByName.observe(this, user -> {
+            if (user == null) {
+                com.example.weatherappsm.db.new_.model.User user_ = new com.example.weatherappsm.db.new_.model.User();
+                user_.setName("Default User");
+                user_.setFavoriteLocation("XD");
+                userRepository.insert(user_);
+            }
+        });
+
+
     }
 
     //TU POBIERAM DANE O POGODZIE Z API

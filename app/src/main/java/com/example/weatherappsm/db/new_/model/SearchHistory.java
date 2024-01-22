@@ -1,21 +1,24 @@
-package com.example.weatherappsm.db.model;
+package com.example.weatherappsm.db.new_.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+@Entity(tableName = "search_history")
 public class SearchHistory {
-
+    @PrimaryKey(autoGenerate = true)
     public int id;
     public String cityName;
     public String date;
 
-    public int userSearchHistoryId;
-
-    public SearchHistory(String cityName, String date) {
+    public SearchHistory(String cityName, String date, int userId) {
         this.cityName = cityName;
         this.date = date;
+        this.userId = userId;
     }
+
+    @ColumnInfo(name = "user_search_history_id")
+    public int userId;
 
     public int getId() {
         return id;
@@ -41,11 +44,11 @@ public class SearchHistory {
         this.date = date;
     }
 
-    public int getUserSearchHistoryId() {
-        return userSearchHistoryId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserSearchHistoryId(int userSearchHistoryId) {
-        this.userSearchHistoryId = userSearchHistoryId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
