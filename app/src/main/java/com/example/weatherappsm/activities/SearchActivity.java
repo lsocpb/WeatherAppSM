@@ -177,4 +177,11 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reload the weather data when the user returns to the app
+        updateWeatherData(LocationService.getInstance().getCachedLocation());
+    }
 }
