@@ -17,6 +17,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WeatherDataManager {
+    private static final WeatherDataManager instance = new WeatherDataManager();
+
+    public static WeatherDataManager getInstance() {
+        return instance;
+    }
 
     private static final String API_KEY = "bb1ae4bd346c4643965140601233012";
 

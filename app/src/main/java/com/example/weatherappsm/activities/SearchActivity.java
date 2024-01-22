@@ -84,12 +84,12 @@ public class SearchActivity extends AppCompatActivity {
 
         searchHistoryViewModel.getAllSearchHistory().observe(this, searchHistoryEntries -> {
             if (searchHistoryEntries != null) {
-                for (SearchHistory entry : searchHistoryEntries) {
+                /*for (SearchHistory entry : searchHistoryEntries) {
                     String cityName = entry.cityName;
                     if (!cities.contains(cityName)) {
                         cities.add(cityName);
                     }
-                }
+                }*/
                 adapter.clear();
                 adapter.addAll(cities);
                 adapter.notifyDataSetChanged();
@@ -105,7 +105,7 @@ public class SearchActivity extends AppCompatActivity {
         if (!enteredCity.isEmpty()) {
             cityName = enteredCity;
             if (!cities.contains(cityName)) {
-                searchHistoryViewModel.insertSearchHistoryEntry(new SearchHistory(cityName, String.valueOf(new Date())));
+//                searchHistoryViewModel.insertSearchHistoryEntry(new SearchHistory(cityName, String.valueOf(new Date())));
             }
             Intent intent = new Intent(SearchActivity.this, MainActivity.class);
             intent.putExtra("cityName", cityName);
@@ -176,5 +176,12 @@ public class SearchActivity extends AppCompatActivity {
                 // TODO: Handle weather data error for the favorite location
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reload the weather data when the user returns to the app
+        updateWeatherData(LocationService.getInstance().getCachedLocation());
     }
 }

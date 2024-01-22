@@ -12,7 +12,7 @@ import com.example.weatherappsm.activities.FavoriteLocationActivity;
 
 public class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-    private static final int SWIPE_THRESHOLD = 50;
+    private static final int SWIPE_THRESHOLD = 20;
     private static final int SWIPE_VELOCITY_THRESHOLD = 50;
 
     private final SwipeCallback swipeCallback;

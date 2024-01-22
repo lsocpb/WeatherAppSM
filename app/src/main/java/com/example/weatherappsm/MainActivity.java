@@ -2,6 +2,8 @@ package com.example.weatherappsm;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -9,6 +11,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -26,20 +29,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherappsm.activities.FavoriteLocationActivity;
 import com.example.weatherappsm.activities.SearchActivity;
 import com.example.weatherappsm.activities.SettingsActivity;
 import com.example.weatherappsm.api.WeatherResponse;
+import com.example.weatherappsm.db.new_.repository.UserRepository;
+import com.example.weatherappsm.manager.CustomNotificationManager;
 import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.objects.LocationService;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.db.model.Settings;
 import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.services.NotificationService;
 import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,6 +56,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback {
+    public static final String currentUser = "Default User";
+    public static final Gson gson = new Gson();
+
 
     private TextView idTVtemp, idTVcityName, idTVweatherText, idTVtempRange, idTVindex,
             idTVindexText, idTVwindSpd, idTVWindDirection, idTVSunsetTime, idTVSunriseTime,
@@ -118,6 +130,10 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        UserManager.init(getApplication());
+        createNotificationChannel();
+        startService(new Intent(this, NotificationService.class));
+//        testNotification();
 
         if (pressureSensor == null) {
             // fetch from api
@@ -127,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         }
 
 
-
         //start location service (init LocationManager and Geocoder)
         LocationService.startLocationService(this);
 
@@ -135,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         //checkFavoriteLocationIcon(location.getCityName());
 
         User user = UserManager.getInstance().getCurrentUser();
-        List<String> searchHistory = user.getSearchHistory();
+        createDefaultUser();
 
         //TU SPRAWDZAM CZY INTENT PRZESŁAŁ JAKIEŚ NOWE DANE, JEŻELI TAK TO AKTUALIZUJE WIDOK
         Intent intent = getIntent();
@@ -187,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         User currentUser = UserManager.getInstance().getCurrentUser();
         CustomLocation favoriteLocation = currentUser.getFavoriteLocation();
 
-        if(favoriteLocation.getCityName().equals(location.getCityName())){
+        if (favoriteLocation.getCityName().equals(location.getCityName())) {
             idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
         } else {
             idIBfavorite.setImageResource(R.drawable.baseline_favorite_border_24);
@@ -263,6 +278,21 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             //user granted permission, we can load data
             load();
         }
+    }
+
+    private void createDefaultUser() {
+        UserRepository userRepository = new UserRepository(getApplication());
+        LiveData<com.example.weatherappsm.db.new_.model.User> userByName = userRepository.getUserByName(currentUser);
+        userByName.observe(this, user -> {
+            if (user == null) {
+                com.example.weatherappsm.db.new_.model.User user_ = new com.example.weatherappsm.db.new_.model.User();
+                user_.setName("Default User");
+                user_.setFavoriteLocation("XD");
+                userRepository.insert(user_);
+            }
+        });
+
+
     }
 
     //TU POBIERAM DANE O POGODZIE Z API
@@ -376,9 +406,10 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
     @Override
     public void onSwipeRight() {
         if (getClass().equals(FavoriteLocationActivity.class)) {
-        changeToPreviousView();
+            changeToPreviousView();
         }
     }
+
     private final SensorEventListener pressureListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -393,20 +424,54 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
     };
 
     private void updatePressureTextView(float pressureValue) {
-        if(pressureValue < 1013){
+        if (pressureValue < 1013) {
             idTVPressureMark.setText("LOW");
-        } else if(pressureValue > 1013 || pressureValue < 1017){
+        } else if (pressureValue > 1013 || pressureValue < 1017) {
             idTVPressureMark.setText("OPTIMAL");
-        } else{
+        } else {
             idTVPressureMark.setText("HIGH");
         }
         idTVPressure.setText(String.format(Locale.getDefault(), "%.0f hPa", pressureValue));
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is not in the Support Library.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CustomNotificationManager.NotificationChannelID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system. You can't change the importance
+            // or other notification behaviors after this.
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public void testNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CustomNotificationManager.NotificationChannelID)
+                .setSmallIcon(R.drawable.atmospheric)
+                .setContentTitle("WeatherApp")
+                .setContentText("This is a test notification")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.notify(1, builder.build());
     }
 
     private void showSnackbar(String message) {
         View view = findViewById(android.R.id.content);
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reload the weather data when the user returns to the app
+        updateWeatherData(location);
     }
 }
 

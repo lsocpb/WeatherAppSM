@@ -1,4 +1,4 @@
-package com.example.weatherappsm.db.model;
+package com.example.weatherappsm.db.new_.model;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+@Entity(tableName = "settings")
 public class Settings {
     public enum TemperatureUnit {
         CELSIUS("°C", "°"),
@@ -30,9 +31,9 @@ public class Settings {
             return unit;
         }
 
-        public static TemperatureUnit fromString(String text) {
-            for (TemperatureUnit unit : TemperatureUnit.values()) {
-                if (unit.unit.equalsIgnoreCase(text)) {
+        public static com.example.weatherappsm.db.model.Settings.TemperatureUnit fromString(String text) {
+            for (com.example.weatherappsm.db.model.Settings.TemperatureUnit unit : com.example.weatherappsm.db.model.Settings.TemperatureUnit.values()) {
+                if (unit.getUnit().equalsIgnoreCase(text)) {
                     return unit;
                 }
             }
@@ -146,44 +147,54 @@ public class Settings {
         }
     }
 
+    @PrimaryKey(autoGenerate = true)
     public int id;
-    private TemperatureUnit temperatureUnit;
-    private WindSpeedUnit windSpeedUnit;
-    private HourFormat hourFormat;
-    private NotificationFrequency notificationFrequency;
+    private com.example.weatherappsm.db.model.Settings.TemperatureUnit temperatureUnit;
+    private com.example.weatherappsm.db.model.Settings.WindSpeedUnit windSpeedUnit;
+    private com.example.weatherappsm.db.model.Settings.HourFormat hourFormat;
+    private com.example.weatherappsm.db.model.Settings.NotificationFrequency notificationFrequency;
     private boolean notificationsEnabled;
 
+    @ColumnInfo(name = "user_settings_id")
     private int userId;
 
-    public TemperatureUnit getTemperatureUnit() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public com.example.weatherappsm.db.model.Settings.TemperatureUnit getTemperatureUnit() {
         return temperatureUnit;
     }
 
-    public void setTemperatureUnit(TemperatureUnit temperatureUnit) {
+    public void setTemperatureUnit(com.example.weatherappsm.db.model.Settings.TemperatureUnit temperatureUnit) {
         this.temperatureUnit = temperatureUnit;
     }
 
-    public WindSpeedUnit getWindSpeedUnit() {
+    public com.example.weatherappsm.db.model.Settings.WindSpeedUnit getWindSpeedUnit() {
         return windSpeedUnit;
     }
 
-    public void setWindSpeedUnit(WindSpeedUnit windSpeedUnit) {
+    public void setWindSpeedUnit(com.example.weatherappsm.db.model.Settings.WindSpeedUnit windSpeedUnit) {
         this.windSpeedUnit = windSpeedUnit;
     }
 
-    public HourFormat getHourFormat() {
+    public com.example.weatherappsm.db.model.Settings.HourFormat getHourFormat() {
         return hourFormat;
     }
 
-    public void setHourFormat(HourFormat hourFormat) {
+    public void setHourFormat(com.example.weatherappsm.db.model.Settings.HourFormat hourFormat) {
         this.hourFormat = hourFormat;
     }
 
-    public NotificationFrequency getNotificationFrequency() {
+    public com.example.weatherappsm.db.model.Settings.NotificationFrequency getNotificationFrequency() {
         return notificationFrequency;
     }
 
-    public void setNotificationFrequency(NotificationFrequency notificationFrequency) {
+    public void setNotificationFrequency(com.example.weatherappsm.db.model.Settings.NotificationFrequency notificationFrequency) {
         this.notificationFrequency = notificationFrequency;
     }
 
@@ -193,14 +204,6 @@ public class Settings {
 
     public void setNotificationsEnabled(boolean notificationsEnabled) {
         this.notificationsEnabled = notificationsEnabled;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getUserId() {

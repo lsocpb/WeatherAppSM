@@ -118,7 +118,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/celsiusOption"
                                 android:textColor="@color/white"
-                                android:checked="true"/>
+                                />
 
                             <RadioButton
                                 android:id="@+id/idRBFahrenheit"
@@ -176,7 +176,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/hour24Option"
                                 android:textColor="@color/white"
-                                android:checked="true"/>
+                                />
 
                             <RadioButton
                                 android:id="@+id/idRB12h"
@@ -236,7 +236,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/kilometerPerHourOption"
                                 android:textColor="@color/white"
-                                android:checked="true"/>
+                                />
 
                             <RadioButton
                                 android:id="@+id/idRBMilesPerHour"
@@ -294,7 +294,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/hectopascalOption"
                                 android:textColor="@color/white"
-                                android:checked="true"/>
+                                />
 
                             <RadioButton
                                 android:id="@+id/idRBMillimeterOfMercury"

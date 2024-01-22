@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weatherappsm.R;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.manager.UserManager;
 
 public class SettingsNotificationsActivity extends AppCompatActivity {
     private RadioButton idBtnEnableNotifications, idBtnDisableNotifications,
@@ -31,27 +34,52 @@ public class SettingsNotificationsActivity extends AppCompatActivity {
         idBtnOnceADay = findViewById(R.id.idRBOnceADay);
 
         //add some listeners with debug messages to logcat
+        User user = UserManager.getInstance().getCurrentUser();
+        Settings settings = user.getSettings();
+
+        if(settings.isNotificationsEnabled())
+            idBtnEnableNotifications.setChecked(true);
+        else
+            idBtnDisableNotifications.setChecked(true);
+
+        if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_1_HOURS)
+            idBtn1h.setChecked(true);
+        else if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_2_HOURS)
+            idBtn2h.setChecked(true);
+        else if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_3_HOURS)
+            idBtn3h.setChecked(true);
+        else if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_6_HOURS)
+            idBtn6h.setChecked(true);
+        else if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_24_HOURS)
+            idBtnOnceADay.setChecked(true);
 
         idBtnEnableNotifications.setOnClickListener(v -> {
-            System.out.println("Enable notifications button clicked");
+            settings.setNotificationsEnabled(true);
         });
         idBtnDisableNotifications.setOnClickListener(v -> {
             System.out.println("Disable notifications button clicked");
+            settings.setNotificationsEnabled(false);
         });
+
         idBtn1h.setOnClickListener(v -> {
             System.out.println("1h button clicked");
+            settings.setNotificationFrequency(Settings.NotificationFrequency.EVERY_1_HOURS);
         });
         idBtn2h.setOnClickListener(v -> {
             System.out.println("2h button clicked");
+            settings.setNotificationFrequency(Settings.NotificationFrequency.EVERY_2_HOURS);
         });
         idBtn3h.setOnClickListener(v -> {
             System.out.println("3h button clicked");
+            settings.setNotificationFrequency(Settings.NotificationFrequency.EVERY_3_HOURS);
         });
         idBtn6h.setOnClickListener(v -> {
             System.out.println("6h button clicked");
+            settings.setNotificationFrequency(Settings.NotificationFrequency.EVERY_6_HOURS);
         });
         idBtnOnceADay.setOnClickListener(v -> {
             System.out.println("Once a day button clicked");
+            settings.setNotificationFrequency(Settings.NotificationFrequency.EVERY_24_HOURS);
         });
 
 

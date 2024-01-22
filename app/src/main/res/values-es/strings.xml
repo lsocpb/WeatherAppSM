@@ -9,7 +9,7 @@
     <string name="currentLocation">Ubicación actual</string>
     <string name="warningMessage">Active las notificaciones para estar siempre al tanto del tiempo y evitar las malas condiciones.</string>
     <string name="measurements">Medidas</string>
-    <string name="choose_language">Elegir idioma</string>
+    <string name="choose_language">Idiomas disponibles</string>
     <string name="report_issue">Emisión del informe</string>
     <string name="request_feature">Solicitar función</string>
     <string name="back">Devolución</string>
@@ -24,8 +24,8 @@
     <string name="settingsMenuTitle">Ajustes</string>
     <string name="measurementButtonName">Medidas</string>
     <string name="measurementButtonDescription">Cambiar las unidades de medida</string>
-    <string name="languageButtonName">Elegir idioma</string>
-    <string name="languageButtonDescription">Cambiar de idioma</string>
+    <string name="languageButtonName">Idiomas disponibles</string>
+    <string name="languageButtonDescription">Lista de idiomas disponibles</string>
     <string name="issueButtonName">Informe</string>
     <string name="issueButtonDescription">Informar de un problema con la aplicación</string>
     <string name="featureButtonName">Solicitar función</string>
@@ -76,4 +76,17 @@
     <string name="cloudy">NUBLADO</string>
     <string name="start_time">Hora de inicio:</string>
     <string name="end_time">Hora de finalización:</string>
+    <string name="temperature_unit_changed">Cambiada la unidad de temperatura a:</string>
+    <string name="hour_format_changed">Cambiado el formato de las horas a:</string>
+    <string name="wind_speed_unit_changed">Cambiada la unidad de velocidad del viento a:</string>
+    <string name="change_language">¿Quieres cambiar el idioma en los ajustes del dispositivo?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+
+    <string-array name="languages">
+        <item>Inglés</item>
+        <item>Español</item>
+        <item>Francés</item>
+        <item>Alemán</item>
+    </string-array>
 </resources>
