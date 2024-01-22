@@ -1,6 +1,7 @@
 package com.example.weatherappsm.db.new_.repository;
 
 import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 
 import com.example.weatherappsm.db.AppDatabase;
