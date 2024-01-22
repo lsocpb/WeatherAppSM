@@ -10,6 +10,14 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Settings {
+    public boolean isNotificationsEnabled() {
+        return notificationsEnabled;
+    }
+
+    public void setNotificationsEnabled(boolean notificationsEnabled) {
+        this.notificationsEnabled = notificationsEnabled;
+    }
+
     public enum TemperatureUnit {
         CELSIUS("°C", "°"),
         FAHRENHEIT("°F", "°");
@@ -124,9 +132,29 @@ public class Settings {
         }
     }
 
+    public enum NotificationFrequency {
+        EVERY_1_HOURS(60 * 60 * 1 * 1000),
+        EVERY_2_HOURS(60 * 60 * 2 * 1000),
+        EVERY_3_HOURS(60 * 60 * 3 * 1000),
+        EVERY_6_HOURS(60 * 60 * 6 * 1000),
+        EVERY_24_HOURS(60 * 60 * 24 * 1000);
+
+        private final long frequency_ms;
+
+        NotificationFrequency(long frequency_ms) {
+            this.frequency_ms = frequency_ms;
+        }
+
+        public long getFrequency_ms() {
+            return frequency_ms;
+        }
+    }
+
     private TemperatureUnit temperatureUnit;
     private WindSpeedUnit windSpeedUnit;
     private HourFormat hourFormat;
+    private NotificationFrequency notificationFrequency;
+    private boolean notificationsEnabled;
 
     public TemperatureUnit getTemperatureUnit() {
         return temperatureUnit;
@@ -150,5 +178,13 @@ public class Settings {
 
     public void setHourFormat(HourFormat hourFormat) {
         this.hourFormat = hourFormat;
+    }
+
+    public NotificationFrequency getNotificationFrequency() {
+        return notificationFrequency;
+    }
+
+    public void setNotificationFrequency(NotificationFrequency notificationFrequency) {
+        this.notificationFrequency = notificationFrequency;
     }
 }
