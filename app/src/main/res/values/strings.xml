@@ -88,9 +88,12 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="channel_name" translatable="false">weather_channel</string>
-    <string name="channel_description">Allow the application to deliver notifications</string>
+    <string name="channel_description">Allow the application to send notifications</string>
     <string name="notification_title">Today %s (%s)</string>
     <string name="notification_click_for_details">Click to see more details</string>
+    <string name="sunrise">SUNRISE</string>
+    <string name="enableNow">Enable now</string>
+    <string name="fav_location_changed">Favorite location changed to: </string>
 
 
     <string-array name="languages">

@@ -30,24 +30,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherappsm.activities.FavoriteLocationActivity;
 import com.example.weatherappsm.activities.SearchActivity;
 import com.example.weatherappsm.activities.SettingsActivity;
 import com.example.weatherappsm.api.WeatherResponse;
+import com.example.weatherappsm.db.new_.UserMangerNew;
+import com.example.weatherappsm.db.new_.model.Settings;
+import com.example.weatherappsm.db.new_.model.User;
 import com.example.weatherappsm.db.new_.repository.UserRepository;
 import com.example.weatherappsm.manager.CustomNotificationManager;
-import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.objects.LocationService;
 import com.example.weatherappsm.objects.CustomLocation;
-import com.example.weatherappsm.db.model.Settings;
-import com.example.weatherappsm.db.model.User;
 import com.example.weatherappsm.services.NotificationService;
 import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.ktx.Firebase;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
     private ProgressBar idProgressBar;
 
-    private final Settings settings = UserManager.getInstance().getCurrentUser().getSettings();
+    private final Settings settings = UserMangerNew.getInstance().getSettings();
 
 
     private GestureDetector gestureDetector;
@@ -130,7 +132,10 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-        UserManager.init(getApplication());
+        FirebaseApp.initializeApp(this);
+
+        createDefaultUser();
+        UserMangerNew.init(getApplication());
         createNotificationChannel();
         startService(new Intent(this, NotificationService.class));
 //        testNotification();
@@ -149,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         checkPermissions();
         //checkFavoriteLocationIcon(location.getCityName());
 
-        User user = UserManager.getInstance().getCurrentUser();
-        createDefaultUser();
+        User user = UserMangerNew.getInstance().getCurrentUser();
 
         //TU SPRAWDZAM CZY INTENT PRZESŁAŁ JAKIEŚ NOWE DANE, JEŻELI TAK TO AKTUALIZUJE WIDOK
         Intent intent = getIntent();
@@ -199,8 +203,13 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
         // Favorite location icon check
 
-        User currentUser = UserManager.getInstance().getCurrentUser();
-        CustomLocation favoriteLocation = currentUser.getFavoriteLocation();
+        User currentUser = UserMangerNew.getInstance().getCurrentUser();
+        CustomLocation favoriteLocation = currentUser.getFavoriteLocationAsObject();
+        if (favoriteLocation == null) {
+            favoriteLocation = new CustomLocation("Ciechocinek", 52.8800, 18.7800);
+            currentUser.setFavoriteLocation(favoriteLocation);
+            UserMangerNew.getInstance().update();
+        }
 
         if (favoriteLocation.getCityName().equals(location.getCityName())) {
             idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
@@ -211,17 +220,21 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         // Favorite location button listener
 
         idIBfavorite.setOnClickListener(v -> {
+            CustomLocation favLoc = currentUser.getFavoriteLocationAsObject();
 
-            if (favoriteLocation.getCityName().equals(location.getCityName())) {
+            if (favLoc.getCityName().equals(location.getCityName())) {
                 // mock
                 currentUser.setFavoriteLocation(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
                 idIBfavorite.setImageResource(R.drawable.baseline_favorite_border_24);
+                showSnackbar(String.format(getString(R.string.fav_location_changed) + " Ciechocinek"));
             } else {
                 currentUser.setFavoriteLocation(location);
                 idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
+                showSnackbar(String.format(getString(R.string.fav_location_changed)) + " " + location.getCityName());
+
             }
 
-            showSnackbar(String.format("Favorite location changed to %s", currentUser.getFavoriteLocation().getCityName()));
+            UserMangerNew.getInstance().update();
         });
     }
 
@@ -282,15 +295,10 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
     private void createDefaultUser() {
         UserRepository userRepository = new UserRepository(getApplication());
-        LiveData<com.example.weatherappsm.db.new_.model.User> userByName = userRepository.getUserByName(currentUser);
-        userByName.observe(this, user -> {
-            if (user == null) {
-                com.example.weatherappsm.db.new_.model.User user_ = new com.example.weatherappsm.db.new_.model.User();
-                user_.setName("Default User");
-                user_.setFavoriteLocation("XD");
-                userRepository.insert(user_);
-            }
-        });
+
+        new Thread(() -> {
+
+        }).start();
 
 
     }
@@ -307,8 +315,7 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
                 weatherCVArrayList.clear();
 
-                User user = UserManager.getInstance().getCurrentUser();
-                Settings userSettings = user.getSettings();
+                Settings userSettings = UserMangerNew.getInstance().getSettings();
                 Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
                 Settings.HourFormat hourFormat = userSettings.getHourFormat();
 

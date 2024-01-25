@@ -2,6 +2,7 @@ package com.example.weatherappsm.db.new_.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -20,19 +21,11 @@ public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     void insert(User user);
 
-
-//    @Query("INSERT INTO user (id, name) " +
-//            "SELECT :userId, :userName " +
-//            "WHERE NOT EXISTS (SELECT 1 FROM user WHERE id = :userId)")
-//    void insertIfNotExists(long userId, String userName);
-
-//    void insertIfNotExists(User user);
-
     @Update
     void update(User user);
 
     @Query("SELECT * FROM user WHERE name = :name")
-    LiveData<User> getUserByName(String name);
+    User getUserByName(String name);
 
     @Transaction
     @Query("SELECT * FROM User WHERE name = :name")
@@ -41,4 +34,7 @@ public interface UserDao {
     @Transaction
     @Query("SELECT * FROM User WHERE name = :name")
     List<UserWithSearchHistory> getUsersWithPlaylists(String name);
+
+    @Delete
+    void deleteAll(User... users);
 }

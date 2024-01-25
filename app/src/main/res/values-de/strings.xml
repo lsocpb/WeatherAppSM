@@ -89,4 +89,10 @@
         <item>Französisch</item>
         <item>Deutsch</item>
     </string-array>
+    <string name="channel_description">Erlauben Sie der Anwendung, Benachrichtigungen zu senden</string>
+    <string name="notification_title">Heute %s (%s)</string>
+    <string name="notification_click_for_details">Klicken Sie hier, um mehr Details zu sehen</string>
+    <string name="sunrise">SONNENAUFGANG</string>
+    <string name="enableNow">Jetzt einschalten</string>
+    <string name="fav_location_changed">"Favorisierter Ort geändert in: "</string>
 </resources>

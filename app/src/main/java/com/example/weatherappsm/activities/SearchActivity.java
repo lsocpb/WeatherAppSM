@@ -15,19 +15,17 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.weatherappsm.MainActivity;
 import com.example.weatherappsm.R;
 import com.example.weatherappsm.api.WeatherResponse;
-import com.example.weatherappsm.db.model.SearchHistory;
-import com.example.weatherappsm.manager.UserManager;
+import com.example.weatherappsm.db.new_.model.User;
+import com.example.weatherappsm.db.new_.model.Settings;
+import com.example.weatherappsm.db.new_.UserMangerNew;
+import com.example.weatherappsm.db.viewmodel.SearchHistoryViewModel;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.objects.LocationService;
-import com.example.weatherappsm.db.model.Settings;
-import com.example.weatherappsm.db.model.User;
 import com.example.weatherappsm.util.WeatherDataManager;
-import com.example.weatherappsm.db.viewmodel.SearchHistoryViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
@@ -66,8 +64,8 @@ public class SearchActivity extends AppCompatActivity {
         idIVBackground2 = findViewById(R.id.idIVBackground2);
 
 
-        user = UserManager.getInstance().getCurrentUser();
-        favoriteLocation = user.getFavoriteLocation();
+        user = UserMangerNew.getInstance().getCurrentUser();
+        favoriteLocation = user.getFavoriteLocationAsObject();
 
         updateFavoriteLocationWeatherData(favoriteLocation);
 
@@ -127,8 +125,8 @@ public class SearchActivity extends AppCompatActivity {
         weatherDataManager.getWeatherData(location.getLatLong(), new WeatherDataManager.WeatherDataCallback() {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
-                User user = UserManager.getInstance().getCurrentUser();
-                Settings userSettings = user.getSettings();
+                com.example.weatherappsm.db.new_.model.Settings userSettings = UserMangerNew.getInstance().getSettings();
+
                 Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
 
                 WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
@@ -157,9 +155,8 @@ public class SearchActivity extends AppCompatActivity {
         weatherDataManager.getWeatherData(location.getLatLong(), new WeatherDataManager.WeatherDataCallback() {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
-                User user = UserManager.getInstance().getCurrentUser();
-                Settings userSettings = user.getSettings();
-                Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
+                Settings settings = UserMangerNew.getInstance().getSettings();
+                Settings.TemperatureUnit userTempUnit = settings.getTemperatureUnit();
 
                 WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
                 WeatherResponse.WeatherCondition weatherCondition = currentWeather.getCondition();

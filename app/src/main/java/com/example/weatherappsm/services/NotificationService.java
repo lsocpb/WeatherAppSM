@@ -1,7 +1,5 @@
 package com.example.weatherappsm.services;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -14,9 +12,10 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.weatherappsm.R;
 import com.example.weatherappsm.api.WeatherResponse;
-import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.db.new_.model.User;
+import com.example.weatherappsm.db.new_.UserMangerNew;
+import com.example.weatherappsm.db.new_.model.Settings;
 import com.example.weatherappsm.manager.CustomNotificationManager;
-import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.util.WeatherDataManager;
 
 public class NotificationService extends Service {
@@ -53,7 +52,8 @@ public class NotificationService extends Service {
             // Run the notification task initially
             handler.post(notificationTask);
             // Schedule the task to run every hour
-            handler.postDelayed(notificationTask, UserManager.getInstance().getCurrentUser().getSettings().getNotificationFrequency().getFrequency_ms());
+            Settings settings = UserMangerNew.getInstance().getSettings();
+            handler.postDelayed(notificationTask, settings.getNotificationFrequency().getFrequency_ms());
         }).start();
     }
 
@@ -66,8 +66,8 @@ public class NotificationService extends Service {
         public void run() {
             // Fetching notifications from the server
             // If there are notifications, call this method
-            User user = UserManager.getInstance().getCurrentUser();
-            WeatherDataManager.getInstance().getWeatherData(user.getFavoriteLocation().getLatLong(), new WeatherDataManager.WeatherDataCallback() {
+            User user = UserMangerNew.getInstance().getCurrentUser();
+            WeatherDataManager.getInstance().getWeatherData(user.getFavoriteLocationAsObject().getLatLong(), new WeatherDataManager.WeatherDataCallback() {
                 @Override
                 public void onWeatherDataReceived(WeatherResponse weatherResponse) {
                     showNotification(weatherResponse);
@@ -81,14 +81,16 @@ public class NotificationService extends Service {
             });
 //            showNotification();
             // Schedule the next run after the interval
-            handler.postDelayed(this, user.getSettings().getNotificationFrequency().getFrequency_ms());
+            Settings settings = UserMangerNew.getInstance().getSettings();
+            handler.postDelayed(this, settings.getNotificationFrequency().getFrequency_ms());
         }
     };
 
     public void showNotification(WeatherResponse response) {
-        User user = UserManager.getInstance().getCurrentUser();
-        String tempNow = response.getCurrent().getTemperatureFormatted(user.getSettings().getTemperatureUnit(), false);
-        String title = String.format(getString(R.string.notification_title), tempNow, user.getFavoriteLocation().getCityName());
+        User user = UserMangerNew.getInstance().getCurrentUser();
+        Settings settings = UserMangerNew.getInstance().getSettings();
+        String tempNow = response.getCurrent().getTemperatureFormatted(settings.getTemperatureUnit(), false);
+        String title = String.format(getString(R.string.notification_title), tempNow, user.getFavoriteLocationAsObject().getCityName());
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
