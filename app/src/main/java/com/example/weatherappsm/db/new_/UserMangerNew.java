@@ -74,6 +74,7 @@ public class UserMangerNew {
                 settings_.setWindSpeedUnit(com.example.weatherappsm.db.model.Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR);
                 settings_.setNotificationFrequency(com.example.weatherappsm.db.model.Settings.NotificationFrequency.EVERY_1_HOURS);
                 settings_.setNotificationsEnabled(true);
+                settings_.setId(1);
                 settings_.setUserId(user_.getId());
 
                 settingsRepository.insert(settings_);
