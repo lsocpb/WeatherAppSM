@@ -2,7 +2,7 @@ package com.example.weatherappsm.api;
 
 import android.util.Pair;
 
-import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.new_.model.Settings;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

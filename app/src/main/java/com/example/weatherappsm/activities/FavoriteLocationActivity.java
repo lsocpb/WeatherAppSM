@@ -117,8 +117,8 @@ public class FavoriteLocationActivity extends AppCompatActivity implements Swipe
                 weatherCVArrayList.clear();
 
                 Settings userSettings = UserMangerNew.getInstance().getSettings();
-                com.example.weatherappsm.db.model.Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
-                com.example.weatherappsm.db.model.Settings.HourFormat hourFormat = userSettings.getHourFormat();
+                Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
+                Settings.HourFormat hourFormat = userSettings.getHourFormat();
 
                 WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
                 WeatherResponse.ForecastWeather forecastWeather = weatherResponse.getForecastWeather();

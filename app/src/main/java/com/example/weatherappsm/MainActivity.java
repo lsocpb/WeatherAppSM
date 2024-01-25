@@ -30,7 +30,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherappsm.activities.FavoriteLocationActivity;
@@ -40,10 +39,8 @@ import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.db.new_.UserMangerNew;
 import com.example.weatherappsm.db.new_.model.Settings;
 import com.example.weatherappsm.db.new_.model.User;
-import com.example.weatherappsm.db.new_.repository.SettingsRepository;
 import com.example.weatherappsm.db.new_.repository.UserRepository;
 import com.example.weatherappsm.manager.CustomNotificationManager;
-import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.objects.LocationService;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.services.NotificationService;
@@ -56,7 +53,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback {
     public static final String currentUser = "Default User";
@@ -134,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
         createDefaultUser();
-        UserManager.init(getApplication());
         UserMangerNew.init(getApplication());
         createNotificationChannel();
         startService(new Intent(this, NotificationService.class));
@@ -314,9 +309,9 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
                 weatherCVArrayList.clear();
 
-                com.example.weatherappsm.db.new_.model.Settings userSettings = UserMangerNew.getInstance().getSettings();
-                com.example.weatherappsm.db.model.Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
-                com.example.weatherappsm.db.model.Settings.HourFormat hourFormat = userSettings.getHourFormat();
+                Settings userSettings = UserMangerNew.getInstance().getSettings();
+                Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
+                Settings.HourFormat hourFormat = userSettings.getHourFormat();
 
                 WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
                 WeatherResponse.ForecastWeather forecastWeather = weatherResponse.getForecastWeather();

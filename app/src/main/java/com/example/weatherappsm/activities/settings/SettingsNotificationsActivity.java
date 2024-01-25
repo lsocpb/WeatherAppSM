@@ -9,14 +9,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weatherappsm.R;
-import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.new_.model.Settings;
 import com.example.weatherappsm.db.new_.UserMangerNew;
 import com.example.weatherappsm.db.new_.model.User;
-import com.example.weatherappsm.manager.UserManager;
 
 public class SettingsNotificationsActivity extends AppCompatActivity {
     private RadioButton idBtnEnableNotifications, idBtnDisableNotifications,
-    idBtn1h, idBtn2h, idBtn3h, idBtn6h, idBtnOnceADay;
+            idBtn1h, idBtn2h, idBtn3h, idBtn6h, idBtnOnceADay;
 
     //private LinearLayout idBtnStartTime, idBtnEndTime;
 
@@ -38,20 +37,20 @@ public class SettingsNotificationsActivity extends AppCompatActivity {
         User user = UserMangerNew.getInstance().getCurrentUser();
         com.example.weatherappsm.db.new_.model.Settings settings = UserMangerNew.getInstance().getSettings();
 
-        if(settings.isNotificationsEnabled())
+        if (settings.isNotificationsEnabled())
             idBtnEnableNotifications.setChecked(true);
         else
             idBtnDisableNotifications.setChecked(true);
 
-        if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_1_HOURS)
+        if (settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_1_HOURS)
             idBtn1h.setChecked(true);
-        else if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_2_HOURS)
+        else if (settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_2_HOURS)
             idBtn2h.setChecked(true);
-        else if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_3_HOURS)
+        else if (settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_3_HOURS)
             idBtn3h.setChecked(true);
-        else if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_6_HOURS)
+        else if (settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_6_HOURS)
             idBtn6h.setChecked(true);
-        else if(settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_24_HOURS)
+        else if (settings.getNotificationFrequency() == Settings.NotificationFrequency.EVERY_24_HOURS)
             idBtnOnceADay.setChecked(true);
 
         idBtnEnableNotifications.setOnClickListener(v -> {

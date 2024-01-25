@@ -8,7 +8,7 @@ import com.example.weatherappsm.db.new_.model.Settings;
 import com.example.weatherappsm.db.new_.model.User;
 import com.example.weatherappsm.db.new_.repository.SettingsRepository;
 import com.example.weatherappsm.db.new_.repository.UserRepository;
-import com.example.weatherappsm.manager.UserManager;
+import com.example.weatherappsm.objects.CustomLocation;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -30,23 +30,22 @@ public class UserMangerNew {
             if (instance.currentUser == null) {
                 instance.currentUser = new User();
                 instance.currentUser.setName("Default User");
-                instance.currentUser.setFavoriteLocation("");
+                instance.currentUser.setFavoriteLocation(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
                 instance.currentUser.setId(1);
                 instance.userRepository.insertSync(instance.currentUser);
                 Log.d("UserMangerNew", "created new user: " + instance.currentUser.getId());
             }
             instance.settings = instance.settingsRepository.getSettingsByUserId(instance.currentUser.getId());
             if (instance.settings == null) {
-                com.example.weatherappsm.db.new_.model.Settings settings_ = new com.example.weatherappsm.db.new_.model.Settings();
-                settings_.setHourFormat(com.example.weatherappsm.db.model.Settings.HourFormat.TWELVE);
-                settings_.setTemperatureUnit(com.example.weatherappsm.db.model.Settings.TemperatureUnit.CELSIUS);
-                settings_.setWindSpeedUnit(com.example.weatherappsm.db.model.Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR);
-                settings_.setNotificationFrequency(com.example.weatherappsm.db.model.Settings.NotificationFrequency.EVERY_1_HOURS);
-                settings_.setNotificationsEnabled(true);
-                settings_.setId(1);
-                settings_.setUserId(instance.currentUser.getId());
+                instance.settings = new Settings();
+                instance.settings.setHourFormat(Settings.HourFormat.TWELVE);
+                instance.settings.setTemperatureUnit(Settings.TemperatureUnit.CELSIUS);
+                instance.settings.setWindSpeedUnit(Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR);
+                instance.settings.setNotificationFrequency(Settings.NotificationFrequency.EVERY_1_HOURS);
+                instance.settings.setNotificationsEnabled(true);
+                instance.settings.setId(1);
+                instance.settings.setUserId(instance.currentUser.getId());
 
-                instance.settings = settings_;
                 instance.settingsRepository.insertSync(instance.settings);
                 Log.d("UserMangerNew", "created new settings: " + instance.settings.getId());
             }
@@ -74,10 +73,10 @@ public class UserMangerNew {
             com.example.weatherappsm.db.new_.model.Settings settingsByUserId = settingsRepository.getSettingsByUserId(user_.getId());
             if (settingsByUserId == null) {
                 com.example.weatherappsm.db.new_.model.Settings settings_ = new com.example.weatherappsm.db.new_.model.Settings();
-                settings_.setHourFormat(com.example.weatherappsm.db.model.Settings.HourFormat.TWELVE);
-                settings_.setTemperatureUnit(com.example.weatherappsm.db.model.Settings.TemperatureUnit.CELSIUS);
-                settings_.setWindSpeedUnit(com.example.weatherappsm.db.model.Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR);
-                settings_.setNotificationFrequency(com.example.weatherappsm.db.model.Settings.NotificationFrequency.EVERY_1_HOURS);
+                settings_.setHourFormat(Settings.HourFormat.TWELVE);
+                settings_.setTemperatureUnit(Settings.TemperatureUnit.CELSIUS);
+                settings_.setWindSpeedUnit(Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR);
+                settings_.setNotificationFrequency(Settings.NotificationFrequency.EVERY_1_HOURS);
                 settings_.setNotificationsEnabled(true);
                 settings_.setId(1);
                 settings_.setUserId(user_.getId());

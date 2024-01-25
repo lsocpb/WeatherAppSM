@@ -7,8 +7,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.weatherappsm.db.new_.UserMangerNew;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -33,8 +31,8 @@ public class Settings {
             return unit;
         }
 
-        public static com.example.weatherappsm.db.model.Settings.TemperatureUnit fromString(String text) {
-            for (com.example.weatherappsm.db.model.Settings.TemperatureUnit unit : com.example.weatherappsm.db.model.Settings.TemperatureUnit.values()) {
+        public static TemperatureUnit fromString(String text) {
+            for (TemperatureUnit unit : TemperatureUnit.values()) {
                 if (unit.getUnit().equalsIgnoreCase(text)) {
                     return unit;
                 }
@@ -151,10 +149,10 @@ public class Settings {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
-    private com.example.weatherappsm.db.model.Settings.TemperatureUnit temperatureUnit;
-    private com.example.weatherappsm.db.model.Settings.WindSpeedUnit windSpeedUnit;
-    private com.example.weatherappsm.db.model.Settings.HourFormat hourFormat;
-    private com.example.weatherappsm.db.model.Settings.NotificationFrequency notificationFrequency;
+    private TemperatureUnit temperatureUnit;
+    private WindSpeedUnit windSpeedUnit;
+    private HourFormat hourFormat;
+    private NotificationFrequency notificationFrequency;
     private boolean notificationsEnabled;
 
     @ColumnInfo(name = "user_settings_id")
@@ -168,35 +166,35 @@ public class Settings {
         this.id = id;
     }
 
-    public com.example.weatherappsm.db.model.Settings.TemperatureUnit getTemperatureUnit() {
+    public TemperatureUnit getTemperatureUnit() {
         return temperatureUnit;
     }
 
-    public void setTemperatureUnit(com.example.weatherappsm.db.model.Settings.TemperatureUnit temperatureUnit) {
+    public void setTemperatureUnit(TemperatureUnit temperatureUnit) {
         this.temperatureUnit = temperatureUnit;
     }
 
-    public com.example.weatherappsm.db.model.Settings.WindSpeedUnit getWindSpeedUnit() {
+    public WindSpeedUnit getWindSpeedUnit() {
         return windSpeedUnit;
     }
 
-    public void setWindSpeedUnit(com.example.weatherappsm.db.model.Settings.WindSpeedUnit windSpeedUnit) {
+    public void setWindSpeedUnit(WindSpeedUnit windSpeedUnit) {
         this.windSpeedUnit = windSpeedUnit;
     }
 
-    public com.example.weatherappsm.db.model.Settings.HourFormat getHourFormat() {
+    public HourFormat getHourFormat() {
         return hourFormat;
     }
 
-    public void setHourFormat(com.example.weatherappsm.db.model.Settings.HourFormat hourFormat) {
+    public void setHourFormat(HourFormat hourFormat) {
         this.hourFormat = hourFormat;
     }
 
-    public com.example.weatherappsm.db.model.Settings.NotificationFrequency getNotificationFrequency() {
+    public NotificationFrequency getNotificationFrequency() {
         return notificationFrequency;
     }
 
-    public void setNotificationFrequency(com.example.weatherappsm.db.model.Settings.NotificationFrequency notificationFrequency) {
+    public void setNotificationFrequency(NotificationFrequency notificationFrequency) {
         this.notificationFrequency = notificationFrequency;
     }
 

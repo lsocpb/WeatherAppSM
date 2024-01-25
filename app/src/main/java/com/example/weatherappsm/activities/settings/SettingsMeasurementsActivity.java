@@ -7,10 +7,8 @@ import android.widget.RadioButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weatherappsm.R;
-import com.example.weatherappsm.db.model.Settings;
-import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.db.new_.model.Settings;
 import com.example.weatherappsm.db.new_.UserMangerNew;
-import com.example.weatherappsm.manager.UserManager;
 import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsMeasurementsActivity extends AppCompatActivity {
@@ -31,7 +29,7 @@ public class SettingsMeasurementsActivity extends AppCompatActivity {
         idBtn12h = findViewById(R.id.idRB12h);
         idBtn24h = findViewById(R.id.idRB24h);
 
-        com.example.weatherappsm.db.new_.model.Settings settings = UserMangerNew.getInstance().getSettings();
+        Settings settings = UserMangerNew.getInstance().getSettings();
 
         if (settings.getTemperatureUnit() == Settings.TemperatureUnit.CELSIUS)
             idBtnC.setChecked(true);

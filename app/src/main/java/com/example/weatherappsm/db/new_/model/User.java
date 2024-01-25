@@ -1,14 +1,9 @@
 package com.example.weatherappsm.db.new_.model;
 
-import static androidx.room.ForeignKey.CASCADE;
-
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import com.example.weatherappsm.MainActivity;
-import com.example.weatherappsm.db.model.SearchHistory;
-import com.example.weatherappsm.db.model.Settings;
 import com.example.weatherappsm.objects.CustomLocation;
 
 @Entity(tableName = "user")
