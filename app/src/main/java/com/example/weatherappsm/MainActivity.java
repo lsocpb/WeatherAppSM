@@ -221,14 +221,15 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
                 // mock
                 currentUser.setFavoriteLocation(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
                 idIBfavorite.setImageResource(R.drawable.baseline_favorite_border_24);
+                showSnackbar(String.format(getString(R.string.fav_location_changed) + " Ciechocinek"));
             } else {
                 currentUser.setFavoriteLocation(location);
                 idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
+                showSnackbar(String.format(getString(R.string.fav_location_changed)) + " " + location.getCityName());
+
             }
 
             UserMangerNew.getInstance().update();
-
-            showSnackbar(String.format("Favorite location changed to %s", favLoc.getCityName()));
         });
     }
 

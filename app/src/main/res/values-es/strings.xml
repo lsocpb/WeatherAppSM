@@ -94,4 +94,5 @@
     <string name="notification_click_for_details">Pulse para ver más detalles</string>
     <string name="sunrise">AMANECER</string>
     <string name="enableNow">Activar ahora</string>
+    <string name="fav_location_changed">"Ubicación favorita cambiada a: "</string>
 </resources>

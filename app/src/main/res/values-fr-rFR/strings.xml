@@ -94,4 +94,5 @@
     <string name="notification_click_for_details">Cliquez pour voir plus de détails</string>
     <string name="sunrise">LE SOLEIL</string>
     <string name="enableNow">Activer maintenant</string>
+    <string name="fav_location_changed">"L'emplacement du favori a été modifié en: "</string>
 </resources>
