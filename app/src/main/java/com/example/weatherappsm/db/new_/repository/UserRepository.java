@@ -9,8 +9,6 @@ import com.example.weatherappsm.db.AppDatabase;
 import com.example.weatherappsm.db.new_.dao.UserDao;
 import com.example.weatherappsm.db.new_.model.User;
 
-import java.util.concurrent.Future;
-
 public class UserRepository {
     private UserDao userDao;
 
@@ -19,10 +17,18 @@ public class UserRepository {
     }
 
     public void insert(User user) {
-        new InsertAsyncTask(userDao).execute(user);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            userDao.insert(user);
+        });
     }
 
-    public LiveData<User> getUserByName(String name) {
+    public void update(User user) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            userDao.update(user);
+        });
+    }
+
+    public User getUserByName(String name) {
         return userDao.getUserByName(name);
     }
 
@@ -41,16 +47,5 @@ public class UserRepository {
         }
     }
 
-    private static class GetUserByNameAsyncTask extends AsyncTask<String, Void, LiveData<User>> {
-        private UserDao userDao;
 
-        private GetUserByNameAsyncTask(UserDao userDao) {
-            this.userDao = userDao;
-        }
-
-        @Override
-        protected LiveData<User> doInBackground(String... strings) {
-            return userDao.getUserByName(strings[0]);
-        }
-    }
 }

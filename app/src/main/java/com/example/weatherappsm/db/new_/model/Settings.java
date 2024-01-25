@@ -7,6 +7,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.weatherappsm.db.new_.UserMangerNew;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -212,5 +214,18 @@ public class Settings {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "id=" + id +
+                ", temperatureUnit=" + temperatureUnit +
+                ", windSpeedUnit=" + windSpeedUnit +
+                ", hourFormat=" + hourFormat +
+                ", notificationFrequency=" + notificationFrequency +
+                ", notificationsEnabled=" + notificationsEnabled +
+                ", userId=" + userId +
+                '}';
     }
 }

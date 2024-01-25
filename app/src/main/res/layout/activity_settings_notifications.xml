@@ -117,8 +117,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/enableOption"
-                                android:textColor="@color/white"
-                                android:checked="true"/>
+                                android:textColor="@color/white"/>
 
                             <RadioButton
                                 android:id="@+id/idRBDisableNotifications"
@@ -174,7 +173,6 @@
                                 android:id="@+id/idRB1h"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:checked="true"
                                 android:text="@string/hour1Option"
                                 android:textColor="@color/white" />
 
