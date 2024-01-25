@@ -47,8 +47,16 @@ public class User {
         return favoriteLocation;
     }
 
+    public CustomLocation getFavoriteLocationAsObject() {
+        return deserializeFavoriteLocation(favoriteLocation);
+    }
+
     public void setFavoriteLocation(String favoriteLocation) {
         this.favoriteLocation = favoriteLocation;
+    }
+
+    public void setFavoriteLocation(CustomLocation favoriteLocation) {
+        this.favoriteLocation = serializeFavoriteLocation(favoriteLocation);
     }
 }
 

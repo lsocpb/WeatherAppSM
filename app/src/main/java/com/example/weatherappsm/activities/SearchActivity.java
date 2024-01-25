@@ -16,6 +16,7 @@ import com.example.weatherappsm.MainActivity;
 import com.example.weatherappsm.R;
 import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.db.model.SearchHistory;
+import com.example.weatherappsm.db.new_.UserMangerNew;
 import com.example.weatherappsm.manager.UserManager;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.objects.LocationService;
@@ -128,7 +129,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
                 User user = UserManager.getInstance().getCurrentUser();
-                Settings userSettings = user.getSettings();
+                com.example.weatherappsm.db.new_.model.Settings userSettings = UserMangerNew.getInstance().getSettings();
+
                 Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
 
                 WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();

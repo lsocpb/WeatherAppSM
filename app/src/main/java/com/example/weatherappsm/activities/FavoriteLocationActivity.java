@@ -1,9 +1,6 @@
 package com.example.weatherappsm.activities;
 
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -25,9 +22,9 @@ import com.example.weatherappsm.SwipeGestureListener;
 import com.example.weatherappsm.WeatherCV;
 import com.example.weatherappsm.WeatherCVAdapter;
 import com.example.weatherappsm.api.WeatherResponse;
-import com.example.weatherappsm.db.model.Settings;
-import com.example.weatherappsm.db.model.User;
-import com.example.weatherappsm.manager.UserManager;
+import com.example.weatherappsm.db.new_.UserMangerNew;
+import com.example.weatherappsm.db.new_.model.Settings;
+import com.example.weatherappsm.db.new_.model.User;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.squareup.picasso.Picasso;
@@ -57,9 +54,6 @@ public class FavoriteLocationActivity extends AppCompatActivity implements Swipe
     private RecyclerView weatherRV;
 
     private ProgressBar idProgressBar;
-
-    private final Settings settings = UserManager.getInstance().getCurrentUser().getSettings();
-
 
     private GestureDetector gestureDetector;
 
@@ -101,8 +95,8 @@ public class FavoriteLocationActivity extends AppCompatActivity implements Swipe
         uncheckedRadioButton = findViewById(R.id.unchecked_radiobutton);
         gestureDetector = new GestureDetector(this, new SwipeGestureListener(this));
 
-        user = UserManager.getInstance().getCurrentUser();
-        location = user.getFavoriteLocation();
+        user = UserMangerNew.getInstance().getCurrentUser();
+        location = user.getFavoriteLocationAsObject();
 
         boolean isChecked = getIntent().getBooleanExtra("isChecked", false);
         checkedRadioButton.setChecked(isChecked);
@@ -122,10 +116,9 @@ public class FavoriteLocationActivity extends AppCompatActivity implements Swipe
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
                 weatherCVArrayList.clear();
 
-                User user = UserManager.getInstance().getCurrentUser();
-                Settings userSettings = user.getSettings();
-                Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
-                Settings.HourFormat hourFormat = userSettings.getHourFormat();
+                Settings userSettings = UserMangerNew.getInstance().getSettings();
+                com.example.weatherappsm.db.model.Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
+                com.example.weatherappsm.db.model.Settings.HourFormat hourFormat = userSettings.getHourFormat();
 
                 WeatherResponse.CurrentWeather currentWeather = weatherResponse.getCurrent();
                 WeatherResponse.ForecastWeather forecastWeather = weatherResponse.getForecastWeather();

@@ -31,7 +31,6 @@ public class SettingsMeasurementsActivity extends AppCompatActivity {
         idBtn12h = findViewById(R.id.idRB12h);
         idBtn24h = findViewById(R.id.idRB24h);
 
-        User user = UserManager.getInstance().getCurrentUser();
         com.example.weatherappsm.db.new_.model.Settings settings = UserMangerNew.getInstance().getSettings();
 
         if (settings.getTemperatureUnit() == Settings.TemperatureUnit.CELSIUS)
