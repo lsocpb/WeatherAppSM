@@ -43,8 +43,8 @@ public class UserMangerNew {
                 settings_.setId(1);
                 settings_.setUserId(instance.currentUser.getId());
 
-                instance.settingsRepository.insert(instance.settings);
                 instance.settings = settings_;
+                instance.settingsRepository.insert(instance.settings);
             }
             latch.countDown();
         }).start();

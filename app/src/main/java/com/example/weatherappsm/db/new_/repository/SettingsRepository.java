@@ -17,7 +17,9 @@ public class SettingsRepository {
     }
 
     public void insert(Settings settings) {
-        new InsertAsyncTask(settingsDao).execute(settings);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            settingsDao.insert(settings);
+        });
     }
 
     public void update(Settings settings) {
