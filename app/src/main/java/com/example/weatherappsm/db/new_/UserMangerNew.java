@@ -1,6 +1,7 @@
 package com.example.weatherappsm.db.new_;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.example.weatherappsm.MainActivity;
 import com.example.weatherappsm.db.new_.model.Settings;
@@ -23,6 +24,7 @@ public class UserMangerNew {
         instance.userRepository = new UserRepository(application);
         instance.settingsRepository = new SettingsRepository(application);
         CountDownLatch latch = new CountDownLatch(1);
+
         new Thread(() -> {
             instance.currentUser = instance.userRepository.getUserByName("Default User");
             if (instance.currentUser == null) {
@@ -30,7 +32,8 @@ public class UserMangerNew {
                 instance.currentUser.setName("Default User");
                 instance.currentUser.setFavoriteLocation("");
                 instance.currentUser.setId(1);
-                instance.userRepository.insert(instance.currentUser);
+                instance.userRepository.insertSync(instance.currentUser);
+                Log.d("UserMangerNew", "created new user: " + instance.currentUser.getId());
             }
             instance.settings = instance.settingsRepository.getSettingsByUserId(instance.currentUser.getId());
             if (instance.settings == null) {
@@ -44,7 +47,8 @@ public class UserMangerNew {
                 settings_.setUserId(instance.currentUser.getId());
 
                 instance.settings = settings_;
-                instance.settingsRepository.insert(instance.settings);
+                instance.settingsRepository.insertSync(instance.settings);
+                Log.d("UserMangerNew", "created new settings: " + instance.settings.getId());
             }
             latch.countDown();
         }).start();

@@ -22,6 +22,10 @@ public class SettingsRepository {
         });
     }
 
+    public void insertSync(Settings settings) {
+        settingsDao.insert(settings);
+    }
+
     public void update(Settings settings) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             settingsDao.update(settings);
