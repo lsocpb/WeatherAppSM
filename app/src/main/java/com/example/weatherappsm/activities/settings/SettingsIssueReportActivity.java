@@ -1,6 +1,7 @@
 package com.example.weatherappsm.activities.settings;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -12,12 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weatherappsm.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SettingsIssueReportActivity extends AppCompatActivity {
 
     private EditText idETIssueReport;
     private LinearLayout idBtnReset, idBtnSubmit;
     private String issueReport;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,14 +40,26 @@ public class SettingsIssueReportActivity extends AppCompatActivity {
         });
 
         idBtnSubmit.setOnClickListener(v -> {
-            issueReport = idETIssueReport.getText().toString();
-            if (issueReport.isEmpty()) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                showSnackbar(getString(R.string.issue_report_empty));
-            } else {
-                System.out.println("Issue report submitted: " + issueReport);
+            DocumentReference newIssueRef = db.collection("issueReport").document();
 
-            }
+            // Tworzymy mapę zawierającą szczegóły zgłoszenia
+            Map<String, Object> issueData = new HashMap<>();
+            issueData.put("msg", idETIssueReport.getText().toString()); // Treść zgłoszenia
+            issueData.put("timestamp", new Date().toString()); // Data utworzenia zgłoszenia - możesz dostosować to do swoich potrzeb
+
+            // Dodajemy zgłoszenie do Firestore
+            newIssueRef.set(issueData)
+                    .addOnSuccessListener(aVoid -> {
+                        // Sukces: Zgłoszenie zostało dodane pomyślnie
+                        Log.d("Settings", "Zgłoszenie dodane pomyślnie: " + newIssueRef.getId());
+                    })
+                    .addOnFailureListener(e -> {
+                        // Błąd: Nie udało się dodać zgłoszenia
+                        Log.e("Settings", "Błąd podczas dodawania zgłoszenia", e);
+                        // Tutaj możesz wyświetlić użytkownikowi komunikat o błędzie
+                    });
         });
     }
 

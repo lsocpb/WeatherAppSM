@@ -47,6 +47,9 @@ import com.example.weatherappsm.services.NotificationService;
 import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.ktx.Firebase;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -129,6 +132,8 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        FirebaseApp.initializeApp(this);
+
         createDefaultUser();
         UserMangerNew.init(getApplication());
         createNotificationChannel();
