@@ -1,14 +1,7 @@
 package com.example.weatherappsm;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-
-import com.example.weatherappsm.activities.FavoriteLocationActivity;
 
 public class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -16,7 +9,6 @@ public class SwipeGestureListener extends GestureDetector.SimpleOnGestureListene
     private static final int SWIPE_VELOCITY_THRESHOLD = 50;
 
     private final SwipeCallback swipeCallback;
-
 
 
     public SwipeGestureListener(SwipeCallback swipeCallback) {
