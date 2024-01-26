@@ -122,8 +122,7 @@ public class Settings {
 
                 return outputFormat.format(parsedDate);
             } catch (Exception e) {
-                Log.e("HourFormat", "format: ", e);
-                e.printStackTrace();
+                Log.e("HourFormat", "Failed to parse date: " + input);
                 return input;
             }
         }

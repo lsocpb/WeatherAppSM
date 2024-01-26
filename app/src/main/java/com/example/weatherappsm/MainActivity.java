@@ -48,8 +48,6 @@ import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.ktx.Firebase;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -58,7 +56,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback {
-    public static final String currentUser = "Default User";
     public static final Gson gson = new Gson();
 
 
@@ -85,9 +82,6 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
     private RecyclerView weatherRV;
 
     private ProgressBar idProgressBar;
-
-    private final Settings settings = UserMangerNew.getInstance().getSettings();
-
 
     private GestureDetector gestureDetector;
     private SensorManager sensorManager;
@@ -201,13 +195,29 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
+        idTVindex.setOnLongClickListener(v -> {
+            Log.d("TAG", "onLongClick: ");
+            weatherDataManager.getWeatherData(location.getLatLong(), new WeatherDataManager.WeatherDataCallback() {
+                @Override
+                public void onWeatherDataReceived(WeatherResponse weatherResponse) {
+                    NotificationService.showNotification(MainActivity.this, weatherResponse);
+                }
+
+                @Override
+                public void onWeatherDataError(String errorMessage) {
+
+                }
+            });
+            return true;
+        });
+
         // Favorite location icon check
 
         User currentUser = UserMangerNew.getInstance().getCurrentUser();
         CustomLocation favoriteLocation = currentUser.getFavoriteLocationAsObject();
         if (favoriteLocation == null) {
             favoriteLocation = new CustomLocation("Ciechocinek", 52.8800, 18.7800);
-            currentUser.setFavoriteLocation(favoriteLocation);
+            currentUser.setFavoriteLocationAsString(favoriteLocation);
             UserMangerNew.getInstance().update();
         }
 
@@ -224,11 +234,11 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
             if (favLoc.getCityName().equals(location.getCityName())) {
                 // mock
-                currentUser.setFavoriteLocation(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
+                currentUser.setFavoriteLocationAsString(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
                 idIBfavorite.setImageResource(R.drawable.baseline_favorite_border_24);
                 showSnackbar(String.format(getString(R.string.fav_location_changed) + " Ciechocinek"));
             } else {
-                currentUser.setFavoriteLocation(location);
+                currentUser.setFavoriteLocationAsString(location);
                 idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
                 showSnackbar(String.format(getString(R.string.fav_location_changed)) + " " + location.getCityName());
 

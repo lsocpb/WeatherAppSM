@@ -13,7 +13,9 @@ import com.example.weatherappsm.objects.CustomLocation;
 import java.util.concurrent.CountDownLatch;
 
 public class UserMangerNew {
+    public static final String defaultUserName = "Default User";
     private static UserMangerNew instance;
+
     private UserRepository userRepository;
     private SettingsRepository settingsRepository;
     private User currentUser;
@@ -26,32 +28,23 @@ public class UserMangerNew {
         CountDownLatch latch = new CountDownLatch(1);
 
         new Thread(() -> {
-            instance.currentUser = instance.userRepository.getUserByName("Default User");
+            instance.currentUser = instance.userRepository.getUserByName(defaultUserName);
             if (instance.currentUser == null) {
-                instance.currentUser = new User();
-                instance.currentUser.setName("Default User");
-                instance.currentUser.setFavoriteLocation(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
-                instance.currentUser.setId(1);
+                instance.currentUser = createDefaultUser();
                 instance.userRepository.insertSync(instance.currentUser);
-                Log.d("UserMangerNew", "created new user: " + instance.currentUser.getId());
+                Log.d("UserMangerNew", "Created new default user: " + instance.currentUser.getId());
             }
             instance.settings = instance.settingsRepository.getSettingsByUserId(instance.currentUser.getId());
             if (instance.settings == null) {
-                instance.settings = new Settings();
-                instance.settings.setHourFormat(Settings.HourFormat.TWELVE);
-                instance.settings.setTemperatureUnit(Settings.TemperatureUnit.CELSIUS);
-                instance.settings.setWindSpeedUnit(Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR);
-                instance.settings.setNotificationFrequency(Settings.NotificationFrequency.EVERY_1_HOURS);
-                instance.settings.setNotificationsEnabled(true);
-                instance.settings.setId(1);
-                instance.settings.setUserId(instance.currentUser.getId());
+                instance.settings = createDefaultSettings(instance.currentUser);
 
                 instance.settingsRepository.insertSync(instance.settings);
-                Log.d("UserMangerNew", "created new settings: " + instance.settings.getId());
+                Log.d("UserMangerNew", "Created new default settings: " + instance.settings.getId());
             }
             latch.countDown();
         }).start();
 
+        //wait for the thread to finish
         try {
             latch.await();
             System.out.println("UserMangerNew: " + instance.currentUser.getName());
@@ -61,39 +54,27 @@ public class UserMangerNew {
         }
     }
 
-    private static void createDefaultUser(SettingsRepository settingsRepository, UserRepository userRepository) {
-        com.example.weatherappsm.db.new_.model.User user = userRepository.getUserByName(MainActivity.currentUser);
-        if (user == null) {
-            com.example.weatherappsm.db.new_.model.User user_ = new com.example.weatherappsm.db.new_.model.User();
-            user_.setName("Default User");
-            user_.setFavoriteLocation("");
-            user_.setId(1);
-            userRepository.insert(user_);
+    private static User createDefaultUser() {
+        User user = new User();
+        user.setName(defaultUserName);
+        user.setFavoriteLocationAsString(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
+        return user;
+    }
 
-            com.example.weatherappsm.db.new_.model.Settings settingsByUserId = settingsRepository.getSettingsByUserId(user_.getId());
-            if (settingsByUserId == null) {
-                com.example.weatherappsm.db.new_.model.Settings settings_ = new com.example.weatherappsm.db.new_.model.Settings();
-                settings_.setHourFormat(Settings.HourFormat.TWELVE);
-                settings_.setTemperatureUnit(Settings.TemperatureUnit.CELSIUS);
-                settings_.setWindSpeedUnit(Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR);
-                settings_.setNotificationFrequency(Settings.NotificationFrequency.EVERY_1_HOURS);
-                settings_.setNotificationsEnabled(true);
-                settings_.setId(1);
-                settings_.setUserId(user_.getId());
-
-                settingsRepository.insert(settings_);
-            }
-
-            //magia
-//                settingsRepository.getSettingsByUserId(1).observe(this, settings -> {
-//                    System.out.println("settings: " + settings);
-//                });
-        }
+    private static Settings createDefaultSettings(User user) {
+        Settings settings = new Settings();
+        settings.setHourFormat(Settings.HourFormat.TWELVE);
+        settings.setTemperatureUnit(Settings.TemperatureUnit.CELSIUS);
+        settings.setWindSpeedUnit(Settings.WindSpeedUnit.KILLOMETERS_PER_HOUR);
+        settings.setNotificationFrequency(Settings.NotificationFrequency.EVERY_1_HOURS);
+        settings.setNotificationsEnabled(true);
+        settings.setUserId(user.getId());
+        return settings;
     }
 
     public static UserMangerNew getInstance() {
         if (instance == null) {
-            instance = new UserMangerNew();
+            throw new RuntimeException("UserMangerNew not initialized");
         }
         return instance;
     }

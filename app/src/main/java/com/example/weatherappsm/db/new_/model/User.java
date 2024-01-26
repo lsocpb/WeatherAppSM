@@ -1,6 +1,7 @@
 package com.example.weatherappsm.db.new_.model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.weatherappsm.MainActivity;
@@ -42,16 +43,18 @@ public class User {
         return favoriteLocation;
     }
 
+    @Ignore
     public CustomLocation getFavoriteLocationAsObject() {
         return deserializeFavoriteLocation(favoriteLocation);
     }
 
-    public void setFavoriteLocation(String favoriteLocation) {
-        this.favoriteLocation = favoriteLocation;
+    @Ignore
+    public void setFavoriteLocationAsString(CustomLocation favoriteLocation) {
+        this.favoriteLocation = serializeFavoriteLocation(favoriteLocation);
     }
 
-    public void setFavoriteLocation(CustomLocation favoriteLocation) {
-        this.favoriteLocation = serializeFavoriteLocation(favoriteLocation);
+    public void setFavoriteLocation(String favoriteLocation) {
+        this.favoriteLocation = favoriteLocation;
     }
 }
 
