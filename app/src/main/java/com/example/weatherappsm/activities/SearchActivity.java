@@ -46,9 +46,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<String> cities = new ArrayList<>();
 
-    private User user;
-    private CustomLocation favoriteLocation;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +63,8 @@ public class SearchActivity extends AppCompatActivity {
         idIVBackground2 = findViewById(R.id.idIVBackground2);
 
 
-        user = UserMangerNew.getInstance().getCurrentUser();
-        favoriteLocation = user.getFavoriteLocationAsObject();
+        User user = UserMangerNew.getInstance().getCurrentUser();
+        CustomLocation favoriteLocation = user.getFavoriteLocationAsObject();
 
         updateFavoriteLocationWeatherData(favoriteLocation);
 

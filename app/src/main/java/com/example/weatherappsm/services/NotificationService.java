@@ -17,10 +17,10 @@ import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.db.new_.model.User;
 import com.example.weatherappsm.db.new_.UserMangerNew;
 import com.example.weatherappsm.db.new_.model.Settings;
-import com.example.weatherappsm.manager.CustomNotificationManager;
 import com.example.weatherappsm.util.WeatherDataManager;
 
 public class NotificationService extends Service {
+    public static final String notificationChannelID = "WeatherAppChannelID";
     private static final String TAG = "NotificationService";
 
     private Handler handler;
@@ -99,7 +99,7 @@ public class NotificationService extends Service {
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
-        Notification notification = new NotificationCompat.Builder(context, CustomNotificationManager.NotificationChannelID)
+        Notification notification = new NotificationCompat.Builder(context, notificationChannelID)
                 .setSmallIcon(R.drawable.atmospheric)
                 .setContentTitle(title)
                 .setContentText(context.getString(R.string.notification_click_for_details))

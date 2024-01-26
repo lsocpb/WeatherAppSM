@@ -2,6 +2,7 @@ package com.example.weatherappsm.db.new_.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -17,6 +18,9 @@ public interface SettingsDao {
 
     @Update
     void update(Settings settings);
+
+    @Delete
+    void deleteSync(Settings settings);
 
     @Query("SELECT * FROM settings WHERE user_settings_id = :userId")
     Settings getSettingsByUserId(int userId);

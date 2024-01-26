@@ -1,11 +1,15 @@
 package com.example.weatherappsm.db.new_;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
-import com.example.weatherappsm.MainActivity;
 import com.example.weatherappsm.db.new_.model.Settings;
 import com.example.weatherappsm.db.new_.model.User;
+import com.example.weatherappsm.db.new_.model.UserWithSearchHistory;
+import com.example.weatherappsm.db.new_.repository.SearchHistoryRepository;
 import com.example.weatherappsm.db.new_.repository.SettingsRepository;
 import com.example.weatherappsm.db.new_.repository.UserRepository;
 import com.example.weatherappsm.objects.CustomLocation;
@@ -18,6 +22,7 @@ public class UserMangerNew {
 
     private UserRepository userRepository;
     private SettingsRepository settingsRepository;
+    private SearchHistoryRepository searchHistoryRepository;
     private User currentUser;
     private Settings settings;
 
@@ -25,6 +30,7 @@ public class UserMangerNew {
         instance = new UserMangerNew();
         instance.userRepository = new UserRepository(application);
         instance.settingsRepository = new SettingsRepository(application);
+        instance.searchHistoryRepository = new SearchHistoryRepository(application);
         CountDownLatch latch = new CountDownLatch(1);
 
         new Thread(() -> {
@@ -70,6 +76,29 @@ public class UserMangerNew {
         settings.setNotificationsEnabled(true);
         settings.setUserId(user.getId());
         return settings;
+    }
+
+    public static void reset(Application application) {
+        CountDownLatch latch = new CountDownLatch(1);
+        new Thread(() -> {
+            UserWithSearchHistory history = instance.userRepository.getUsersWithSearchHistory(instance.getCurrentUser().getName());
+            instance.searchHistoryRepository.deleteSearchHistorySync(history.searchHistory);
+            instance.userRepository.deleteSync(instance.currentUser);
+            instance.settingsRepository.deleteSync(instance.settings);
+            instance.currentUser = createDefaultUser();
+            instance.userRepository.insertSync(instance.currentUser);
+            instance.settings = createDefaultSettings(instance.currentUser);
+            instance.settingsRepository.insertSync(instance.settings);
+
+            latch.countDown();
+
+        }).start();
+
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static UserMangerNew getInstance() {

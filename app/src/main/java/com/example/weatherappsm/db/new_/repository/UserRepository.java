@@ -8,6 +8,9 @@ import androidx.lifecycle.LiveData;
 import com.example.weatherappsm.db.AppDatabase;
 import com.example.weatherappsm.db.new_.dao.UserDao;
 import com.example.weatherappsm.db.new_.model.User;
+import com.example.weatherappsm.db.new_.model.UserWithSearchHistory;
+
+import java.util.List;
 
 public class UserRepository {
     private UserDao userDao;
@@ -34,6 +37,14 @@ public class UserRepository {
 
     public User getUserByName(String name) {
         return userDao.getUserByName(name);
+    }
+
+    public void deleteSync(User user) {
+        userDao.deleteSync(user);
+    }
+
+    public UserWithSearchHistory getUsersWithSearchHistory(String name) {
+        return userDao.getUsersWithSearchHistory(name);
     }
 
 

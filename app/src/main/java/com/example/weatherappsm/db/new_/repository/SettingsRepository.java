@@ -22,6 +22,10 @@ public class SettingsRepository {
         });
     }
 
+    public void deleteSync(Settings settings) {
+        settingsDao.deleteSync(settings);
+    }
+
     public void insertSync(Settings settings) {
         settingsDao.insert(settings);
     }

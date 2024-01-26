@@ -29,7 +29,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherappsm.activities.FavoriteLocationActivity;
@@ -40,7 +39,6 @@ import com.example.weatherappsm.db.new_.UserMangerNew;
 import com.example.weatherappsm.db.new_.model.Settings;
 import com.example.weatherappsm.db.new_.model.User;
 import com.example.weatherappsm.db.new_.repository.UserRepository;
-import com.example.weatherappsm.manager.CustomNotificationManager;
 import com.example.weatherappsm.objects.LocationService;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.services.NotificationService;
@@ -458,24 +456,13 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CustomNotificationManager.NotificationChannelID, name, importance);
+            NotificationChannel channel = new NotificationChannel(NotificationService.notificationChannelID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system. You can't change the importance
             // or other notification behaviors after this.
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
-
-    public void testNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CustomNotificationManager.NotificationChannelID)
-                .setSmallIcon(R.drawable.atmospheric)
-                .setContentTitle("WeatherApp")
-                .setContentText("This is a test notification")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.notify(1, builder.build());
     }
 
     private void showSnackbar(String message) {

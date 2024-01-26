@@ -1,5 +1,6 @@
 package com.example.weatherappsm.db.new_.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -50,5 +51,16 @@ public class SearchHistory {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "SearchHistory{" +
+                "id=" + id +
+                ", cityName='" + cityName + '\'' +
+                ", date='" + date + '\'' +
+                ", userId=" + userId +
+                '}';
     }
 }

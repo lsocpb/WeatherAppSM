@@ -9,12 +9,14 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.weatherappsm.MainActivity;
 import com.example.weatherappsm.R;
 import com.example.weatherappsm.activities.settings.SettingsFeatureRequestActivity;
 import com.example.weatherappsm.activities.settings.SettingsIssueReportActivity;
 import com.example.weatherappsm.activities.settings.SettingsLanguageActivity;
 import com.example.weatherappsm.activities.settings.SettingsMeasurementsActivity;
 import com.example.weatherappsm.activities.settings.SettingsNotificationsActivity;
+import com.example.weatherappsm.db.new_.UserMangerNew;
 
 public class SettingsActivity extends AppCompatActivity {
     private LinearLayout idBtnMeasurements, idBtnChooseLanguage, idBtnReportIssue,
@@ -63,16 +65,13 @@ public class SettingsActivity extends AppCompatActivity {
         idBtnResetSettings.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
             builder.setMessage(getString(R.string.reset_settings))
-                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // Implement reset settings
-
-                        }
+                    .setPositiveButton(getString(R.string.yes), (dialog, id) -> {
+                        // Implement reset settings
+                        UserMangerNew.reset(getApplication());
+                        finish();
                     })
-                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
+                    .setNegativeButton(getString(R.string.no), (dialog, id) -> {
+                        dialog.dismiss();
                     });
             builder.create().show();
 

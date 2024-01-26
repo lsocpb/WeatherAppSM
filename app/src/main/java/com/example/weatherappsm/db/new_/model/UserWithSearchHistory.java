@@ -12,5 +12,5 @@ public class UserWithSearchHistory {
             parentColumn = "id",
             entityColumn = "user_search_history_id"
     )
-    public List<SearchHistory> playlists;
+    public List<SearchHistory> searchHistory;
 }
