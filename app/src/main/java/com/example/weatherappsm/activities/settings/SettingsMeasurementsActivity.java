@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsMeasurementsActivity extends AppCompatActivity {
 
-    private RadioButton idBtnC, idBtnF, idBtnKMH, idBtnMPH, idBtnHPA, idBtnMMHG, idBtn12h, idBtn24h;
+    private RadioButton idBtnC, idBtnF, idBtnKMH, idBtnMPH, idBtn12h, idBtn24h;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,8 +24,6 @@ public class SettingsMeasurementsActivity extends AppCompatActivity {
         idBtnF = findViewById(R.id.idRBFahrenheit);
         idBtnKMH = findViewById(R.id.idRBKilometerPerHour);
         idBtnMPH = findViewById(R.id.idRBMilesPerHour);
-        idBtnHPA = findViewById(R.id.idRBHectoPascal);
-        idBtnMMHG = findViewById(R.id.idRBMillimeterOfMercury);
         idBtn12h = findViewById(R.id.idRB12h);
         idBtn24h = findViewById(R.id.idRB24h);
 
@@ -80,14 +78,6 @@ public class SettingsMeasurementsActivity extends AppCompatActivity {
             showSnackbar(getString(R.string.wind_speed_unit_changed) + " " + settings.getWindSpeedUnit());
         });
 
-        idBtnHPA.setOnClickListener(v -> {
-            System.out.println("Hectopascals button clicked");
-            //showSnackbar(getString(R.string.pressure_unit_changed) + " " + settings.getPressureUnit());
-        });
-        idBtnMMHG.setOnClickListener(v -> {
-            System.out.println("Millimeters of mercury button clicked");
-            //showSnackbar(getString(R.string.pressure_unit_changed) + " " + settings.getPressureUnit());
-        });
     }
 
     private void showSnackbar(String message) {

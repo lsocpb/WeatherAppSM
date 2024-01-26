@@ -45,21 +45,23 @@ public class SettingsFeatureRequestActivity extends AppCompatActivity {
 
                 DocumentReference newIssueRef = db.collection("featureRequests").document();
 
-                // Tworzymy mapę zawierającą szczegóły zgłoszenia
+                // Map with issue details
                 Map<String, Object> issueData = new HashMap<>();
-                issueData.put("msg", featureRequest); // Treść zgłoszenia
-                issueData.put("timestamp", new Date().toString()); // Data utworzenia zgłoszenia - możesz dostosować to do swoich potrzeb
+                issueData.put("msg", featureRequest);
+                issueData.put("timestamp", new Date().toString());
 
-                // Dodajemy zgłoszenie do Firestore
+                // Add issue to Firestore
                 newIssueRef.set(issueData)
                         .addOnSuccessListener(aVoid -> {
-                            // Sukces: Zgłoszenie zostało dodane pomyślnie
-                            Log.d("Settings", "Zgłoszenie dodane pomyślnie: " + newIssueRef.getId());
+                            // Success: Issue added
+                            //Log.d("Settings", "Zgłoszenie dodane pomyślnie: " + newIssueRef.getId());
+                            showSnackbar(getString(R.string.feature_request_success) + " " + newIssueRef.getId());
+                            idETRequestFeature.setText("");
                         })
                         .addOnFailureListener(e -> {
-                            // Błąd: Nie udało się dodać zgłoszenia
-                            Log.e("Settings", "Błąd podczas dodawania zgłoszenia", e);
-                            // Tutaj możesz wyświetlić użytkownikowi komunikat o błędzie
+                            // Error: Issue not added
+                            //Log.e("Settings", "Błąd podczas dodawania zgłoszenia", e);
+                            showSnackbar(getString(R.string.feature_request_error) + " " + e.getMessage());
                         });
 
             }

@@ -95,4 +95,8 @@
     <string name="sunrise">SONNENAUFGANG</string>
     <string name="enableNow">Jetzt einschalten</string>
     <string name="fav_location_changed">"Favorisierter Ort geändert in: "</string>
+    <string name="issue_report_success">Es wurde ein neuer Problembericht erstellt:</string>
+    <string name="issue_report_error">Fehler: Problembericht nicht korrekt hinzugefügt</string>
+    <string name="feature_request_success">Eine neue Funktionsanfrage erstellt:</string>
+    <string name="feature_request_error">Fehler: Funktionsanforderung nicht korrekt hinzugefügt</string>
 </resources>

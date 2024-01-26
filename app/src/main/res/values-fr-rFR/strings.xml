@@ -95,4 +95,8 @@
     <string name="sunrise">LE SOLEIL</string>
     <string name="enableNow">Activer maintenant</string>
     <string name="fav_location_changed">"L'emplacement du favori a été modifié en: "</string>
+    <string name="issue_report_success">Création d\'un nouveau rapport de problème :</string>
+    <string name="issue_report_error">Erreur : le rapport d\'émission n\'a pas été ajouté correctement</string>
+    <string name="feature_request_success">Création d\'une nouvelle demande de fonctionnalité :</string>
+    <string name="feature_request_error">Erreur : la demande de fonctionnalité n\'a pas été ajoutée correctement</string>
 </resources>
