@@ -99,4 +99,7 @@
     <string name="issue_report_error">Erreur : le rapport d\'émission n\'a pas été ajouté correctement</string>
     <string name="feature_request_success">Création d\'une nouvelle demande de fonctionnalité :</string>
     <string name="feature_request_error">Erreur : la demande de fonctionnalité n\'a pas été ajoutée correctement</string>
+    <string name="resetSettingsButtonName">Réinitialiser les paramètres</string>
+    <string name="resetSettingsButtonDescription">Rétablir les paramètres par défaut</string>
+    <string name="reset_settings">Êtes-vous sûr de vouloir rétablir les paramètres par défaut ?</string>
 </resources>

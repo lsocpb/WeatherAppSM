@@ -98,6 +98,9 @@
     <string name="issue_report_error">Error: issue report not added correctly</string>
     <string name="feature_request_success">Created a new feature request:</string>
     <string name="feature_request_error">Error: feature request not added correctly</string>
+    <string name="resetSettingsButtonName">Reset settings</string>
+    <string name="resetSettingsButtonDescription">Restore settings to default</string>
+    <string name="reset_settings">Are you sure you want to restore settings to default?</string>
 
 
     <string-array name="languages">

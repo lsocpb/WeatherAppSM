@@ -99,4 +99,7 @@
     <string name="issue_report_error">Error: el informe de incidencias no se ha añadido correctamente</string>
     <string name="feature_request_success">Se ha creado una nueva solicitud de función:</string>
     <string name="feature_request_error">Error: la solicitud de función no se ha añadido correctamente</string>
+    <string name="resetSettingsButtonName">Restablecer ajustes</string>
+    <string name="resetSettingsButtonDescription">Restablecer la configuración predeterminada</string>
+    <string name="reset_settings">¿Estás seguro de que quieres restablecer la configuración predeterminada?</string>
 </resources>

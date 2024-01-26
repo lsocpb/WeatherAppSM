@@ -99,4 +99,7 @@
     <string name="issue_report_error">Fehler: Problembericht nicht korrekt hinzugefügt</string>
     <string name="feature_request_success">Eine neue Funktionsanfrage erstellt:</string>
     <string name="feature_request_error">Fehler: Funktionsanforderung nicht korrekt hinzugefügt</string>
+    <string name="resetSettingsButtonName">Einstellungen zurücksetzen</string>
+    <string name="resetSettingsButtonDescription">Einstellungen auf Standardwerte zurücksetzen</string>
+    <string name="reset_settings">Sind Sie sicher, dass Sie die Standardeinstellungen wiederherstellen wollen?</string>
 </resources>
