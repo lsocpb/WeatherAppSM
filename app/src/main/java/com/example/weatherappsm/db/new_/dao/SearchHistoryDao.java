@@ -2,6 +2,7 @@ package com.example.weatherappsm.db.new_.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -17,5 +18,11 @@ public interface SearchHistoryDao {
 
     @Query("SELECT * FROM search_history ORDER BY date DESC")
     LiveData<List<SearchHistory>> getAllSearchHistory();
+
+    @Delete
+    void delete(SearchHistory entry);
+
+    @Delete
+    void deleteSearchHistorySync(List<SearchHistory> entries);
 }
 

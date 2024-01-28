@@ -29,7 +29,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherappsm.activities.FavoriteLocationActivity;
@@ -40,7 +39,6 @@ import com.example.weatherappsm.db.new_.UserMangerNew;
 import com.example.weatherappsm.db.new_.model.Settings;
 import com.example.weatherappsm.db.new_.model.User;
 import com.example.weatherappsm.db.new_.repository.UserRepository;
-import com.example.weatherappsm.manager.CustomNotificationManager;
 import com.example.weatherappsm.objects.LocationService;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.services.NotificationService;
@@ -48,8 +46,6 @@ import com.example.weatherappsm.util.PermissionsUtil;
 import com.example.weatherappsm.util.WeatherDataManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.ktx.Firebase;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -58,7 +54,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SwipeGestureListener.SwipeCallback {
-    public static final String currentUser = "Default User";
     public static final Gson gson = new Gson();
 
 
@@ -85,9 +80,6 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
     private RecyclerView weatherRV;
 
     private ProgressBar idProgressBar;
-
-    private final Settings settings = UserMangerNew.getInstance().getSettings();
-
 
     private GestureDetector gestureDetector;
     private SensorManager sensorManager;
@@ -201,13 +193,29 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
+        idTVindex.setOnLongClickListener(v -> {
+            Log.d("TAG", "onLongClick: ");
+            weatherDataManager.getWeatherData(location.getLatLong(), new WeatherDataManager.WeatherDataCallback() {
+                @Override
+                public void onWeatherDataReceived(WeatherResponse weatherResponse) {
+                    NotificationService.showNotification(MainActivity.this, weatherResponse);
+                }
+
+                @Override
+                public void onWeatherDataError(String errorMessage) {
+
+                }
+            });
+            return true;
+        });
+
         // Favorite location icon check
 
         User currentUser = UserMangerNew.getInstance().getCurrentUser();
         CustomLocation favoriteLocation = currentUser.getFavoriteLocationAsObject();
         if (favoriteLocation == null) {
             favoriteLocation = new CustomLocation("Ciechocinek", 52.8800, 18.7800);
-            currentUser.setFavoriteLocation(favoriteLocation);
+            currentUser.setFavoriteLocationAsString(favoriteLocation);
             UserMangerNew.getInstance().update();
         }
 
@@ -224,11 +232,11 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
 
             if (favLoc.getCityName().equals(location.getCityName())) {
                 // mock
-                currentUser.setFavoriteLocation(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
+                currentUser.setFavoriteLocationAsString(new CustomLocation("Ciechocinek", 52.8800, 18.7800));
                 idIBfavorite.setImageResource(R.drawable.baseline_favorite_border_24);
                 showSnackbar(String.format(getString(R.string.fav_location_changed) + " Ciechocinek"));
             } else {
-                currentUser.setFavoriteLocation(location);
+                currentUser.setFavoriteLocationAsString(location);
                 idIBfavorite.setImageResource(R.drawable.baseline_favorite_24);
                 showSnackbar(String.format(getString(R.string.fav_location_changed)) + " " + location.getCityName());
 
@@ -448,24 +456,13 @@ public class MainActivity extends AppCompatActivity implements SwipeGestureListe
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CustomNotificationManager.NotificationChannelID, name, importance);
+            NotificationChannel channel = new NotificationChannel(NotificationService.notificationChannelID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system. You can't change the importance
             // or other notification behaviors after this.
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
-
-    public void testNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CustomNotificationManager.NotificationChannelID)
-                .setSmallIcon(R.drawable.atmospheric)
-                .setContentTitle("WeatherApp")
-                .setContentText("This is a test notification")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.notify(1, builder.build());
     }
 
     private void showSnackbar(String message) {

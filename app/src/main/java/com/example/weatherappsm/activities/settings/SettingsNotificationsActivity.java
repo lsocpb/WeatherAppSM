@@ -89,23 +89,5 @@ public class SettingsNotificationsActivity extends AppCompatActivity {
             UserMangerNew.getInstance().update();
         });
 
-
-        LinearLayout startTime = findViewById(R.id.idLLStartTime);
-        LinearLayout endTime = findViewById(R.id.idLLEndTime);
-        TextView startTimeText = findViewById(R.id.idTVStartTime);
-        TextView endTimeText = findViewById(R.id.idTVEndTime);
-
-        startTime.setOnClickListener(v -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(SettingsNotificationsActivity.this,
-                    (view, hourOfDay, minute) -> startTimeText.setText((hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? minute + "0" : minute)), 0, 0, true);
-            timePickerDialog.show();
-        });
-
-        endTime.setOnClickListener(v -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(SettingsNotificationsActivity.this,
-                    (view, hourOfDay, minute) -> endTimeText.setText((hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? minute + "0" : minute)), 0, 0, true);
-            timePickerDialog.show();
-        });
-
     }
 }

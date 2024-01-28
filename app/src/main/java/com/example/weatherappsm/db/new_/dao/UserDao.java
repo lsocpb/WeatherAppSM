@@ -24,16 +24,19 @@ public interface UserDao {
     @Update
     void update(User user);
 
+    @Delete
+    void deleteSync(User user);
+
     @Query("SELECT * FROM user WHERE name = :name")
     User getUserByName(String name);
 
     @Transaction
     @Query("SELECT * FROM User WHERE name = :name")
-    List<UserAndSettings> getUsersAndLibraries(String name);
+    UserAndSettings getUserAndSettings(String name);
 
     @Transaction
     @Query("SELECT * FROM User WHERE name = :name")
-    List<UserWithSearchHistory> getUsersWithPlaylists(String name);
+    UserWithSearchHistory getUsersWithSearchHistory(String name);
 
     @Delete
     void deleteAll(User... users);

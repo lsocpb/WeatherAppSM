@@ -46,7 +46,7 @@ public class WeatherCVAdapter extends RecyclerView.Adapter<WeatherCVAdapter.View
         return weatherCV.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView time;
         private final TextView temp;
         private final TextView windSpeed;

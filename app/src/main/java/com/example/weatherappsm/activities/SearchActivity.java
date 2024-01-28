@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.weatherappsm.MainActivity;
 import com.example.weatherappsm.R;
 import com.example.weatherappsm.api.WeatherResponse;
+import com.example.weatherappsm.db.new_.model.SearchHistory;
 import com.example.weatherappsm.db.new_.model.User;
 import com.example.weatherappsm.db.new_.model.Settings;
 import com.example.weatherappsm.db.new_.UserMangerNew;
@@ -26,6 +27,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
@@ -44,9 +46,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<String> cities = new ArrayList<>();
 
-    private User user;
-    private CustomLocation favoriteLocation;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +63,8 @@ public class SearchActivity extends AppCompatActivity {
         idIVBackground2 = findViewById(R.id.idIVBackground2);
 
 
-        user = UserMangerNew.getInstance().getCurrentUser();
-        favoriteLocation = user.getFavoriteLocationAsObject();
+        User user = UserMangerNew.getInstance().getCurrentUser();
+        CustomLocation favoriteLocation = user.getFavoriteLocationAsObject();
 
         updateFavoriteLocationWeatherData(favoriteLocation);
 
@@ -82,12 +81,12 @@ public class SearchActivity extends AppCompatActivity {
 
         searchHistoryViewModel.getAllSearchHistory().observe(this, searchHistoryEntries -> {
             if (searchHistoryEntries != null) {
-                /*for (SearchHistory entry : searchHistoryEntries) {
+                for (SearchHistory entry : searchHistoryEntries) {
                     String cityName = entry.cityName;
                     if (!cities.contains(cityName)) {
                         cities.add(cityName);
                     }
-                }*/
+                }
                 adapter.clear();
                 adapter.addAll(cities);
                 adapter.notifyDataSetChanged();
@@ -103,7 +102,7 @@ public class SearchActivity extends AppCompatActivity {
         if (!enteredCity.isEmpty()) {
             cityName = enteredCity;
             if (!cities.contains(cityName)) {
-//                searchHistoryViewModel.insertSearchHistoryEntry(new SearchHistory(cityName, String.valueOf(new Date())));
+                searchHistoryViewModel.insertSearchHistoryEntry(new SearchHistory(cityName, String.valueOf(new Date()), UserMangerNew.getInstance().getCurrentUser().getId()));
             }
             Intent intent = new Intent(SearchActivity.this, MainActivity.class);
             intent.putExtra("cityName", cityName);

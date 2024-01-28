@@ -3,9 +3,11 @@ package com.example.weatherappsm.services;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -15,10 +17,11 @@ import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.db.new_.model.User;
 import com.example.weatherappsm.db.new_.UserMangerNew;
 import com.example.weatherappsm.db.new_.model.Settings;
-import com.example.weatherappsm.manager.CustomNotificationManager;
 import com.example.weatherappsm.util.WeatherDataManager;
 
 public class NotificationService extends Service {
+    public static final String notificationChannelID = "WeatherAppChannelID";
+    private static final String TAG = "NotificationService";
 
     private Handler handler;
 
@@ -36,8 +39,10 @@ public class NotificationService extends Service {
 
     @Override
     public void onDestroy() {
-        stopNotificationListener();
         super.onDestroy();
+
+        stopNotificationListener();
+        Log.d(TAG, "onDestroy: ");
     }
 
     @Nullable
@@ -70,12 +75,12 @@ public class NotificationService extends Service {
             WeatherDataManager.getInstance().getWeatherData(user.getFavoriteLocationAsObject().getLatLong(), new WeatherDataManager.WeatherDataCallback() {
                 @Override
                 public void onWeatherDataReceived(WeatherResponse weatherResponse) {
-                    showNotification(weatherResponse);
+                    showNotification(getApplicationContext(), weatherResponse);
                 }
 
                 @Override
                 public void onWeatherDataError(String errorMessage) {
-                    // Show error message
+                    Log.e(TAG, "onWeatherDataError: " + errorMessage);
 
                 }
             });
@@ -86,18 +91,18 @@ public class NotificationService extends Service {
         }
     };
 
-    public void showNotification(WeatherResponse response) {
+    public static void showNotification(Context context, WeatherResponse response) {
         User user = UserMangerNew.getInstance().getCurrentUser();
         Settings settings = UserMangerNew.getInstance().getSettings();
         String tempNow = response.getCurrent().getTemperatureFormatted(settings.getTemperatureUnit(), false);
-        String title = String.format(getString(R.string.notification_title), tempNow, user.getFavoriteLocationAsObject().getCityName());
+        String title = String.format(context.getString(R.string.notification_title), tempNow, user.getFavoriteLocationAsObject().getCityName());
 
         NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
-        Notification notification = new NotificationCompat.Builder(getBaseContext(), CustomNotificationManager.NotificationChannelID)
+                (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
+        Notification notification = new NotificationCompat.Builder(context, notificationChannelID)
                 .setSmallIcon(R.drawable.atmospheric)
                 .setContentTitle(title)
-                .setContentText(getString(R.string.notification_click_for_details))
+                .setContentText(context.getString(R.string.notification_click_for_details))
                 .setDefaults(NotificationCompat.DEFAULT_SOUND)
                 .build();
         notificationManager.notify(0, notification);

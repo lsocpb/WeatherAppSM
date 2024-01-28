@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SearchHistoryRepository {
 
-    private SearchHistoryDao searchHistoryDao;
+    private final SearchHistoryDao searchHistoryDao;
 
     public SearchHistoryRepository(Application application) {
         AppDatabase appDatabase = AppDatabase.getDatabase(application);
@@ -27,6 +27,16 @@ public class SearchHistoryRepository {
 
     public LiveData<List<SearchHistory>> getAllSearchHistory() {
         return searchHistoryDao.getAllSearchHistory();
+    }
+
+    public void deleteSearchHistorySync(List<SearchHistory> entries) {
+        searchHistoryDao.deleteSearchHistorySync(entries);
+    }
+
+    public void deleteSearchHistoryEntry(SearchHistory entry) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            searchHistoryDao.delete(entry);
+        });
     }
 }
 
