@@ -14,9 +14,9 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.weatherappsm.R;
 import com.example.weatherappsm.api.WeatherResponse;
-import com.example.weatherappsm.db.new_.model.User;
-import com.example.weatherappsm.db.new_.UserMangerNew;
-import com.example.weatherappsm.db.new_.model.Settings;
+import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.db.UserMangerNew;
+import com.example.weatherappsm.db.model.Settings;
 import com.example.weatherappsm.util.WeatherDataManager;
 
 public class NotificationService extends Service {

@@ -1,4 +1,4 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.ui;
 
 import android.view.GestureDetector;
 import android.view.MotionEvent;

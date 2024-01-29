@@ -6,12 +6,12 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.weatherappsm.db.new_.dao.SearchHistoryDao;
-import com.example.weatherappsm.db.new_.dao.SettingsDao;
-import com.example.weatherappsm.db.new_.dao.UserDao;
-import com.example.weatherappsm.db.new_.model.SearchHistory;
-import com.example.weatherappsm.db.new_.model.Settings;
-import com.example.weatherappsm.db.new_.model.User;
+import com.example.weatherappsm.db.dao.SearchHistoryDao;
+import com.example.weatherappsm.db.dao.SettingsDao;
+import com.example.weatherappsm.db.dao.UserDao;
+import com.example.weatherappsm.db.model.SearchHistory;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.model.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

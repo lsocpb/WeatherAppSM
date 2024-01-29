@@ -7,7 +7,7 @@
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
     android:background="@drawable/background_dark"
-    tools:context=".MainActivity">
+    tools:context=".ui.activites.MainActivity">
 
     <TextView
         android:layout_width="match_parent"

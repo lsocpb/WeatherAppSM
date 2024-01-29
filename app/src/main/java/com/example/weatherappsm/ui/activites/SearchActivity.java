@@ -1,4 +1,4 @@
-package com.example.weatherappsm.activities;
+package com.example.weatherappsm.ui.activites;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,13 +12,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.weatherappsm.MainActivity;
 import com.example.weatherappsm.R;
 import com.example.weatherappsm.api.WeatherResponse;
-import com.example.weatherappsm.db.new_.model.SearchHistory;
-import com.example.weatherappsm.db.new_.model.User;
-import com.example.weatherappsm.db.new_.model.Settings;
-import com.example.weatherappsm.db.new_.UserMangerNew;
+import com.example.weatherappsm.db.model.SearchHistory;
+import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.UserMangerNew;
 import com.example.weatherappsm.db.viewmodel.SearchHistoryViewModel;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.objects.LocationService;
@@ -124,7 +123,7 @@ public class SearchActivity extends AppCompatActivity {
         weatherDataManager.getWeatherData(location.getLatLong(), new WeatherDataManager.WeatherDataCallback() {
             @Override
             public void onWeatherDataReceived(WeatherResponse weatherResponse) {
-                com.example.weatherappsm.db.new_.model.Settings userSettings = UserMangerNew.getInstance().getSettings();
+                com.example.weatherappsm.db.model.Settings userSettings = UserMangerNew.getInstance().getSettings();
 
                 Settings.TemperatureUnit userTempUnit = userSettings.getTemperatureUnit();
 
