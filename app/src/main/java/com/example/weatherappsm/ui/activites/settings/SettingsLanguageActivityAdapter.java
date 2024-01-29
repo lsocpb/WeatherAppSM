@@ -1,4 +1,4 @@
-package com.example.weatherappsm.activities.settings;
+package com.example.weatherappsm.ui.activites.settings;
 
 import android.view.LayoutInflater;
 import android.view.View;

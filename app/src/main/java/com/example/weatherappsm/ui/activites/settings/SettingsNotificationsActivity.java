@@ -1,17 +1,14 @@
-package com.example.weatherappsm.activities.settings;
+package com.example.weatherappsm.ui.activites.settings;
 
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weatherappsm.R;
-import com.example.weatherappsm.db.new_.model.Settings;
-import com.example.weatherappsm.db.new_.UserMangerNew;
-import com.example.weatherappsm.db.new_.model.User;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.UserMangerNew;
+import com.example.weatherappsm.db.model.User;
 
 public class SettingsNotificationsActivity extends AppCompatActivity {
     private RadioButton idBtnEnableNotifications, idBtnDisableNotifications,
@@ -35,7 +32,7 @@ public class SettingsNotificationsActivity extends AppCompatActivity {
 
         //add some listeners with debug messages to logcat
         User user = UserMangerNew.getInstance().getCurrentUser();
-        com.example.weatherappsm.db.new_.model.Settings settings = UserMangerNew.getInstance().getSettings();
+        com.example.weatherappsm.db.model.Settings settings = UserMangerNew.getInstance().getSettings();
 
         if (settings.isNotificationsEnabled())
             idBtnEnableNotifications.setChecked(true);

@@ -1,7 +1,6 @@
-package com.example.weatherappsm.activities.settings;
+package com.example.weatherappsm.ui.activites.settings;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
