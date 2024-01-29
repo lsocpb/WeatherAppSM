@@ -19,7 +19,9 @@ import java.util.concurrent.Executors;
 @Database(entities = {SearchHistory.class, User.class, Settings.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract SearchHistoryDao searchHistoryDao();
+
     public abstract UserDao userDao();
+
     public abstract SettingsDao settingsDao();
 
     private static volatile AppDatabase INSTANCE;
@@ -31,11 +33,11 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(
-                            context.getApplicationContext(),
-                            AppDatabase.class,
-                            "app_database"
+                                    context.getApplicationContext(),
+                                    AppDatabase.class,
+                                    "app_database"
 
-                    )
+                            )
                             .fallbackToDestructiveMigration()
                             .build();
                 }

@@ -2,6 +2,7 @@ package com.example.weatherappsm.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import com.example.weatherappsm.api.WeatherResponse;
 import com.example.weatherappsm.db.model.User;
 import com.example.weatherappsm.db.UserMangerNew;
 import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.ui.activites.MainActivity;
 import com.example.weatherappsm.util.WeatherDataManager;
 
 public class NotificationService extends Service {
@@ -97,11 +99,16 @@ public class NotificationService extends Service {
         String tempNow = response.getCurrent().getTemperatureFormatted(settings.getTemperatureUnit(), false);
         String title = String.format(context.getString(R.string.notification_title), tempNow, user.getFavoriteLocationAsObject().getCityName());
 
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
         Notification notification = new NotificationCompat.Builder(context, notificationChannelID)
                 .setSmallIcon(R.drawable.atmospheric)
                 .setContentTitle(title)
+                .setContentIntent(pendingIntent)
                 .setContentText(context.getString(R.string.notification_click_for_details))
                 .setDefaults(NotificationCompat.DEFAULT_SOUND)
                 .build();
