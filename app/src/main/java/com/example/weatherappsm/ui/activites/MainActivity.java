@@ -1,4 +1,4 @@
-package com.example.weatherappsm;
+package com.example.weatherappsm.ui.activites;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -31,14 +31,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weatherappsm.activities.FavoriteLocationActivity;
-import com.example.weatherappsm.activities.SearchActivity;
-import com.example.weatherappsm.activities.SettingsActivity;
+import com.example.weatherappsm.R;
+import com.example.weatherappsm.ui.SwipeGestureListener;
+import com.example.weatherappsm.ui.WeatherCV;
+import com.example.weatherappsm.ui.WeatherCVAdapter;
 import com.example.weatherappsm.api.WeatherResponse;
-import com.example.weatherappsm.db.new_.UserMangerNew;
-import com.example.weatherappsm.db.new_.model.Settings;
-import com.example.weatherappsm.db.new_.model.User;
-import com.example.weatherappsm.db.new_.repository.UserRepository;
+import com.example.weatherappsm.db.UserMangerNew;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.db.repository.UserRepository;
 import com.example.weatherappsm.objects.LocationService;
 import com.example.weatherappsm.objects.CustomLocation;
 import com.example.weatherappsm.services.NotificationService;

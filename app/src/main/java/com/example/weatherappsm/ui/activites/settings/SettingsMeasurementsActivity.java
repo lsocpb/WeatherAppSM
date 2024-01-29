@@ -1,4 +1,4 @@
-package com.example.weatherappsm.activities.settings;
+package com.example.weatherappsm.ui.activites.settings;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,8 +7,8 @@ import android.widget.RadioButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weatherappsm.R;
-import com.example.weatherappsm.db.new_.model.Settings;
-import com.example.weatherappsm.db.new_.UserMangerNew;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.UserMangerNew;
 import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsMeasurementsActivity extends AppCompatActivity {

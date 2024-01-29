@@ -1,6 +1,5 @@
-package com.example.weatherappsm.db.new_.dao;
+package com.example.weatherappsm.db.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -9,11 +8,9 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.example.weatherappsm.db.new_.model.User;
-import com.example.weatherappsm.db.new_.model.UserAndSettings;
-import com.example.weatherappsm.db.new_.model.UserWithSearchHistory;
-
-import java.util.List;
+import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.db.model.UserAndSettings;
+import com.example.weatherappsm.db.model.UserWithSearchHistory;
 
 @Dao
 public interface UserDao {

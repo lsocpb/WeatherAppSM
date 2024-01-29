@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.weatherappsm.db.new_.model.SearchHistory;
-import com.example.weatherappsm.db.new_.repository.SearchHistoryRepository;
+import com.example.weatherappsm.db.model.SearchHistory;
+import com.example.weatherappsm.db.repository.SearchHistoryRepository;
 
 import java.util.List;
 

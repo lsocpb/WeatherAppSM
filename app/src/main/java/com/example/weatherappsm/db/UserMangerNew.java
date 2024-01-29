@@ -1,17 +1,14 @@
-package com.example.weatherappsm.db.new_;
+package com.example.weatherappsm.db;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 
-import com.example.weatherappsm.db.new_.model.Settings;
-import com.example.weatherappsm.db.new_.model.User;
-import com.example.weatherappsm.db.new_.model.UserWithSearchHistory;
-import com.example.weatherappsm.db.new_.repository.SearchHistoryRepository;
-import com.example.weatherappsm.db.new_.repository.SettingsRepository;
-import com.example.weatherappsm.db.new_.repository.UserRepository;
+import com.example.weatherappsm.db.model.Settings;
+import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.db.model.UserWithSearchHistory;
+import com.example.weatherappsm.db.repository.SearchHistoryRepository;
+import com.example.weatherappsm.db.repository.SettingsRepository;
+import com.example.weatherappsm.db.repository.UserRepository;
 import com.example.weatherappsm.objects.CustomLocation;
 
 import java.util.concurrent.CountDownLatch;

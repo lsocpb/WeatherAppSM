@@ -1,22 +1,19 @@
-package com.example.weatherappsm.activities;
+package com.example.weatherappsm.ui.activites;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.weatherappsm.MainActivity;
 import com.example.weatherappsm.R;
-import com.example.weatherappsm.activities.settings.SettingsFeatureRequestActivity;
-import com.example.weatherappsm.activities.settings.SettingsIssueReportActivity;
-import com.example.weatherappsm.activities.settings.SettingsLanguageActivity;
-import com.example.weatherappsm.activities.settings.SettingsMeasurementsActivity;
-import com.example.weatherappsm.activities.settings.SettingsNotificationsActivity;
-import com.example.weatherappsm.db.new_.UserMangerNew;
+import com.example.weatherappsm.ui.activites.settings.SettingsFeatureRequestActivity;
+import com.example.weatherappsm.ui.activites.settings.SettingsIssueReportActivity;
+import com.example.weatherappsm.ui.activites.settings.SettingsLanguageActivity;
+import com.example.weatherappsm.ui.activites.settings.SettingsMeasurementsActivity;
+import com.example.weatherappsm.ui.activites.settings.SettingsNotificationsActivity;
+import com.example.weatherappsm.db.UserMangerNew;
 
 public class SettingsActivity extends AppCompatActivity {
     private LinearLayout idBtnMeasurements, idBtnChooseLanguage, idBtnReportIssue,

@@ -1,4 +1,4 @@
-package com.example.weatherappsm.db.new_.model;
+package com.example.weatherappsm.db.model;
 
 import android.annotation.SuppressLint;
 import android.util.Log;

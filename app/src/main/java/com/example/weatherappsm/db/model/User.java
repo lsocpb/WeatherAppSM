@@ -1,10 +1,10 @@
-package com.example.weatherappsm.db.new_.model;
+package com.example.weatherappsm.db.model;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.example.weatherappsm.MainActivity;
+import com.example.weatherappsm.ui.activites.MainActivity;
 import com.example.weatherappsm.objects.CustomLocation;
 
 @Entity(tableName = "user")

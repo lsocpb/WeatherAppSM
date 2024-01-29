@@ -1,16 +1,12 @@
-package com.example.weatherappsm.db.new_.repository;
+package com.example.weatherappsm.db.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.weatherappsm.db.AppDatabase;
-import com.example.weatherappsm.db.new_.dao.UserDao;
-import com.example.weatherappsm.db.new_.model.User;
-import com.example.weatherappsm.db.new_.model.UserWithSearchHistory;
-
-import java.util.List;
+import com.example.weatherappsm.db.dao.UserDao;
+import com.example.weatherappsm.db.model.User;
+import com.example.weatherappsm.db.model.UserWithSearchHistory;
 
 public class UserRepository {
     private UserDao userDao;

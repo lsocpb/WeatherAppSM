@@ -1,4 +1,4 @@
-package com.example.weatherappsm.db.new_.dao;
+package com.example.weatherappsm.db.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.weatherappsm.db.new_.model.SearchHistory;
+import com.example.weatherappsm.db.model.SearchHistory;
 
 import java.util.List;
 

@@ -1,13 +1,12 @@
-package com.example.weatherappsm.db.new_.dao;
+package com.example.weatherappsm.db.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.weatherappsm.db.new_.model.Settings;
+import com.example.weatherappsm.db.model.Settings;
 
 
 @Dao
