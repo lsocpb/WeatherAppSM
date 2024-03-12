@@ -13,10 +13,11 @@
     2. Open the project in Android Studio.
     3. Build and run the application on your Android device or emulator.
 
-## Interface
+# Interface
 <img src="https://github.com/lsocpb/WeatherAppSM/assets/102978283/e522fe95-badc-4033-b4f5-567516bf9d19" alt="Image 1" width="200" />
 <img src="https://github.com/lsocpb/WeatherAppSM/assets/102978283/848b6e6c-e4a6-4456-82e4-36fdb8d5acc3" alt="Image 2" width="200" />
 <img src="https://github.com/lsocpb/WeatherAppSM/assets/102978283/68dd2a85-8394-4e3c-bd78-1010a1d8507c" alt="Image 3" width="200" />
+<img src="https://github.com/lsocpb/WeatherAppSM/assets/102978283/e96d72b5-420a-404f-ae19-e2db396fbef9" alt="Image 4" width="200" />
 
 
 
