@@ -1,13 +1,14 @@
 # Weather App
-> Welcome to the Weather App GitHub repository! This Android weather application is powered by Room and Retrofit libraries, providing you with accurate and up-to-date weather information.
+
+Welcome to the Weather App GitHub repository! This Android weather application is powered by Room and Retrofit libraries, providing you with accurate and up-to-date weather information.
 
 # API
 
-> We utilized the [weatherapi](https://www.weatherapi.com/) for fetching weather data.
+We utilized the [weatherapi](https://www.weatherapi.com/) for fetching weather data.
 
 # Installation
 
-> Unfortunately, the Weather App is not available on the Google Play Store. However, you can still install it by following these steps:
+Unfortunately, the Weather App is not available on the Google Play Store. However, you can still install it by following these steps:
 
     1. Clone or download the repository to your local machine.
     2. Open the project in Android Studio.
